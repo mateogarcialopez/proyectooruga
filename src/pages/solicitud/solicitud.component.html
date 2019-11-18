@@ -1,0 +1,855 @@
+<div class="bgimg1"> <!--  class="bgimg"-->
+<!-- Nav tabs -->
+<div class="mt-3"></div>
+<mdb-tabset [buttonClass]="'classic-tabs degradado-um'" [contentClass]="'card'" class="classic-tabs mt-2">
+    <!--Panel 1-->
+    <mdb-tab heading="Solicitudes Pendientes">
+
+
+
+      <div class="row" >
+        <div class="col-12">
+          <br>
+          <div class="d-flex justify-content-between mr-2 mb-2">
+              <div>
+                	<div class="md-form m-0 p-0 w-100">
+  		              <select class="browser-default custom-select" id="registros" [(ngModel)]="registros" (change)="fn_setBolas(1)" >
+                      <option value="25" >25</option>
+                      <option value="50">50</option>
+                      <option value="75">75</option>
+                      <option value="100">100</option>
+  		              </select>
+  	              </div>
+
+              </div>
+              <div>
+                  <div class="form-check form-check-inline position-relative">
+                      <input type="radio" class="form-check-input" id="validado" value="validado" name="estado_solicitud" [(ngModel)]="estado_solicitud" (change)="fn_getSolicitudes()">
+                      <label class="form-check-label" for="validado">Validados</label>
+                    </div>
+                    <div class="form-check form-check-inline position-relative">
+                      <input type="radio" class="form-check-input" id="pendiente" value="pendiente" name="estado_solicitud" [(ngModel)]="estado_solicitud" (change)="fn_getSolicitudes()">
+                      <label class="form-check-label" for="pendiente">Pendientes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" id="rechazado" value="rechazado" name="estado_solicitud" [(ngModel)]="estado_solicitud" (change)="fn_getSolicitudes()" >
+                      <label class="form-check-label" for="rechazado">Rechazados</label>
+                    </div>
+    
+
+              </div>
+              <div >
+                  <mdb-checkbox [default]="true" [inline]="true" [(ngModel)]="oCheckFilter.add" (change)="fn_getSolicitudes()">Inserciones</mdb-checkbox>
+                  <mdb-checkbox [default]="true" [inline]="true" [(ngModel)]="oCheckFilter.update" (change)="fn_getSolicitudes()">Actualizaciones</mdb-checkbox>
+                  <mdb-checkbox [default]="true" [inline]="true" [(ngModel)]="oCheckFilter.delete" (change)="fn_getSolicitudes()">Eliminaciones</mdb-checkbox>
+              </div>
+            </div>
+          <section class="contenedor_tabla" *ngIf="aSolicitudes?.length!=0">
+
+              <table class="table table-hover"  >
+                  <thead>
+                    <tr style="border:none;">
+                      <th  scope="col" style="width:20%;" >
+                        Tipo Solicitud
+                      </th>
+                      <th scope="col" style="width:20%;">
+                          Categoria
+                      </th>
+                      <th  scope="col"  style="width:30%;">
+                          Usuario
+                      </th>
+                      <th  scope="col" style="width:30%;">
+                          Fecha
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="pointer" [hidden]="!oCheckFilter.add && item.sol_tipo_solicitud=='add' || !oCheckFilter.update && item.sol_tipo_solicitud=='update' || !oCheckFilter.delete && item.sol_tipo_solicitud=='delete'" (click)="fn_callModalSolicitud(item);" *ngFor="let item of  aSolicitudes; let idx=index;">
+                      <td>
+                            <i class=" mr-2  fa-lg" [title]="oEstado[item.sol_estado]?.estado" placement="top" [ngClass]="oEstado[item.sol_estado]?.icono" aria-hidden="true"></i>
+                            <i (click)="fn_callModalSolicitud(item);" [title]="oIcons[item.sol_tipo_solicitud]?.tipo"  placement="top" class="{{oIcons[item.sol_tipo_solicitud]?.icono}}" ></i>
+                      </td>
+                      <td >
+                      {{item.sol_categoria}}
+                      </td>
+                      <td>
+                          {{item.sol_usuario_genera}} 
+                          <span  class="ml-2" style="    width: 35px;
+                          height: 35px;
+                          border-radius: 18px;
+                          font-size: 14px;
+                          color: #fff;
+                          line-height: 35px;
+                          text-align: center;
+                          background: #1f8a0b;" *ngIf="item.sol_estado=='validado'" [title]="item.sol_usu_aprueba" placement="top">
+                              {{item.sol_usu_aprueba | inicialesnombre}}
+                          </span>
+                      </td>
+                      <td *ngIf="item.sol_fecha_actualizacion">
+                          {{ item.sol_fecha_actualizacion | fechanormal }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </section>
+            <nav *ngIf="aSolicitudes?.length!=0" aria-label="Page navigation example" class=" mx-3 white pt-1" style="height: 40px;border-radius: 0px 0px 5px 5px;">
+                <ul class="pagination pagination-circle pg-blue justify-content-center" >
+                  <li class="page-item" [ngClass]="iIndexBolas==1?'disabled':''" (click)="fn_setBolas(1)"><a class="page-link" mdbWavesEffect>Primero</a></li>
+                  <li class="page-item" [ngClass]="iIndexBolas==1?'disabled':''">
+                    <a class="page-link" aria-label="Previous" (click)="fn_setBolas(iIndexBolas-1)" mdbWavesEffect>
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Anterior</span>
+                    </a>
+                  </li>
+                  <li class="page-item" *ngFor="let pag of aPaginacion?.bolas; let idx_paginacion=index;" [ngClass]="iIndexBolas==pag?'active':''"><a class="page-link" (click)="fn_setBolas(pag)" mdbWavesEffect>{{pag}}</a>
+                  </li>
+
+                  <!--
+                    <li class="page-item" [ngClass]="iIndexBolas==0?'active':''"><a class="page-link" (click)="fn_setBolas(0)" mdbWavesEffect>1</a></li>
+                    <li class="page-item" [ngClass]="iIndexBolas==1?'active':''"><a class="page-link" (click)="fn_setBolas(1)" mdbWavesEffect>2</a></li>
+                    <li class="page-item" [ngClass]="iIndexBolas==2?'active':''"><a class="page-link" (click)="fn_setBolas(2)" mdbWavesEffect>3</a></li>
+                    <li class="page-item" [ngClass]="iIndexBolas==3?'active':''"><a class="page-link" (click)="fn_setBolas(3)" mdbWavesEffect>4</a></li>
+                    <li class="page-item" [ngClass]="iIndexBolas==4?'active':''"><a class="page-link" (click)="fn_setBolas(4)" mdbWavesEffect>5</a></li>
+                    
+                  -->
+
+                  <li class="page-item">
+                    <a class="page-link" [ngClass]="iIndexBolas==aPaginacion?.paginasTotales?'disabled':''" (click)="fn_setBolas(iIndexBolas+1)" aria-label="Next" mdbWavesEffect>
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="sr-only">Siguiente</span>
+                    </a>
+                  </li>
+                  <li class="page-item" [ngClass]="iIndexBolas==aPaginacion?.paginasTotales?'disabled':''" (click)="fn_setBolas(aPaginacion?.paginasTotales)"><a class="page-link" mdbWavesEffect>Último</a></li>
+                </ul>
+              </nav>
+              <ng-container>
+                  <div class="row flex-center" *ngIf="aSolicitudes?.length==0">
+                      <mdb-card class="mx-3 mt-2 mb-5" >
+                          <mdb-card-body>
+                            <mdb-card-title>
+                              <h4 style="font-size:8em;" class="font-weight-bold text-gray text-center">Oops! </h4>
+                            </mdb-card-title>
+                        
+                            <!--Text-->
+                            <mdb-card-text class="text-center" style="font-size: 3em;">No se han encontrado <strong>Solicitudes</strong> con los filtros actuales..</mdb-card-text> 
+                        
+                          </mdb-card-body>
+                        </mdb-card>
+                  </div>
+          
+                </ng-container>
+
+
+        </div>
+      </div>
+    </mdb-tab>
+  
+
+  </mdb-tabset>
+
+  
+
+</div>
+
+<div class="mb-5" style="margin-bottom: 4rem !important;">&nbsp;</div>
+
+
+
+<!--Modal modalSolicitud de Usuario-->
+<div mdbModal #modalSolicitud="mdbModal" class="modal fade" id="modalSolicitud" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg  modal-fluid modal-dialog-centered" role="document">
+    <div class="modal-content mascara" style="height: 90vh;">
+      <div class="modal-header text-center">
+        <!--<h4 class="modal-title w-100 font-weight-bold">modalSolicitud</h4>-->
+        <i class="fas fa-list-ul ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">Gestión de Solicitudes</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalSolicitud.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pb-0 mx-3 thin scrollbar-gris" style="height: 397px;">
+
+
+
+          <!--<div class="list-group">
+            <div class="row">
+              <div class="col-sm-12 col-md-6 m-0 p-0"  *ngFor="let item of oCampoSeleccionado?.sol_campos_nuevos | keyvalue">
+                <img style="width: 100%;" [src]="item.value" *ngIf="item.key=='eve_imagen'">
+                <ng-container *ngIf="item.key!='eve_imagen'">
+                  
+                  <div class="d-inline-block  list-group-item w-100">
+                    <i [title]="oEvento[item.key]._nombre" class="{{oEvento[item.key].icon}} mr-2  fa-lg " aria-hidden="true"></i>
+                    {{item.value}}
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>-->
+
+
+        <p class="card-text text-center mb-0">
+            <i  style="font-size:20px;" class="mr-2 {{oIcons[oCampoSeleccionado?.sol_tipo_solicitud]?.icono}}" ></i>
+            <strong style="font-size:20px;">{{oIcons[oCampoSeleccionado?.sol_tipo_solicitud]?.tipo}}</strong>
+        </p>
+        <div class="row mt-3" *ngIf="oCampoSeleccionado?.sol_tipo_solicitud=='add' || oCampoSeleccionado?.sol_tipo_solicitud=='delete'" >
+ 
+          <div class="col-sm-12 col-md-10  m-auto" >
+              <div class="d-flex" *ngFor="let campos of oNombreseIconos[oCampoSeleccionado.sol_categoria] | pipekeys">
+                  <div class="pt-3" *ngIf="campos.key.split('_')[1]=='nombre'" class="flex-grow-1 mb-2 text-left">
+                      Nombre: <a style="font-weight: bold;">{{oCampoSeleccionado.sol_campos_nuevos[campos.key]}}</a>  
+                   </div>
+              </div>
+              <div class="card-group">
+                <mdb-card class="card-personal mb-0 mb-4 animated bounceInLeft">
+                  <mdb-card-body>
+                      
+                    <ng-container *ngIf="oCampoSeleccionado" >
+
+                        <div class="d-flex flex-row" *ngFor="let campos of oNombreseIconos[oCampoSeleccionado.sol_categoria] | pipekeys">
+                            
+                          <div *ngIf="campos.key.split('_')[1].toLowerCase()=='imagen'" class="flex-grow-1 mb-2">
+                                  
+                                    <img [src]="oCampoSeleccionado.sol_campos_nuevos[campos.key]" class="img-fluid">
+                                </div>
+                                <div *ngIf="campos.value._nombre.toLowerCase()=='imágen'">
+                                    
+                                </div>
+                                
+                                <div *ngIf="campos.key.toLowerCase().split('_')[1]=='nombre'">
+                         
+                                </div>
+
+                      
+                                <ng-container *ngIf="campos.value._nombre.toLowerCase()!='imágen' && campos.value._nombre.toLowerCase()!='brochure'">
+                                
+                                  <div class="mr-2" *ngIf="oCampoSeleccionado.sol_campos_nuevos[campos.key]" >
+                                      <i class="mr-1 fa-lg" aria-hidden="true" [ngClass]="campos.value.icono" ></i>
+                                      <span class="font-weight-500">{{campos.value._nombre}}</span> 
+                                                   
+                                    </div>
+                                    <div class="flex-grow-1 card-text d-flex inherit align-items-center" >
+                                        <!-- si el elemento hijo tiene un array-->
+                                        <ng-container *ngIf="!isArray(oCampoSeleccionado.sol_campos_nuevos[campos.key])">
+                                           {{oCampoSeleccionado.sol_campos_nuevos[campos.key]}}
+                                        </ng-container>
+
+                                        <!-- si el elemento no tiene hijos-->
+                                        <ng-container *ngIf="isArray(oCampoSeleccionado.sol_campos_nuevos[campos.key]) && oCampoSeleccionado?.sol_tipo_solicitud=='add'" >
+                                            <div class="w-100 m-0 p-0" *ngFor="let subcampos of oCampoSeleccionado.sol_campos_nuevos[campos.key] | pipekeys" >
+                                              <ng-container *ngIf="isString(subcampos.value)!=='string'">
+                                                <ng-container *ngFor="let subcampos2 of subcampos.value | pipekeys" >
+                                                    <div class="d-inline-block vertical-align-top" style="width:25%;">
+                                                        <i class="mr-1 fa-lg" aria-hidden="true" [ngClass]="oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key]?.icono " ></i>
+                                                       {{oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key]?._nombre}}
+                                                        
+                                                      </div>
+                                                      <div class="d-inline-block" style="width:75%;">
+                                                      {{subcampos2.value}}
+                                                      </div>
+                                                </ng-container>
+                                              </ng-container>
+                                              <!-- fix para servicios-->
+                                              <ng-container *ngIf="isString(subcampos.value)==='string'">
+
+                                                      <!---<div class="d-inline-block vertical-align-top" style="width:25%;">
+                                                          <i class="mr-1 fa-lg" aria-hidden="true" [ngClass]="oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key]?.icono" ></i>
+                                                          {{oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key]?._nombre   }}
+                                                        </div>>-->
+                                                        <div class="d-inline-block" style="width:100%;" *ngIf="!isArray(subcampos.value)">
+
+                                                         {{subcampos.value }}
+                                                        </div>
+
+                                                        
+                                                </ng-container>
+
+                                            </div>
+                                        </ng-container>
+
+                                    </div>
+                                </ng-container>
+
+                          </div>
+                          <ng-container *ngIf="oCampoSeleccionado.sol_tamano">
+                            <span style="color: red">Se eliminarán {{oCampoSeleccionado.sol_tamano}} Contactos de esta Categoria</span> 
+                          </ng-container>
+                    </ng-container>
+
+
+
+<!--
+                    <mdb-card-title>
+                      <a>
+                          <h4 class="card-title mb-2 d-inline-block ">{{oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre}}</h4> 
+                      </a>
+                    </mdb-card-title>-->
+  
+                  </mdb-card-body>
+                </mdb-card>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-3" *ngIf="oCampoSeleccionado?.sol_tipo_solicitud=='delete'">
+                <div class="md-form mb-2">
+                    <i class="far fa-comment-alt prefix" ></i>
+                    <textarea style="height: 100px;"  class="md-textarea form-control" id="sol_comentario" mdbInput  [(ngModel)]="sol_comentario"></textarea>
+                    <label  for="sol_comentario" >Comentarios</label>
+                </div>
+            </div>
+          </div>
+
+
+          <!-- Actualización Eventos -->
+          <div class="row mt-3" *ngIf="oCampoSeleccionado?.sol_tipo_solicitud=='update' && (oCampoSeleccionado?.sol_categoria!='dependencia' && oCampoSeleccionado?.sol_categoria!='servicio')">
+            <div class="col-sm-12 col-md-10  m-auto" >
+                <div class="d-flex" *ngFor="let campos of oNombreseIconos[oCampoSeleccionado.sol_categoria] | pipekeys">
+                    <div class="pt-3" *ngIf="campos.key.split('_')[1]=='nombre'" class="flex-grow-1 mb-2 text-left">
+                        Nombre: <a style="font-weight: bold;">{{oCampoSeleccionado.sol_campos_viejos[campos.key]}}</a>  
+                     </div>
+                </div>
+                <div class="card-group">
+                  <mdb-card class="card-personal mb-0 mb-4 animated bounceInLeft" >
+  
+                    <mdb-card-body>
+  
+  
+                        <ng-container *ngIf="oCampoSeleccionado" >
+                           
+                            <div class="d-flex flex-row" *ngFor="let campos of oNombreseIconos[oCampoSeleccionado.sol_categoria] | pipekeys">
+  
+                                    <div *ngIf="campos.key.split('_')[1]=='imagen'" class="flex-grow-1 mb-2 text-center">
+                                        <img [src]="oCampoSeleccionado.sol_campos_viejos.eve_imagen" class="img-fluid">
+                                    </div>
+                                    <div *ngIf="campos.value._nombre.toLowerCase()=='imágen'">
+                                        
+                                    </div>
+  
+                                    <!--<pre>
+                                      {{oCampoSeleccionado.sol_campos_nuevos[campos.key] | json}}
+                                    </pre>-->
+                                    <ng-container *ngIf="campos.value._nombre.toLowerCase()!='imágen' && oCampoSeleccionado.sol_campos_nuevos[campos.key]">
+                                     
+                                      <div class="mr-2" style="width: 159px;">
+                                          <i class="mr-1 fa-lg" aria-hidden="true" [ngClass]="campos.value.icono" ></i>
+                                          <span class="font-weight-500">{{campos.value._nombre}}</span>                                                        
+                                      </div>
+  
+                                      <div class="flex-grow-1 card-text d-flex inherit align-items-center" *ngIf="!isArray(oCampoSeleccionado.sol_campos_nuevos[campos.key])">
+                                          <span class="tachado mr-2">
+                                              {{oCampoSeleccionado.sol_campos_viejos[campos.key]}}
+                                          </span>  
+                                          <span class="texto_nuevo">
+                                              {{oCampoSeleccionado.sol_campos_nuevos[campos.key]}}
+                                          </span>
+                                      </div>
+  
+                                     
+                                      <div class="d-block w-100" > <!-- *ngIf="!isArray(campos.value)"-->
+  
+                                          <ng-container *ngIf="isArray(oCampoSeleccionado.sol_campos_nuevos[campos.key])">
+                                              <div class="w-100 m-0 p-0" *ngFor="let subcampos of oCampoSeleccionado.sol_campos_nuevos[campos.key] | pipekeys" >
+                                                <span *ngIf="isObject(subcampos.value)!== 'object'">{{subcampos.value }}</span>
+                                                <ng-container *ngFor="let subcampos2 of subcampos.value | pipekeys" >
+                                                  <ng-container *ngIf="oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key]">
+                                                    <div class="d-inline-block vertical-align-top" style="width:25%;">
+                                                        <i class="mr-1 fa-lg" aria-hidden="true" [ngClass]="oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key]?.icono " ></i>
+                                                      
+                                                        {{oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key]?._nombre }}
+                                                    </div>
+                                                    <div class="d-inline-block" style="width:75%;">
+                                                      <div *ngIf="!isArray(subcampos2.value)">
+                                                        {{subcampos2.value}}
+                                                      </div>                                                    
+                                                      <div  *ngIf="isArray(subcampos2.value)">
+                                                         <div class="bordes-gris" *ngFor="let subcampos3 of subcampos2.value | pipekeys">
+                                                           <ng-container *ngFor="let responsable of subcampos3.value | pipekeys" >
+                                                              <ng-container *ngIf="oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key][responsable.key]">
+                                                                <div style="width:25%;" class="d-inline-block">
+                                                                     <i class="mr-1 fa-lg" aria-hidden="true" [ngClass]="oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key][responsable.key]?.icono " ></i>
+                                                                      {{oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key][responsable.key]?._nombre }}
+                                                                </div>
+                                                                <div style="width:75%;" class="d-inline-block">
+                                                                    {{responsable.value}}
+                                                                </div>
+                                                              </ng-container>
+                                                           </ng-container>
+  
+                                                          </div>
+                                                      </div>
+  
+  
+                                                    </div>
+      
+                                                  </ng-container>
+                                                  <!--<div class="d-block" *ngIf="!oNombreseIconos[oCampoSeleccionado.sol_categoria][campos.key][subcampos2.key]">
+                                                      *{{subcampos2.value}}
+                                                  </div>-->
+                                                </ng-container>
+                                              </div>
+                                          </ng-container>
+  
+                                      </div>
+  
+                                    </ng-container>
+  
+                              </div>
+        
+                        </ng-container>
+  
+<!---
+                    <mdb-card-title>
+                      <a>
+                          <h4 class="card-title mb-2 d-inline-block" *ngIf="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre"><span [ngClass]="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre?'tachado':''">{{oCampoSeleccionado?.sol_campos_viejos?.eve_nombre}}</span> <span class="texto_nuevo" *ngIf="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre"> {{oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre}}</span> </h4> 
+                      </a>
+                    </mdb-card-title>-->
+
+                  </mdb-card-body>
+                </mdb-card>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-2">
+                <div class="md-form mb-2">
+                    <i class="far fa-comment-alt prefix" ></i>
+                    <textarea style="height: 100px;"  class="md-textarea form-control" id="sol_comentario" mdbInput  [(ngModel)]="sol_comentario"></textarea>
+                    <label  for="sol_comentario" >Comentarios</label>
+                </div>
+            </div>
+          </div>
+
+
+          <!--Para Dependencias-->
+          <div class="row mt-3" *ngIf="oCampoSeleccionado?.sol_tipo_solicitud=='update' && oCampoSeleccionado.sol_categoria=='dependencia'">
+              <div class="col-sm-12 col-md-10  m-auto" >
+                  <div class="d-flex" *ngFor="let campos of oNombreseIconos[oCampoSeleccionado.sol_categoria] | pipekeys">
+                      <div class="pt-3" *ngIf="campos.key.split('_')[1]=='nombre' || campos.key.split('_')[1]=='titulo' || campos.key.split('_')[1]=='area'" class="flex-grow-1 mb-2 text-left">
+                          Nombre: <a style="font-weight: bold;">{{oCampoSeleccionado.sol_campos_viejos[campos.key]}}</a>  
+                       </div>
+                  </div>
+                  <div class="card-group">
+                    <mdb-card class="card-personal mb-0 mb-4 animated bounceInLeft" >
+    
+                      <mdb-card-body>
+                        <ng-container *ngIf="oCampoSeleccionado" >
+                          <div class="d-flex flex-row p-2">
+                            <!--Antes-->
+                            <div class="col-md-6" style="height: 100%" *ngIf="oCampoSeleccionado.sol_antes" >
+                                <h4 class="titulo_card datos-antiguos"><strong>Datos Antiguos</strong></h4>
+                              <div class="d-flex flex-column justify-content-center" style="height:100%">   
+                                  <div style="height: 100%">
+                                    <h4 class="titulo_card" *ngIf="oCampoSeleccionado.sol_antes.Cambios.length==0" style="text-align:center; color:#bdb9b9;opacity: 0.4; margin-top: 15%;"><strong>¡No hay cambios para mostrar!</strong></h4>
+                                  </div>
+                                                                <!--
+                                <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.length==0">
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="!oCampoSeleccionado.sol_despues.Cambios[0].cargo"><b class="atributos">Adición de área</b></p>                                    
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios[0].cargo"><b class="atributos">Adición de Responsable</b></p>  
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables[0] && !oCampoSeleccionado.sol_despues.Cambios.Responsables[0].cargo"><b class="atributos">Adición de área</b></p>                                    
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables[0] && oCampoSeleccionado.sol_despues.Cambios.Responsables[0].cargo"><b class="atributos">Adición de Responsable</b></p>  
+                                  </div >
+                                -->
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.length==0 && !oCampoSeleccionado.sol_antes.Cambios[0].cargo"><b class="atributos">Eliminación de área</b></p>                                    
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.length==0 && oCampoSeleccionado.sol_antes.Cambios[0].cargo"><b class="atributos">Eliminación de Responsable</b></p>     
+                                <!--Dependencias-->
+                                <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Nombre"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Dependencia: </b>{{oCampoSeleccionado.sol_antes.Cambios.Nombre}}</p> 
+                                <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Descripcion"><i title="Descripcion" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_antes.Cambios.Descripcion}}</p> 
+                                <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.concepto"><i title="Descripcion" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Servicio: </b>{{oCampoSeleccionado.sol_antes.Cambios.concepto}}</p> 
+                                <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.servicios && oCampoSeleccionado.sol_antes.Cambios.servicios.length!=0 ">
+                                  <div *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios.servicios">
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="campos.concepto"><i title="Servicio" placement="top" class="fas fa-hand-holding-usd  mr-2"></i><b class="atributos"></b><b class="atributos ">Servicio: </b>{{campos.concepto}}</p> 
+                                    <div *ngIf="campos.items && campos.items.length!=0">
+                                      <ul>
+                                        <div *ngFor="let subcampos of campos.items" class="d-flex" >
+                                              <div class="flex-grow-1 atributos tachado">
+                                                  <li>
+                                                      {{subcampos}}
+                                                  </li>
+                                              </div>
+
+                                        </div>
+                                       </ul>
+                                    </div>             
+                                  </div>
+                                 
+                                </div>
+                                <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.items && oCampoSeleccionado.sol_antes.Cambios.items.length!=0">
+                                  <ul>
+                                    <div *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios.items">
+                                      <li>
+                                        Servicio: {{campos}}
+                                    </li>
+                                    </div>
+                                  </ul>
+
+                                 
+                                </div>
+                                <!--Areas-->
+                                <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Area_nombre"><i title="Área" placement="top" class="fas fa-angle-right mr-2"></i><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_antes.Cambios.Area_nombre}}</p> 
+                                <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Area_descripcion"><i title="Descripción" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_antes.Cambios.Area_descripcion}}</p>  
+                                <p class="mb-0 w-100 atributos tachado" *ngIf=oCampoSeleccionado.sol_antes.Cambios.Area_extension><i title="Extensión" placement="top" class="fas fa-phone mr-2"></i><b class="atributos">Extensión: </b>{{oCampoSeleccionado.sol_antes.Cambios.Area_extension}}</p>  
+                                <div *ngIf="isArray(oCampoSeleccionado.sol_antes.Cambios) && oCampoSeleccionado.sol_antes.Cambios.length!=0 && !oCampoSeleccionado.sol_antes.Cambios[0].cargo">
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios[0].descripcion"><i title="Nombre" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_antes.Cambios[0].descripcion}}</p> 
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios[0].extension"><i title="Extensión" placement="top" class="fas fa-phone mr-2"></i><b class="atributos">Extensión: </b>{{oCampoSeleccionado.sol_antes.Cambios[0].extension}}</p> 
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios[0].nombre"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Nombre: </b>{{oCampoSeleccionado.sol_antes.Cambios[0].nombre}}</p> 
+                                </div>
+                                <!--Responsables-->
+                                <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.Responsables">
+                                  
+                                   
+                                    <p class="mb-0 w-100 card-text"><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_antes.Titulo.Area}}</p> 
+                                    <p class="mb-0 w-100 card-text"><b class="atributos">Responsable: </b></p> 
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Responsables.Nombre"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Nombre: </b>{{oCampoSeleccionado.sol_antes.Cambios.Responsables.Nombre}}</p>  
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Responsables.Cargo"><i title="Cargo" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos">Cargo: </b>{{oCampoSeleccionado.sol_antes.Cambios.Responsables.Cargo}}</p>  
+                                    <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Responsables.Correo"><i title="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos">Correo: </b>{{oCampoSeleccionado.sol_antes.Cambios.Responsables.Correo}}</p> 
+                                </div>
+                                <div *ngIf="isArray(oCampoSeleccionado.sol_antes.Cambios) && oCampoSeleccionado.sol_antes.Cambios.length!=0">
+                                    <div *ngIf="oCampoSeleccionado.sol_antes.Cambios[0].responsables">
+                                        <div *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios[0].responsables">
+                                          <p class="card-text mb-0 w-100 atributos"><b class="atributos"></b><b class="atributos ">   Responsables: </b></p> 
+                                          <p class="mb-0 w-100 atributos tachado"><i title="Servicio" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos"></b><b class="atributos ">Nombre: </b>{{campos.nombre}}</p> 
+                                          <p class="mb-0 w-100 atributos tachado"><i title="Servicio" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos"></b><b class="atributos ">Cargo: </b>{{campos.cargo}}</p>
+                                          <p class="mb-0 w-100 atributos tachado "><i title="Servicio" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Correo: </b>{{campos.Correo}}</p>  
+                                          <div *ngIf="campos.items && campos.items.length!=0">
+                                            <ul>
+                                              <div *ngFor="let subcampos of campos.items" class="d-flex" >
+                                                    <div class="flex-grow-1">
+                                                        <li>
+                                                            {{subcampos}}
+                                                        </li>
+                                                    </div>
+      
+                                              </div>
+                                             </ul>
+                                          </div>             
+                                        </div>
+                                       
+                                    </div>
+                                    <p class="mb-0 w-100 card-text"><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_antes.Titulo.Area}}</p> 
+                                        <div *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios">
+  
+                                          <p class="mb-0 w-100 card-text"><b class="atributos"></b><b class="atributos ">Responsable:  </b></p>
+                                            <p class="mb-0 w-100 atributos tachado"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos"></b><b class="atributos ">Nombre: </b>{{campos.nombre}}</p>
+                                            <p class="mb-0 w-100 atributos tachado"><i title="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Correo: </b>{{campos.Correo}}</p>
+                                            <p class="mb-0 w-100 atributos tachado"><i title="Servicio" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos"></b><b class="atributos ">Cargo: </b>{{campos.cargo}}</p>
+                                          </div>
+                                    
+
+                                </div>
+
+                                  <!-- <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD.dip_fechalimiteinscripcion!=null"><i title="Fecha límite" placement="top" class="fas fa-stopwatch mr-2"></i><b class="atributos">Fecha límite: </b>{{nombreCD.dip_fechalimiteinscripcion}}</p>   
+                                -->
+                    </div>  
+            
+
+                            </div>
+                            <!--Despues-->
+                            <div class="col-md-6" style="height: 100%">
+                                <h4 class="titulo_card datos-nuevos"><strong>Datos Nuevos</strong></h4>
+                              <div class="d-flex flex-column justify-content-center" style="height:100%">
+                                  <h4 class="titulo_card" *ngIf="oCampoSeleccionado.sol_despues.Cambios.length==0" style="text-align:center; color:#bdb9b9;opacity: 0.4; margin-top: 15%;"><strong>¡No hay cambios para mostrar!</strong></h4>                                      
+                                <!--Dependencias-->
+                                <!--
+                                <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.length==0">
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="!oCampoSeleccionado.sol_despues.Cambios[0].cargo"><b class="atributos">Adición de área</b></p>                                    
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios[0].cargo"><b class="atributos">Adición de Responsable</b></p>  
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables[0] && !oCampoSeleccionado.sol_despues.Cambios.Responsables[0].cargo"><b class="atributos">Adición de área</b></p>                                    
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables[0] && oCampoSeleccionado.sol_despues.Cambios.Responsables[0].cargo"><b class="atributos">Adición de Responsable</b></p>  
+                                  </div >
+                                -->
+
+   
+                                <div *ngIf="isArray(oCampoSeleccionado.sol_despues.Cambios)  && oCampoSeleccionado.sol_despues.Cambios.length!=0">
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios[0].descripcion"><i title="Descripción" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_despues.Cambios[0].descripcion}}</p> 
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios[0].extension"><i title="Extensión" placement="top" class="fas fa-phone mr-2"></i><b class="atributos">Extensión: </b>{{oCampoSeleccionado.sol_despues.Cambios[0].extension}}</p> 
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios[0].nombre"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Nombre: </b>{{oCampoSeleccionado.sol_despues.Cambios[0].nombre}}</p> 
+
+                                </div>
+                              
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Nombre"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Dependencia: </b>{{oCampoSeleccionado.sol_despues.Cambios.Nombre}}</p> 
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Descripcion"><i title="Descripcion" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_despues.Cambios.Descripcion}}</p> 
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.concepto"><i title="Concepto" placement="top" class="fas fa-angle-right mr-2"></i><b class="atributos">Servicio: </b>{{oCampoSeleccionado.sol_despues.Cambios.concepto}}</p> 
+                                <div *ngIf="oCampoSeleccionado.sol_despues.Cambios.servicios && oCampoSeleccionado.sol_despues.Cambios.servicios.length!=0 ">
+                                  <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios.servicios">
+                                    <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-angle-right mr-2"></i><b class="atributos"></b><b class="atributos ">Servicio: </b>{{campos.concepto}}</p> 
+                                    <div *ngIf="campos.items && campos.items.length!=0">
+                                      <ul>
+                                        <div *ngFor="let subcampos of campos.items" class="d-flex" >
+                                              <div class="flex-grow-1">
+                                                  <li>
+                                                      <p class="card-text">{{subcampos}}</p>
+                                                  </li>
+                                              </div>
+
+                                        </div>
+                                       </ul>
+                                    </div>             
+                                  </div>
+                                 
+                                </div>
+                                <div *ngIf="isArray(oCampoSeleccionado.sol_despues.Cambios) && oCampoSeleccionado.sol_despues.Cambios.length!=0">
+                                    <div *ngIf="oCampoSeleccionado.sol_despues.Cambios[0].responsables && oCampoSeleccionado.sol_despues.Cambios[0].responsables.length!=0">
+                                        <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios[0].responsables">
+                                          <p class="card-text mb-0 w-100 atributos"><b class="atributos"></b><b class="atributos ">   Responsables: </b></p> 
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos"></b><b class="atributos ">Nombre: </b>{{campos.nombre}}</p> 
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos"></b><b class="atributos ">Cargo: </b>{{campos.cargo}}</p>
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Correo: </b>{{campos.Correo}}</p>  
+                                          <div *ngIf="campos.items && campos.items.length!=0">
+                                            <ul>
+                                              <div *ngFor="let subcampos of campos.items" class="d-flex" >
+                                                    <div class="flex-grow-1">
+                                                        <li>
+                                                            {{subcampos}}
+                                                        </li>
+                                                    </div>
+      
+                                              </div>
+                                             </ul>
+                                          </div>             
+                                        </div>
+                                       
+                                      </div>
+                                </div>
+
+                                <div *ngIf="oCampoSeleccionado.sol_despues.Cambios.items && oCampoSeleccionado.sol_despues.Cambios.items.length!=0">
+                                  <ul>
+                                    <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios.items">
+                                      <li>
+                                        Servicio: {{campos}}
+                                    </li>
+                                    </div>
+                                  </ul>
+
+                                 
+                                </div>
+                                <!--Areas-->
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Area_nombre"><i title="Área" placement="top" class="fas fa-angle-right mr-2"></i><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_despues.Cambios.Area_nombre}}</p> 
+                                <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Area_descripcion"><i title="Descripción" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_despues.Cambios.Area_descripcion}}</p>  
+                                <p class="card-text mb-0 w-100 atributos" *ngIf=oCampoSeleccionado.sol_despues.Cambios.Area_extension><i title="Extensión" placement="top" class="fas fa-phone mr-2"></i><b class="atributos">Extensión: </b>{{oCampoSeleccionado.sol_despues.Cambios.Area_extension}}</p>  
+                                <!--Responsables-->
+                                <div *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables">
+                              
+                                    <p class="card-text mb-0 w-100 atributos"><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_despues.Titulo.Area}}</p> 
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables.Nombre"><b class="atributos">Responsable: </b></p> 
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables.Nombre"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Nombre: </b>{{oCampoSeleccionado.sol_despues.Cambios.Responsables.Nombre}}</p>  
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables.Cargo"><i title="Cargo" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos">Cargo: </b>{{oCampoSeleccionado.sol_despues.Cambios.Responsables.Cargo}}</p>  
+                                    <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Responsables.Correo"><i title="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos">Correo: </b>{{oCampoSeleccionado.sol_despues.Cambios.Responsables.Correo}}</p> 
+
+                                      <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios.Responsables">
+                                          <p class="card-text mb-0 w-100 atributos"><b class="atributos">Responsable: </b></p> 
+                                        <p class="card-text mb-0 w-100 atributos"><i title="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos"></b><b class="atributos ">Nombre: </b>{{campos.nombre}}</p> 
+                                        <p class="card-text mb-0 w-100 atributos"><i title="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Correo: </b>{{campos.Correo}}</p> 
+                                        <p class="card-text mb-0 w-100 atributos"><i title="Cargo" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos"></b><b class="atributos ">Cargo: </b>{{campos.cargo}}</p>          
+
+                                     
+                                    </div>
+                                </div>
+
+
+
+                                  <!-- <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD.dip_fechalimiteinscripcion!=null"><i title="Fecha límite" placement="top" class="fas fa-stopwatch mr-2"></i><b class="atributos">Fecha límite: </b>{{nombreCD.dip_fechalimiteinscripcion}}</p>   
+                                -->
+                    </div>  
+                            </div>    
+                          </div>
+          
+                          </ng-container>
+    
+    <!---
+                        <mdb-card-title>
+                          <a>
+                              <h4 class="card-title mb-2 d-inline-block" *ngIf="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre"><span [ngClass]="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre?'tachado':''">{{oCampoSeleccionado?.sol_campos_viejos?.eve_nombre}}</span> <span class="texto_nuevo" *ngIf="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre"> {{oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre}}</span> </h4> 
+                          </a>
+                        </mdb-card-title>-->
+    
+                      </mdb-card-body>
+                    </mdb-card>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-2">
+                    <div class="md-form mb-2">
+                        <i class="far fa-comment-alt prefix" ></i>
+                        <textarea style="height: 100px;"  class="md-textarea form-control" id="sol_comentario" mdbInput  [(ngModel)]="sol_comentario"></textarea>
+                        <label  for="sol_comentario" >Comentarios</label>
+                    </div>
+                </div>
+              </div>
+
+          <!--Para Servicios-->
+          <div class="row mt-3" *ngIf="oCampoSeleccionado?.sol_tipo_solicitud=='update' && oCampoSeleccionado.sol_categoria=='servicio'">
+            <div class="col-sm-12 col-md-10  m-auto" >
+                <div class="d-flex" *ngFor="let campos of oNombreseIconos[oCampoSeleccionado.sol_categoria] | pipekeys">
+                    <div class="pt-3" *ngIf="campos.key.split('_')[1]=='nombre' || campos.key.split('_')[1]=='titulo' || campos.key.split('_')[1]=='area'" class="flex-grow-1 mb-2 text-left">
+                        Nombre: <a style="font-weight: bold;">{{oCampoSeleccionado.sol_campos_viejos[campos.key]}}</a>  
+                     </div>
+                </div>
+                <div class="card-group">
+                  <mdb-card class="card-personal mb-0 mb-4 animated bounceInLeft" >
+  
+                    <mdb-card-body>
+                      <ng-container *ngIf="oCampoSeleccionado" >
+                        <div class="d-flex flex-row;">
+                          <div class="col-md-6" style="height: 100%;" *ngIf="oCampoSeleccionado.sol_antes" >
+                              <h4 class="titulo_card datos-antiguos"><strong>Datos Antiguos</strong></h4>
+                            <div class="d-flex flex-column justify-content-center" style="height:100%">
+                              <div style="height: 100%">
+                                <h4 class="titulo_card" *ngIf="!oCampoSeleccionado.sol_antes.Cambios || oCampoSeleccionado.sol_antes.Cambios.length==0" style="text-align:center; color:#bdb9b9;opacity: 0.4; margin-top: 15%;"><strong>¡No hay cambios para mostrar!</strong></h4>
+                              </div>                                      
+                              <!--Servicios-->
+                              <ng-container *ngIf="oCampoSeleccionado.sol_antes.Cambios">
+
+                            
+                              <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Area"><i title="Nombre" placement="top" class="far fa-address-card mr-2"></i><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_antes.Cambios.Area}}</p> 
+                              <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Descripcion"><i title="Descripcion" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_antes.Cambios.Descripcion}}</p> 
+                              <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.servicios && oCampoSeleccionado.sol_antes.Cambios.servicios.length!=0 ">
+                                <div *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios.servicios">
+                                  <p class="mb-0 w-100 atributos tachado"><i title="Servicio" placement="top" class="fas fa-hand-holding-usd  mr-2"></i><b class="atributos"></b><b class="atributos ">Servicio: </b>{{campos.concepto}}</p> 
+                                  <div *ngIf="campos.items && campos.items.length!=0">
+                                    <ul>
+                                      <div *ngFor="let subcampos of campos.items" class="d-flex" >
+                                            <div class="flex-grow-1 atributos">
+                                                <li>
+                                                    {{subcampos}}
+                                                </li>
+                                            </div>
+
+                                      </div>
+                                     </ul>
+                                  </div>             
+                                </div>
+                               
+                              </div>
+                              <div *ngIf="oCampoSeleccionado.sol_antes.Cambios.items && oCampoSeleccionado.sol_antes.Cambios.items.length!=0">
+                                <ul>
+                                  <div class="atributos" *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios.items">
+                                    <li >
+                                      Servicio: {{campos}}
+                                  </li>
+                                  </div>
+                                </ul>
+
+                               
+                              </div>
+                            
+                              <!--Integrantes-->
+                              <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_antes.Titulo.Area"><b class="atributos">Integrante: </b>{{oCampoSeleccionado.sol_antes.Titulo.Area}}</p> 
+                              <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Nombre"><b class="atributos">Responsable: </b></p> 
+                              <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Nombre"><i mdbTooltip="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Nombre: </b>{{oCampoSeleccionado.sol_antes.Cambios.Nombre}}</p>  
+                              <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Cargo"><i mdbTooltip="Cargo" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos">Cargo: </b>{{oCampoSeleccionado.sol_antes.Cambios.Cargo}}</p>  
+                              <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Correo"><i mdbTooltip="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos">Correo: </b>{{oCampoSeleccionado.sol_antes.Cambios.Correo}}</p>  
+                              <p class="mb-0 w-100 atributos tachado" *ngIf="oCampoSeleccionado.sol_antes.Cambios.Extension"><i mdbTooltip="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos">Extension: </b>{{oCampoSeleccionado.sol_antes.Cambios.Extension}}</p> 
+
+                              <!--Eliminar Integrante-->
+                                  <div *ngIf="isArray(oCampoSeleccionado.sol_antes.Cambios) && oCampoSeleccionado.sol_antes.Cambios.length!=0">
+                                      <div *ngFor="let campos of oCampoSeleccionado.sol_antes.Cambios">
+                                            <p class="card-text mb-0 w-100 atributos"><b class="atributos"></b><b class="atributos ">Responsable: </b></p> 
+                                            <p class="tachado mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos"></b><b class="atributos ">Nombre: </b>{{campos.extension_users[0].nombre}}</p> 
+                                            <p class="tachado mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos"></b><b class="atributos ">Cargo: </b>{{campos.extension_users[0].cargo}}</p>
+                                            <p class="tachado mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Correo: </b>{{campos.extension_users[0].correo}}</p>  
+                                            <p class="tachado mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Extensión: </b>{{campos.extension_users[0].ext}}</p>  
+            
+                                      </div>
+                                   </div>
+                                </ng-container>
+                                <!-- <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD.dip_fechalimiteinscripcion!=null"><i title="Fecha límite" placement="top" class="fas fa-stopwatch mr-2"></i><b class="atributos">Fecha límite: </b>{{nombreCD.dip_fechalimiteinscripcion}}</p>   
+                              -->
+                  </div>  
+                          </div>
+                          <div class="col-md-6"     style="height: 100%;">
+                              <h4 class="titulo_card datos-nuevos"><strong>Datos Nuevos</strong></h4>
+                            <div class="d-flex flex-column justify-content-center" style="height:100%">    
+                              <div style="height: 100%">
+                                <h4 class="titulo_card" *ngIf="oCampoSeleccionado.sol_despues.Cambios.length==0" style="text-align:center; color:#bdb9b9;opacity: 0.4; margin-top: 15%;"><strong>¡No hay cambios para mostrar!</strong></h4>
+                              </div>                                  
+                              <!--Areas-->
+                              <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Area"><i title="Nombre" placement="top" class="far fa-address-card mr-2"></i><b class="atributos">Área: </b>{{oCampoSeleccionado.sol_despues.Cambios.Area}}</p> 
+                              <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Descripcion"><i title="Descripcion" placement="top" class="fas fa-align-justify mr-2"></i><b class="atributos">Descripción: </b>{{oCampoSeleccionado.sol_despues.Cambios.Descripcion}}</p> 
+                              <div *ngIf="oCampoSeleccionado.sol_despues.Cambios.Servicios && oCampoSeleccionado.sol_despues.Cambios.Servicios.length!=0 ">           
+                                <p class="card-text mb-0 w-100 atributos" ><b class="atributos">Servicios: </b></p>     
+                                <ul>
+                                      <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios.Servicios">
+                                         
+                                        <div class="flex-grow-1 ">
+                                               
+                                                <li>
+                                                  <p class="card-text">{{campos}}</p>  
+                                                </li>
+                                            </div>
+
+                                      </div>
+                                     </ul>      
+                              </div>
+                              <div *ngIf="oCampoSeleccionado.sol_despues.Cambios.items && oCampoSeleccionado.sol_despues.Cambios.items.length!=0">
+                                <ul>
+                                  <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios.items">
+                                    <li>
+                                      Servicio: {{campos}}
+                                  </li>
+                                  </div>
+                                </ul>
+
+                               
+                              </div>
+                              <!--Integrantes-->
+                                  <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Titulo"><b class="atributos">Integrante: </b>{{oCampoSeleccionado.sol_despues.Titulo.Area}}</p> 
+                                  <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Nombre"><b class="atributos">Responsable: </b></p> 
+                                  <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Nombre"><i mdbTooltip="Nombre" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos">Nombre: </b>{{oCampoSeleccionado.sol_despues.Cambios.Nombre}}</p>  
+                                  <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Cargo"><i mdbTooltip="Cargo" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos">Cargo: </b>{{oCampoSeleccionado.sol_despues.Cambios.Cargo}}</p>  
+                                  <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Correo"><i mdbTooltip="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos">Correo: </b>{{oCampoSeleccionado.sol_despues.Cambios.Correo}}</p>  
+                                  <p class="card-text mb-0 w-100 atributos" *ngIf="oCampoSeleccionado.sol_despues.Cambios.Extension"><i mdbTooltip="Correo" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos">Extension: </b>{{oCampoSeleccionado.sol_despues.Cambios.Extension}}</p> 
+                             
+                                  <!--Adicionar Integrante-->
+                                  <div *ngIf="isArray(oCampoSeleccionado.sol_despues.Cambios) && oCampoSeleccionado.sol_despues.Cambios.length!=0">
+                                    <div *ngFor="let campos of oCampoSeleccionado.sol_despues.Cambios">
+                                          <p class="card-text mb-0 w-100 atributos"><b class="atributos"></b><b class="atributos ">Responsable: </b></p> 
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-layer-group mr-2"></i><b class="atributos"></b><b class="atributos ">Nombre: </b>{{campos.extension_users[0].nombre}}</p> 
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-cogs mr-2"></i><b class="atributos"></b><b class="atributos ">Cargo: </b>{{campos.extension_users[0].cargo}}</p>
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Correo: </b>{{campos.extension_users[0].correo}}</p>  
+                                          <p class="card-text mb-0 w-100 atributos"><i title="Servicio" placement="top" class="fas fa-envelope mr-2"></i><b class="atributos"></b><b class="atributos ">Extensión: </b>{{campos.extension_users[0].ext}}</p>  
+          
+                                    </div>
+                                  </div>
+                                <!-- <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD.dip_fechalimiteinscripcion!=null"><i title="Fecha límite" placement="top" class="fas fa-stopwatch mr-2"></i><b class="atributos">Fecha límite: </b>{{nombreCD.dip_fechalimiteinscripcion}}</p>   
+                              -->
+                  </div>  
+                          </div>    
+                        </div>
+        
+                        </ng-container>
+  
+                      <!---<mdb-card-title>
+                        <a>
+                            <h4 class="card-title mb-2 d-inline-block" *ngIf="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre"><span [ngClass]="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre?'tachado':''">{{oCampoSeleccionado?.sol_campos_viejos?.eve_nombre}}</span> <span class="texto_nuevo" *ngIf="oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre"> {{oCampoSeleccionado?.sol_campos_nuevos?.eve_nombre}}</span> </h4> 
+                        </a>
+                      </mdb-card-title>-->
+  
+                    </mdb-card-body>
+                  </mdb-card>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-2">
+                  <div class="md-form mb-2">
+                      <i class="far fa-comment-alt prefix" ></i>
+                      <textarea style="height: 100px;"  class="md-textarea form-control" id="sol_comentario" mdbInput  [(ngModel)]="sol_comentario"></textarea>
+                      <label  for="sol_comentario" >Comentarios</label>
+                  </div>
+              </div>
+            </div>
+
+
+
+
+      </div>
+
+      <div class="text-center mb-4" *ngIf="oCampoSeleccionado?.sol_estado=='pendiente'">
+          <hr>
+          <button  class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_verificarSolicitudes('aceptar')">Aceptar<i class="fas fa-check ml-2"></i></button>
+          <button  style="border:1px solid red" class="btn  btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_verificarSolicitudes('rechazar')">Rechazar<i class="fas fa-times ml-2 " style="color:red;"></i></button>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

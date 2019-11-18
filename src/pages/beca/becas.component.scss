@@ -1,0 +1,60 @@
+$verde_umanizalesb:  #a8cf45;
+$verde_umanizales2: #76c04e;
+$gris_umanizales_background: #666666;
+$gris_claro: #eaeaea;
+$gris_oscuro:#343434;
+
+.container-becas{
+    margin: 1rem auto;
+    width: 95%;
+}
+.first-row-text-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.first-row-text-container p{
+    color: $gris_oscuro;
+}
+.becas-titles, .becas-titles+p{
+    text-align: center;
+}
+.beca-titulo-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+.beca-titulo-container .titulo-beca{
+    color: $gris_oscuro;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+.chip{
+    margin-right: 0;
+}
+.card{
+    max-height: calc(100vh - 240px);
+    overflow: auto;
+    margin-top: 1rem;
+}
+.lista-condiciones{
+    margin-top: 1rem;
+}
+.actions-cont{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 18px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 28px;
+    text-align: center;
+    background: #1f8a0b;
+    __text-shadow: 1px 1px -1px black;
+}

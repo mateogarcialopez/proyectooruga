@@ -1,0 +1,28 @@
+<div class="col-lg-12">
+  <h3>{{page_title}}</h3>
+  <hr />
+
+
+  <table class="table table-hover">
+    <thead class="thead-default">
+      <tr>
+        <th>Titulo</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let topic of Topics">
+        <td>{{topic.titulo}}</td>
+        <td>{{topic.fecha | amLocale: 'es' | amDateFormat:'LL'}}</td>
+        <td>
+          <a [routerLink]="['/panel/editar', topic._id]" class="btn btn-sm btn-warning mr-2">Editar</a>          
+          <button type="button" class="btn btn-sm btn-danger" (click)="fn_AdvertenciaElimProceso(topic._id)"  >
+            Borrar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

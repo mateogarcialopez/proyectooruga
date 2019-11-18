@@ -1,0 +1,236 @@
+<div class="calendario-container">
+    <div class="row">
+        <div class="filters-container">
+            <span>Selecciona para filtrar: </span>
+            <mdb-checkbox
+                [ngClass]="(filtro.texto === 'Desmarcar todos' || filtro_texto === 'Marcar todos')?'fondo-negro-check':''"
+                (change)="changeMarcarTodos(filtro.texto)" [default]="true" [inline]="true"
+                *ngFor="let filtro of filters" [(ngModel)]="filtro.visible">
+                {{filtro.texto}}
+            </mdb-checkbox>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Distribución para 1er o 2o periodo del año en current_period -->
+        <div class="col-sm-12 year-container" [ngClass]="(current_temp.current_period==1)?'col-md-12':'col-md-6'">
+            <h5>{{current_temp.current_year}}</h5>
+        </div>
+        <div class="col-sm-12 year-container" [ngClass]="(current_temp.current_period==1)?'d-none':'col-md-6'">
+            <h5>{{current_temp.current_year+1}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Columna 1 de Información -->
+        <div class="period-container col-sm-12 col-md-6" *ngFor="let col of calendar_content">
+            <div class="chip">
+                Período {{col.numero_periodo}}
+            </div>
+            <div class="cards-container thin scrollbar-gris">
+                <ng-container *ngFor="let categoria of col.categorias">
+                    <!--Card-->
+                    <mdb-card cascade="true" narrower="true" *ngIf="checkVisibility(categoria)">
+                        <div class="view view-cascade  gradient-card-header degradado-um">
+                            <h5 class="card-header-title">{{categoria.nombre}}</h5>
+                        </div>
+                        <mdb-card-body cascade="true" class="text-center">
+                            <!--Card content-->
+                            <mdb-card-text>
+                                <div class="categoria-content">
+                                  
+                                    <div class="concepto-content" [id]="concepto._id" *ngFor="let concepto of categoria.conceptos" [ngClass]="concepto._id==seleccionCalendario?'element_selection':''">
+                                       
+                                      {{concepto.nombre}}
+                                        <div class="fecha-content pr-3 pl-3">
+                                            <ng-container *ngIf="concepto.fecha_unica">
+                                                <span class="date-number">
+                                                    {{parseStringAsDate(concepto.fecha_unica) | date: 'd'}}
+                                                    de {{concepto.fecha_unica | fecha_mes_espanol}}
+                                                </span>
+                                            </ng-container>
+                                            <ng-container *ngIf="concepto.fecha_hasta">
+                                                <span class="date-number">
+                                                    Hasta el
+                                                    {{parseStringAsDate(concepto.fecha_hasta) | date: 'd'}}
+                                                    de {{concepto.fecha_hasta | fecha_mes_espanol}}
+                                                </span>
+                                            </ng-container>
+                                            <ng-container *ngIf="concepto.fecha_inicio">
+                                                <span class="date-number">
+                                                    Del
+                                                    {{parseStringAsDate(concepto.fecha_inicio) | date: 'd'}}
+                                                    de {{concepto.fecha_inicio | fecha_mes_espanol}}
+                                                </span>
+                                                <span class="date-number">
+                                                    al
+                                                    {{parseStringAsDate(concepto.fecha_fin) | date: 'd'}}
+                                                    de {{concepto.fecha_fin | fecha_mes_espanol}}
+                                                </span>
+                                            </ng-container>
+                                        </div>
+                                            <i *ngIf="concepto.cal_estado=='pendiente'" class="fas fa-circle pointer-calendar" [ngClass]="oEstado_bolas[concepto.cal_estado].color" [title]="oEstado_bolas[concepto.cal_estado].texto" placement="top"></i>
+                                            <i class="fas fa-sync-alt sync-calendar"  title="Última Actualización: {{(concepto.cal_ultima_actualizacion | fechaespanol)}}" placement="left"></i>
+                                            <i class="fas fa-edit edit-calendar" title="Editar" placement="top" (click)="fn_callModalCalendario(false);fn_setDataCalendarioEdit(concepto);"></i>
+                                            <i class="fas fa-trash-alt delete-calendar" title="Eliminar" placement="top"  (click)="fn_AdvertenciaElimCalendario(concepto._id)"></i>
+                                            <i class="fas fa-edit edit-calendar" title="Editar" placement="top" (click)="fn_callModalCalendario(false);fn_setDataCalendarioEdit(concepto);"></i>                  
+                                      </div>
+                                </div>
+                            </mdb-card-text>
+                        </mdb-card-body>
+                        <!--/.Card content-->
+                    </mdb-card>
+                    <!--/.Card-->
+                    
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-action-btn animated bounceIn add-btn-global">
+    <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalCalendario(true)" title="Añadir"
+        placement="left" mdbWavesEffect>
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+
+<!-- MODALS -->
+<!--Modal modalCalendario de Usuario-->
+<div mdbModal #modalCalendario="mdbModal" class="modal fade" id="modalCalendario" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid  modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content mascara" style="width: 90%;">
+      <div class="modal-header text-center">
+        <!--<h4 class="modal-title w-100 font-weight-bold">modalCalendario</h4>-->
+        <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Añadir Fecha':'Editar Fecha'}} </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalCalendario.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+          <p class="card-text">
+            Registra o Actualiza la información del calendario organizado por la <strong>Universidad de Manizales</strong>!
+          </p>
+          <div class="col-sm-12 col-md-12">       
+            <div class="ml-3 mt-3">
+                <span class="texto_filtro  mr-3 d-block">Selecciona la fecha que deseas ingresar:</span>
+                <div class="form-check form-check-inline position-relative">
+                                <input type="radio" class="form-check-input" id="fechas" value="1" [(ngModel)]="valorfecha" (change)="fn_mostrarDatePicker()">
+                                <label class="form-check-label" for="fechas">Fecha Inicio-Fecha Fin</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="unica" value="2"  [(ngModel)]="valorfecha" (change)="fn_mostrarDatePicker()">
+                                <label class="form-check-label" for="unica">Única Fecha</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="hasta" value="3" [(ngModel)]="valorfecha" (change)="fn_mostrarDatePicker()">
+                                <label class="form-check-label" for="hasta">Fecha Límite</label>
+                        </div>
+                </div>
+                
+          </div>  
+        <form [formGroup]="formCalendario">
+          <div class="row">
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-book prefix" [ngClass]="{icon_valid:formCalendario.controls['cal_nombre'].valid && formCalendario.controls['cal_nombre'].touched,icon_invalid:formCalendario.controls['cal_nombre'].invalid && formCalendario.controls['cal_nombre'].touched}"></i>
+                    <input type="text" class="form-control" id="cal_nombre"  mdbInput mdbValidate formControlName="cal_nombre">
+                    <label  for="cal_nombre" >Nombre</label>
+                    <mdb-error *ngIf="formCalendario.controls['cal_nombre'].invalid && (formCalendario.controls['cal_nombre'].dirty || formCalendario.controls['cal_nombre'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="md-form mb-2">
+                  <i class="fas fa-hand-holding-usd prefix" [ngClass]="{icon_valid:formCalendario.controls['cal_costo'].valid && formCalendario.controls['cal_costo'].touched,icon_invalid:formCalendario.controls['cal_costo'].invalid && formCalendario.controls['cal_costo'].touched}"></i>
+                  <input type="text" class="form-control" id="cal_costo" mdbInput mdbValidate formControlName="cal_costo">
+                  <label  for="cal_costo" >Costo</label>
+                  <mdb-error *ngIf="formCalendario.controls['cal_costo'].invalid && (formCalendario.controls['cal_costo'].dirty || formCalendario.controls['cal_costo'].touched)">Campo requerido</mdb-error>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6" [ngClass]="fechass?'desactivar':''">
+              <div class="md-form mb-2">
+                  <i class="fas fa-calendar-day prefix" ></i>
+                  <!---<input type="text" class="form-control" id="dip_fecha" mdbInput mdbValidate formControlName="dip_fecha">-->
+                  <mdb-date-picker name="cal_fecha_inicio" style="margin-left: 39px; width: 76% !important;" id="cal_fecha_inicio" [options]="opciones_fecha"  [placeholder]="!formCalendario.controls['cal_fecha_inicio'].value?'Fecha inicio':formCalendario.controls['cal_fecha_inicio'].value"   formControlName="cal_fecha_inicio"  mdbInput   class="calendario mb-0 p-0" ></mdb-date-picker>
+                </div>   
+                                   
+          </div>
+          <div class="col-sm-12 col-md-6" [ngClass]="fechass?'desactivar':''">
+            <div class="md-form mb-2">
+                <i class="fas fa-calendar-day prefix" ></i>
+                <!---<input type="text" class="form-control" id="dip_fecha" mdbInput mdbValidate formControlName="dip_fecha">-->
+    <mdb-date-picker name="cal_fecha_fin" style="margin-left: 39px; width: 76% !important;" id="cal_fecha_fin" [options]="opciones_fecha_fin"  [placeholder]="!formCalendario.controls['cal_fecha_fin'].value?'Fecha fin':formCalendario.controls['cal_fecha_fin'].value" formControlName="cal_fecha_fin"  mdbInput   class="calendario mb-0 p-0" (dateChanged)="fn_seleccionarPeriodo($event)" ></mdb-date-picker>
+               
+              </div>   
+                                 
+        </div>
+
+        <div class="col-sm-12 col-md-6" [ngClass]="fechaUnica?'desactivar':''">
+          <div class="md-form mb-2">
+              <i class="fas fa-calendar-day prefix"></i>
+              <!---<input type="text" class="form-control" id="dip_fecha" mdbInput mdbValidate formControlName="dip_fecha">-->
+              <mdb-date-picker name="cal_fecha_unica" style="margin-left: 39px; width: 76% !important;" id="cal_fecha_unica" [options]="opciones_fecha"  [placeholder]="!formCalendario.controls['cal_fecha_unica'].value?'Fecha Única':formCalendario.controls['cal_fecha_unica'].value" mdbInput  formControlName="cal_fecha_unica" class="calendario mb-0 p-0" (dateChanged)="fn_seleccionarPeriodo($event)" ></mdb-date-picker>
+              
+            </div>                             
+      </div>
+      <div class="col-sm-12 col-md-6" [ngClass]="fechaHasta?'desactivar':''">
+        <div class="md-form mb-2">
+            <i class="fas fa-calendar-day prefix"></i>
+            <!---<input type="text" class="form-control" id="dip_fecha" mdbInput mdbValidate formControlName="dip_fecha">-->
+            <mdb-date-picker name="cal_fecha_hasta" style="margin-left: 39px; width: 76% !important;" id="cal_fecha_hasta" [options]="opciones_fecha_fin"  [placeholder]="!formCalendario.controls['cal_fecha_hasta'].value?'Fecha Límite':formCalendario.controls['cal_fecha_hasta'].value"   formControlName="cal_fecha_hasta"  mdbInput   class="calendario mb-0 p-0"(dateChanged)="fn_seleccionarPeriodo($event)"></mdb-date-picker>
+            
+          </div>   
+                             
+    </div>
+      <div class="col-sm-12 col-md-6 mt-2">
+        <div class="md-form pb-0  mb-0">
+          <label for="categoria" class="col-form-label pl-2 ml-1">Categoria</label>
+          <select class="browser-default custom-select" mdbInput mdbValidate id="categoria" formControlName="cal_categoria"> 
+            <option [ngValue]="null">seleccione una opción</option>
+            <option *ngFor="let item of oCategoria" [value]="item">{{item}}</option>    
+          </select>
+          <mdb-error *ngIf="formCalendario.controls['cal_categoria'].invalid && (formCalendario.controls['cal_categoria'].dirty || formCalendario.controls['cal_categoria'].touched)">Campo requerido</mdb-error>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 mt-2">
+        <div class="md-form pb-0  mb-0">
+          <label for="año" class="col-form-label pl-2 ml-1">Año</label>
+          <select class="browser-default custom-select" mdbInput mdbValidate id="año" formControlName="cal_year"  > 
+            <option *ngIf="!formCalendario.controls['cal_year'].value" [ngValue]="null">seleccione una opción</option>
+            <option *ngFor="let item of ServicesProvider.getCurrentYear_mas1()" [value]="item">{{item}}</option>    
+          </select>
+          <mdb-error *ngIf="formCalendario.controls['cal_year'].invalid && (formCalendario.controls['cal_year'].dirty || formCalendario.controls['cal_year'].touched)">Campo requerido</mdb-error>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6">       
+        <div class="ml-3 mt-3">
+            <span class="texto_filtro  mr-3 d-block">Periodo</span>
+              <div class="form-check form-check-inline position-relative" >
+                <input type="radio" class="form-check-input" id="cal_numero_periodo" value="1" mdbInput mdbValidate formControlName="cal_numero_periodo">
+                <label class="form-check-label" for="cal_numero_periodo">I</label>
+              </div>
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="cal_numero_periodo2" value="2" mdbInput mdbValidate formControlName="cal_numero_periodo">
+                  <label class="form-check-label" for="cal_numero_periodo2">II</label>
+              </div>
+            <mdb-error style="left:auto" *ngIf="formCalendario.controls['cal_numero_periodo'].invalid && (formCalendario.controls['cal_numero_periodo'].dirty || formCalendario.controls['cal_numero_periodo'].touched)">Campo requerido</mdb-error>
+        </div>    
+      </div>
+    </div>      
+  </form>
+      </div>
+
+
+
+      <div class="text-center mb-4">
+          <hr>
+          <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormCalendario(formCalendario)">Guardar<i class="fas fa-save ml-2"></i></button>
+          <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormCalendario(formCalendario)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+      </div>
+    </div>
+  </div>
+</div>

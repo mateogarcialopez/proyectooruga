@@ -1,0 +1,63 @@
+
+.container_dependency{
+   __width: 264px;
+   width:100%;   
+   border-right: 1px solid #dcdcdc;
+   overflow: hidden;
+}
+
+.item_element_dependency{
+   background: #fdf9f9;
+   border-left: 1px solid #dcdcdc;
+   border-bottom: 1px solid #dcdcdc;
+   font-size: 14px;
+}
+
+.item_element_dependency:hover{
+   background: #f1f1f1;
+}
+
+.bgimg {
+   /* The image used */
+   background-image: url("../../assets/img/background2.jpg");
+   __height: 100%;
+   width: 100%;
+   /* background-position: center; */
+   /* background-repeat: repeat-y; */
+   background-size: cover;
+   /* position: fixed; */
+   overflow: auto;
+ }
+
+ .icon_search{
+   font-size: 25px;
+   left: 5px;
+   top: 7px;
+ }
+
+ .elementos_unidad{
+   transition: all 0.5s ease;
+ }
+ .elementos_unidad:hover{
+   transform: translate(5px,0);
+ }
+
+
+ .card_seleccionada {
+   background: #ececec;
+ }
+
+ li,ul{
+  list-style:none;
+
+ }
+
+ .max_height_menu{
+  max-height: 80vh !important;
+  overflow-y:auto;
+  overflow-x:hidden;
+ }
+
+ .height_menu{
+  height: 80vh !important;
+ }

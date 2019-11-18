@@ -1,0 +1,83 @@
+
+<!-- Modal -->
+<!-- Modal -->
+<!--Section: Live preview-->
+<section>
+
+
+  <!--<div class="modal-dialog modal-frame modal-top modal-notify modal-success" role="document" style="max-width: 100%;">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center align-items-center">
+
+          <h2>
+            <span class="badge">v52gs1</span>
+          </h2>
+          <p class="pt-3 mx-4">We have a gift for you! Use this code to get a
+            <strong>10% discount</strong>.</p>
+
+          <a type="button" class="btn btn-success">Get it
+            <i class="fa fa-book ml-1 white-text"></i>
+          </a>
+          <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No, thanks</a>
+        </div>
+      </div>
+    </div>
+    /.Content
+  </div>-->
+
+<div class="modal-dialog modal-frame modal-top modal-notify modal-{{estilo}}" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" 
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-{{estilo}}" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">{{title}}</p>
+
+        <button type="button" class="close"  (click)="modalRef.hide();" aria-label="Close">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <mdb-icon fas [icon]="icono" class="fa fa-2x mb-3 animated rotateIn"></mdb-icon>
+
+          <p> {{ body }}</p>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" *ngIf="component" class="btn btn-{{estilo}}" (click)="funcion_ok();modalRef.hide();">Aceptar </a>
+        <a type="button" class="btn btn-outline-{{estilo}} waves-effect" (click)="modalRef.hide();">Cerrar</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!-- Central Modal Medium Success-->
+
+
+</section>
+<!--Section: Live preview-->
+<!--
+
+  <div class="modal-content ">
+  <div class="modal-header ">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title w-100"  id="myModalLabel">{{ title }}</h4>
+  </div>
+  <div class="modal-body">
+    {{ body }}
+  </div>
+  <div class="modal-footer d-flex justify-content-center">
+    <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="modalRef.hide();" mdbWavesEffect>Close</button>
+    <button type="button" mdbBtn color="primary" class="relative waves-light"  (click)="funcion_ok()" mdbWavesEffect>Save!</button>
+  </div>
+</div>
+
+-->

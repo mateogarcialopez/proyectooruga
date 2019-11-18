@@ -1,0 +1,129 @@
+p.card-text:last-child {
+    margin-bottom: 0px !important;
+ }
+ 
+ p.card-text {
+     margin-bottom: 0px !important;
+  }
+
+  .modal-footer-n {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-bottom-right-radius: 0.3rem;
+		border-bottom-left-radius: 0.3rem;
+}  
+
+.grid {
+  display: grid;
+  grid-template-columns: 50px 300px;
+  grid-template-rows: 200px 75px;
+}
+
+.titulo_card{
+    font-weight: bold; 
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    font-size: 17px;
+    padding: 12px;
+    color:black;
+}
+
+
+.back.tp-box_side.tp-box_back {
+
+  padding: 0px !important;
+}
+
+.subtitulo_prog{
+  font-weight: 500;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.item_prog{
+  text-align: left;
+  border-bottom: 1px solid #dcdcdc;
+}
+.item_prog:hover{
+  background:#efefef;
+  cursor:pointer;
+}
+
+.programa .flip-container{
+  max-height: 295px; 
+  height: 295px;
+}
+
+.maestria .form-check-input[type="checkbox"]:checked + label:before, .maestria label.btn input[type="checkbox"]:checked + label:before {
+  border-right: 2px solid #2bbbad ;
+  border-bottom: 2px solid #2bbbad ;
+}
+
+
+
+
+
+.bgimg {
+  /* The image used */
+  background-image: url("../../assets/img/background2.jpg");
+  __height: 100%;
+  width: 100%;
+  /* background-position: center; */
+  /* background-repeat: repeat-y; */
+  background-size: cover;
+  /* position: fixed; */
+  overflow: auto;
+
+}
+
+
+.height_programa_card{
+  height: auto !important;
+  max-height: calc(97% - 64px) !important;
+}
+
+
+.caja_texto_filtrar {
+  color: #666666;
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  font-size: 15px;
+}
+
+
+.texto_filtro{
+  color: #666666;
+  font-size: 15px;
+}
+
+.caja_filtros{
+  border: 1px solid #dcdcdc;
+  width: 95%;
+  margin: 0 auto;
+}
+
+
+
+.titulo_card {
+
+  color: white !important;
+}
+
+.posicion_mas{
+  position: absolute;
+  right: 0px;
+  top: 8px;
+}
+
+img{
+  max-height: 130px !important;
+  max-width: 130px !important;
+}
+
+.desactivar{
+  display: none;
+}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es" class="thin scrollbar-gris" style="overflow-x: visible;">
+<head>
+  <meta charset="utf-8">
+  <title>Oruga</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+</head>
+
+<body  >
+  <app-root style="overflow-x: visible;"></app-root>
+</body>
+
+<script>
+	function cerrarAlerta(){
+        document.querySelector('#alerta').classList.add("ocultar_animacion");
+        setTimeout(()=>{
+          document.querySelector('#alerta').classList.add("ocultar");
+        },3000)
+	}
+</script>
+</html>

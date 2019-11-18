@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-sm-12 col-md-3 menu-container">
+
+    <a *ngFor="let opcion of aCategorias" class="menu-item" [routerLink]="'/'+opcion.redirect">
+      <mdb-icon fas [icon]="opcion.icono"></mdb-icon>
+      <span>{{opcion.nombre}}</span>
+    </a>
+  </div>
+
+  <div class="col-sm-12 col-md-9 principal-container">
+      <img src="./assets/img/orugaIcons/OLL.png" class="p-0 mb-1 logoUm">
+    <div class="buscador-container">
+      <div class="d-flex justify-content-center align-items-center  w-100 " style="margin-top:305px !important;">
+
+        <div class="p-0 m-0 w-80">
+          <span class="input input--nao" [ngClass]="animacion_input || focus_input?'input--filled':''">
+            <input class="input__field input__field--nao" type="text" id="input-1" #search
+              (keyup)="getFilteredData()" [(ngModel)]="animacion_input" 
+              (focus)="focus_input=true" (blur)="animacion_input?focus_input=true:focus_input=false;"
+               />
+            <i class="fas fa-times pointer fa-lg ml-3 pt-4 equis_input" [hidden]="!animacion_input"
+              (click)="resultsAutocomplete=[];animacion_input=''"></i>
+            <label class="input__label input__label--nao" for="input-1">
+              <span class="input__label-content input__label-content--nao">Ingresa tu consulta</span>
+            </label>
+            <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60"
+              preserveAspectRatio="none">
+              <path
+                d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+            </svg>
+          </span>
+        </div>
+        <div class="p-0 m-0">
+          <i class="fas fa-search cursor fa-lg ml-3 pt-4"></i>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center" style="margin-top: -19px;margin-left: -2px;">
+        <div class="p-0 m-0 w-80 autocomplete sombra  thin scrollbar-gris scroll_y">
+          <div class="pointer line-height-1 d-flex" (click)="fn_goToSection(item)" *ngFor="let item of resultsAutocomplete"
+            >
+              <div class="d-flex flex-center" [ngStyle]="{background: item==animacion_input?'#eee':''  }">
+                  <ng-container *ngIf="aCategoriasBadge[item.ruta]">
+                      <mdb-badge class="ml-2" [ngClass]="aCategoriasBadge[item.ruta].clase_badge" pill="true" default="true">
+                          <i class=" mr-2 text-white" [ngClass]="aCategoriasBadge[item.ruta].icono"></i>
+                          {{aCategoriasBadge[item.ruta].texto_mostrar}}
+                        </mdb-badge>
+                  </ng-container>
+              </div>
+              <div class="ml-2 flex-grow-1  d-flex align-items-center">
+                    {{item.textoM}}
+
+              </div>
+
+          </div>
+          <div class="p-2" *ngIf="animacion_input?.length>=3 && resultsAutocomplete?.length==0">
+            No existen resultados para tu consulta
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="news-container">
+      
+    </div>
+  </div>
+</div>

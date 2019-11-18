@@ -1,0 +1,514 @@
+<div class="row mx-1 justify-content-around">
+
+<div class="col-12 col-md-12 col-lg-12 col-xl-12 my-3 px-0 card animated bounce" >
+    <h1 class=" white-text bg_oruga w-100">
+  <strong><i style="font-size: 30px;" class="text-white cursor mr-3 animated bounce"></i></strong><span style="font-size: 45px; font-weight: bold;">Tops del mes</span>
+    </h1>
+  <!--Section: Products v.5-->
+<section class="text-center pb-3" style="height: 537px;">
+    <!--Carousel Wrapper-->
+    <mdb-carousel class="carousel-multi-item multi-animation" [type]="'carousel-multi-item'"
+      [animation]="'slide'">
+      <!--First slide-->
+     
+          
+        
+      <mdb-slide *ngFor="let item of Cursos">
+        <div class="row mx-0">
+        <div class="col-lg-3 col-md-6 mb-3 clearfix d-none d-md-block" *ngFor="let items of item.Items">
+          <!--Card-->
+          
+          <mdb-card cascade="true" narrower="true" class="card-ecommerce">
+
+              <!--Card image-->
+              <div class="view view-cascade overlay waves-light" style="background-color: white;" mdbWavesEffect>
+                  <div class="wrap">
+                      <span class="ribbon6 text-white">{{item.Categoria}}</span>
+                  </div>
+                <mdb-card-img [src]="items?.imagen" alt="sample photo"></mdb-card-img>
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
+              <!--Card content-->
+              <mdb-card-body cascade="true" class="text-center">
+                <!--Category & Title-->
+                <a href="" class="grey-text">
+                  <h5><mdb-badge pill="true" default="true">{{items.programa}}</mdb-badge></h5>
+                </a>
+                <mdb-card-title>
+                  <h4>
+                    <strong>
+                      <a href="">{{items.nombre}}</a>
+                    </strong>
+                  </h4>
+                </mdb-card-title>
+                <!--Description-->
+                <mdb-card-text>{{items.descripcion}}
+                </mdb-card-text>
+                <!--Card footer-->
+                <mdb-card-footer>
+                    <button mdbBtn type="button" size="sm" class="text-white" style="background-color: #25824b;" mdbWavesEffect>
+                        Ver <mdb-icon fas icon="eye" class="text-white ml-1"></mdb-icon>
+                      </button>
+                </mdb-card-footer>
+              </mdb-card-body>
+              <!--Card content-->
+            </mdb-card>
+          <!--Card-->
+        </div>
+      </div>
+      </mdb-slide>
+    
+      <!--/Third slide-->
+    </mdb-carousel>
+    <!--/.Carousel Wrapper-->
+  
+  </section>
+  <!--Section: Products v.5-->
+
+</div>
+<hr>
+<div class="col-12 col-md-12 col-lg-12 col-xl-12 my-3 animated bounce" >
+    <h1 class=" white-text bg_oruga">
+      <strong><i style="font-size: 30px;" class="text-white cursor mr-3 animated bounce"></i></strong><span style="font-size: 45px; font-weight: bold;">Todos Nuestros Cursos</span>
+    </h1>
+<!--Section: Products v.2-->
+<section class="text-center pb-3 my-5">
+    <div class="row">
+        <div class="col-lg-3 col-md-6 mb-3 clearfix d-none d-md-block" *ngFor="let item of aCursos">
+          <!--Card-->
+          <mdb-card cascade="true" narrower="true" class="card-ecommerce">
+              <!--Card image-->
+              <div class="view view-cascade overlay waves-light" style="background-color: white;" mdbWavesEffect>
+                <mdb-card-img [src]="item?.cur_img" alt="sample photo"></mdb-card-img>
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
+              <!--Card content-->
+              <mdb-card-body cascade="true" class="text-center">
+                <!--Category & Title-->
+                <a href="" class="grey-text">
+                    <h5><mdb-badge pill="true" default="true">{{item.cur_categoria}}</mdb-badge></h5>
+                </a>
+                <mdb-card-title>
+                  <h4>
+                    <strong>
+                      <a href="">{{item.cur_nombre}}</a>
+                    </strong>
+                  </h4>
+                </mdb-card-title>
+                <!--Description-->
+                <mdb-card-text><strong>{{item.cur_usuario['nombre']}}</strong>
+                </mdb-card-text>
+                <mdb-card-text>{{item.cur_descripcion}}
+                </mdb-card-text>
+                <!--Card footer-->
+                <mdb-card-footer>
+                    <button [routerLink]="['detalle-curso',item._id]" mdbBtn type="button" size="sm" class="text-white" style="background-color: #25824b;" mdbWavesEffect>
+                        Ver <mdb-icon fas icon="eye" class="text-white ml-1"></mdb-icon>
+                      </button>
+                </mdb-card-footer>
+              </mdb-card-body>
+              <!--Card content-->
+            </mdb-card>
+          <!--Card-->
+        </div>
+      </div>
+    <!--Grid row-->
+  </section>
+  <!--Section: Products v.2-->
+</div>
+</div>
+<div class="mb-5">&nbsp;</div>
+
+
+
+<!--Modal modalPrograma de Prueba-->
+<div mdbModal #modalPrograma="mdbModal" class="modal fade" id="modalPrograma" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-fluid  modal-dialog-centered" role="document">
+<div class="modal-content mascara">
+  <div class="modal-header text-center">
+    <!--<h4 class="modal-title w-100 font-weight-bold">modalPrograma</h4>-->
+    <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+    <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Registrar':'Editar'}} </h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalPrograma.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+      <p class="card-text">
+        Registra o Actualiza la información del Programa otorgado por la <strong>Universidad de Manizales</strong>!
+      </p>
+    <form [formGroup]="formPrograma">
+      <div class="row">
+          <div class="col-sm-12 col-md-6">
+              <div class="md-form mb-2">
+                <i class="fas fa-book prefix" [ngClass]="{icon_valid:formPrograma.controls['prog_nombre'].valid && formPrograma.controls['prog_nombre'].touched,icon_invalid:formPrograma.controls['prog_nombre'].invalid && formPrograma.controls['prog_nombre'].touched }"></i>
+                <input type="text" class="form-control" id="prog_nombre" mdbInput mdbValidate formControlName="prog_nombre">
+                <label  for="prog_nombre" >Nombre</label>
+                <mdb-error *ngIf="formPrograma.controls['prog_nombre'].invalid && (formPrograma.controls['prog_nombre'].dirty || formPrograma.controls['prog_nombre'].touched)">Campo requerido</mdb-error>
+              </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+              <div class="md-form mb-2">
+                <i class="far fa-address-card  prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_snies'].valid && formPrograma.controls['prog_snies'].touched,icon_invalid:formPrograma.controls['prog_snies'].invalid && formPrograma.controls['prog_snies'].touched }"></i>
+                <input type="number" class="form-control" id="prog_snies" mdbInput mdbValidate formControlName="prog_snies">
+                <label  for="prog_snies" >SNIES</label>
+                <mdb-error *ngIf="formPrograma.controls['prog_snies'].invalid && (formPrograma.controls['prog_snies'].dirty || formPrograma.controls['prog_snies'].touched)">Campo requerido</mdb-error>
+              </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="md-form mb-2">
+              <i class="far fa-file-alt  prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_registro_calificado'].valid && formPrograma.controls['prog_registro_calificado'].touched,icon_invalid:formPrograma.controls['prog_registro_calificado'].invalid && formPrograma.controls['prog_registro_calificado'].touched }"></i>
+              <input type="text" class="form-control" id="prog_registro_calificado" mdbInput mdbValidate formControlName="prog_registro_calificado">
+              <label  for="prog_registro_calificado" >Registro Calificado</label>
+              <mdb-error *ngIf="formPrograma.controls['prog_registro_calificado'].invalid && (formPrograma.controls['prog_registro_calificado'].dirty || formPrograma.controls['prog_registro_calificado'].touched)">Campo requerido</mdb-error>
+            </div>
+        </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="md-form mb-2">
+        <i class="fas fa-medal prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_acreditacion_de_alta_calidad'].valid && formPrograma.controls['prog_acreditacion_de_alta_calidad'].touched,icon_invalid:formPrograma.controls['prog_acreditacion_de_alta_calidad'].invalid && formPrograma.controls['prog_acreditacion_de_alta_calidad'].touched }"></i>
+        <input type="text" class="form-control" id="prog_acreditacion_de_alta_calidad" mdbInput mdbValidate formControlName="prog_acreditacion_de_alta_calidad">
+        <label  for="prog_acreditacion_de_alta_calidad" >Acreditación de Alta Calidad</label>
+        <mdb-error *ngIf="formPrograma.controls['prog_acreditacion_de_alta_calidad'].invalid && (formPrograma.controls['prog_acreditacion_de_alta_calidad'].dirty || formPrograma.controls['prog_acreditacion_de_alta_calidad'].touched)">Campo requerido</mdb-error>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="md-form mb-2">
+      <i class="fas fa-stopwatch prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_duracion_estimada'].valid && formPrograma.controls['prog_duracion_estimada'].touched,icon_invalid:formPrograma.controls['prog_duracion_estimada'].invalid && formPrograma.controls['prog_duracion_estimada'].touched }"></i>
+      <input type="text" class="form-control" id="prog_duracion_estimada" mdbInput mdbValidate formControlName="prog_duracion_estimada">
+      <label  for="prog_duracion_estimada" >Duración</label>
+      <mdb-error *ngIf="formPrograma.controls['prog_duracion_estimada'].invalid && (formPrograma.controls['prog_duracion_estimada'].dirty || formPrograma.controls['prog_duracion_estimada'].touched)">Campo requerido</mdb-error>
+    </div>
+</div>
+<div class="col-sm-12 col-md-6">
+  <div class="md-form mb-2">
+    <i class="fas fa-user-graduate prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_titulo_otorgado'].valid && formPrograma.controls['prog_titulo_otorgado'].touched,icon_invalid:formPrograma.controls['prog_titulo_otorgado'].invalid && formPrograma.controls['prog_titulo_otorgado'].touched }"></i>
+    <input type="text" class="form-control" id="prog_titulo_otorgado" mdbInput mdbValidate formControlName="prog_titulo_otorgado">
+    <label  for="prog_titulo_otorgado" >Titulo Otorgado</label>
+    <mdb-error *ngIf="formPrograma.controls['prog_titulo_otorgado'].invalid && (formPrograma.controls['prog_titulo_otorgado'].dirty || formPrograma.controls['prog_titulo_otorgado'].touched)">Campo requerido</mdb-error>
+  </div>
+</div>
+<div class="col-sm-12 col-md-6">
+<div class="md-form mb-2">
+    <i class="fas fa-hockey-puck prefix" [ngClass]="{icon_valid:formPrograma.controls['prog_numero_de_creditos'].valid && formPrograma.controls['prog_numero_de_creditos'].touched,icon_invalid:formPrograma.controls['prog_numero_de_creditos'].invalid && formPrograma.controls['prog_numero_de_creditos'].touched }"></i>
+    <input type="number" class="form-control" id="prog_numero_de_creditos" mdbInput mdbValidate formControlName="prog_numero_de_creditos">
+    <label  for="prog_numero_de_creditos" >Créditos</label>
+    <mdb-error *ngIf="formPrograma.controls['prog_numero_de_creditos'].invalid && (formPrograma.controls['prog_numero_de_creditos'].dirty || formPrograma.controls['prog_numero_de_creditos'].touched)">Campo requerido</mdb-error>
+</div>
+</div>  
+<div class="col-sm-12 col-md-6">
+<div class="md-form mb-2">
+<i class="far fa-clock prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_intensidad_horaria'].valid && formPrograma.controls['prog_intensidad_horaria'].touched,icon_invalid:formPrograma.controls['prog_intensidad_horaria'].invalid && formPrograma.controls['prog_intensidad_horaria'].touched }"></i>
+<input type="text" class="form-control" id="prog_intensidad_horaria" mdbInput mdbValidate formControlName="prog_intensidad_horaria">
+<label  for="prog_intensidad_horaria" >Intensidad Horaria</label>
+<mdb-error *ngIf="formPrograma.controls['prog_intensidad_horaria'].invalid && (formPrograma.controls['prog_intensidad_horaria'].dirty || formPrograma.controls['prog_intensidad_horaria'].touched)">Campo requerido</mdb-error>
+</div>
+</div>
+<div class="col-sm-12 col-md-6">
+<div class="md-form mb-2">
+  <i class="fas fa-dollar-sign prefix" [ngClass]="{icon_valid:formPrograma.controls['prog_valor_matricula'].valid && formPrograma.controls['prog_valor_matricula'].touched,icon_invalid:formPrograma.controls['prog_valor_matricula'].invalid && formPrograma.controls['prog_valor_matricula'].touched }"></i>
+  <input type="text" class="form-control" id="prog_valor_matricula" mdbInput mdbValidate formControlName="prog_valor_matricula">
+  <label  for="prog_valor_matricula" >Valor de la Matrícula</label>
+  <mdb-error *ngIf="formPrograma.controls['prog_valor_matricula'].invalid && (formPrograma.controls['prog_valor_matricula'].dirty || formPrograma.controls['prog_valor_matricula'].touched)">Campo requerido</mdb-error>
+</div>
+</div>  
+<div class="col-sm-12 col-md-6">
+<div class="md-form mb-2">
+<i class="fas fa-user-tie prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_contacto'].valid && formPrograma.controls['prog_contacto'].touched,icon_invalid:formPrograma.controls['prog_contacto'].invalid && formPrograma.controls['prog_contacto'].touched }"></i>
+<input type="text" class="form-control" id="prog_contacto" mdbInput mdbValidate formControlName="prog_contacto">
+<label  for="prog_contacto" >Contacto</label>
+<mdb-error *ngIf="formPrograma.controls['prog_contacto'].invalid && (formPrograma.controls['prog_contacto'].dirty || formPrograma.controls['prog_contacto'].touched)">Campo requerido</mdb-error>
+</div>
+</div>
+<div class="col-sm-12 col-md-6">
+<div class="md-form mb-2">
+<i class="far fa-envelope prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_correo'].valid && formPrograma.controls['prog_correo'].touched,icon_invalid:formPrograma.controls['prog_correo'].invalid && formPrograma.controls['prog_correo'].touched }"></i>
+<input type="text" class="form-control" id="prog_correo" mdbInput mdbValidate formControlName="prog_correo">
+<label  for="prog_correo" >Correo de Contacto</label>
+<mdb-error *ngIf="formPrograma.controls['prog_correo'].invalid && (formPrograma.controls['prog_correo'].dirty || formPrograma.controls['prog_correo'].touched)">Campo requerido</mdb-error>
+</div>
+</div>
+<div class="col-sm-12 col-md-6">
+  <div class="md-form mb-2">
+      <i class="fas fa-phone-square prefix" [ngClass]="{icon_valid:formPrograma.controls['prog_ext'].valid && formPrograma.controls['prog_ext'].touched,icon_invalid:formPrograma.controls['prog_ext'].invalid && formPrograma.controls['prog_ext'].touched }"></i>
+      <input type="number" class="form-control" id="prog_ext" mdbInput mdbValidate formControlName="prog_ext">
+      <label  for="prog_ext" >Extensión</label>
+      <mdb-error *ngIf="formPrograma.controls['prog_ext'].invalid && (formPrograma.controls['prog_ext'].dirty || formPrograma.controls['prog_ext'].touched)">Campo requerido</mdb-error>
+  </div>
+</div>
+
+<div class="col-sm-12 col-md-6">
+<div class="md-form mb-2">
+<i class="fas fa-portrait prefix " [ngClass]="{icon_valid:formPrograma.controls['prog_beca_bien'].valid && formPrograma.controls['prog_beca_bien'].touched,icon_invalid:formPrograma.controls['prog_beca_bien'].invalid && formPrograma.controls['prog_beca_bien'].touched }"></i>
+<input type="number" class="form-control" id="prog_beca_bien" mdbInput mdbValidate formControlName="prog_beca_bien">
+<label  for="prog_beca_bien" >Beca Bien</label>
+<mdb-error *ngIf="formPrograma.controls['prog_beca_bien'].invalid && (formPrograma.controls['prog_beca_bien'].dirty || formPrograma.controls['prog_beca_bien'].touched)">Campo requerido</mdb-error>
+</div>
+</div>
+<div class="col-sm-12 col-md-6 mt-2">
+
+  <div class="md-form pb-0  mb-0">
+      <label for="facultad" class="col-form-label pl-2 ml-1">Facultad</label>
+      <select class="browser-default custom-select" mdbInput mdbValidate id="facultad" formControlName="prog_facultad"  > 
+          <option [ngValue]="null">Seleccione facultad</option>
+          <option *ngFor="let item of oFaculad" [value]="item">{{item}}</option>
+          
+      </select>
+      <mdb-error *ngIf="formPrograma.controls['prog_facultad'].invalid && (formPrograma.controls['prog_facultad'].dirty || formPrograma.controls['prog_facultad'].touched)">Campo requerido</mdb-error>
+  </div>
+  
+</div>  
+<div class="col-sm-12 col-md-6">       
+    <div class="ml-3 mt-3">
+        <span class="texto_filtro  mr-3 d-block">Tipo de Estudio</span>
+        <div class="form-check form-check-inline position-relative">
+                        <input type="radio" class="form-check-input" id="prog_tipo" value="PREGRADO" (change)="fn_changeTipoPrograma()"  mdbInput mdbValidate formControlName="prog_tipo">
+                        <label class="form-check-label" for="prog_tipo">Pregrado</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="prog_tipo2" value="POSGRADO" (change)="fn_changeTipoPrograma()"  mdbInput mdbValidate formControlName="prog_tipo">
+                        <label class="form-check-label" for="prog_tipo2">Posgrado</label>
+                </div>
+                <mdb-error style="left:auto" *ngIf="formPrograma.controls['prog_tipo'].invalid && (formPrograma.controls['prog_tipo'].dirty || formPrograma.controls['prog_tipo'].touched)">Campo requerido</mdb-error>
+        </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="md-form pb-0  mb-0" [ngClass]="formPrograma.controls['prog_tipo'].value=='PREGRADO'?'d-none':''">
+      <label for="facultad" class="col-form-label pl-2 ml-1">Tipo de Posgrado</label>
+      <select class="browser-default custom-select" mdbInput mdbValidate id="facultad" formControlName="prog_tipo_posgrado"> 
+        <option [ngValue]="null">Tipo de Posgrado</option>  
+        <option *ngFor="let item of oTipoPosgrado" [value]="item">{{item}}</option>        
+      </select>
+      <mdb-error *ngIf="formPrograma.controls['prog_tipo_posgrado'].invalid && (formPrograma.controls['prog_tipo_posgrado'].dirty || formPrograma.controls['prog_tipo_posgrado'].touched)">Campo requerido</mdb-error>     
+  </div>
+  <div class="md-form pb-0  mb-0" [ngClass]="formPrograma.controls['prog_tipo'].value=='POSGRADO'?'d-none':''">
+    <label for="pregrado" class="col-form-label pl-2 ml-1">Tipo de Pregrado</label>
+    <select class="browser-default custom-select" mdbInput mdbValidate id="pregrado" formControlName="prog_tipo_pregrado"  > 
+      <option [ngValue]="null">Tipo de Pregrado</option>  
+      <option *ngFor="let item of oTipoPregrado" [value]="item">{{item}}</option>        
+    </select>
+    <mdb-error *ngIf="formPrograma.controls['prog_tipo_pregrado'].invalid && (formPrograma.controls['prog_tipo_pregrado'].dirty || formPrograma.controls['prog_tipo_pregrado'].touched)">Campo requerido</mdb-error>     
+  </div>
+  </div>
+  <div class="col-sm-12 col-md-4">       
+    <div class="ml-3 mt-3">
+        <span class="texto_filtro  mr-3 d-block">Modalidad</span>
+        <div class="form-check form-check-inline position-relative">
+                        <input type="radio" class="form-check-input" id="prog_modalidad_de_formacion" value="Presencial" mdbInput mdbValidate formControlName="prog_modalidad_de_formacion">
+                        <label class="form-check-label" for="prog_modalidad_de_formacion">Presencial</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="prog_modalidad_de_formacion2" value="Virtual" mdbInput mdbValidate formControlName="prog_modalidad_de_formacion">
+                        <label class="form-check-label" for="prog_modalidad_de_formacion2">Virtual</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="prog_modalidad_de_formacion3" value="Presencial / Virtual" mdbInput mdbValidate formControlName="prog_modalidad_de_formacion">
+                        <label class="form-check-label" for="prog_modalidad_de_formacion3">Presencial/Virtual</label>
+                </div>
+                <mdb-error style="left:auto" *ngIf="formPrograma.controls['prog_modalidad_de_formacion'].invalid && (formPrograma.controls['prog_modalidad_de_formacion'].dirty || formPrograma.controls['prog_modalidad_de_formacion'].touched)">Campo requerido</mdb-error>
+        </div>
+        
+  </div>  
+  <div class="col-sm-12 col-md-4">       
+    <div class="ml-3 mt-3">
+        <span class="texto_filtro  mr-3 d-block">Jornada</span>
+        <div class="form-check form-check-inline position-relative">
+                        <input type="radio" class="form-check-input" id="prog_jornada" value="Diurna" mdbInput mdbValidate formControlName="prog_jornada">
+                        <label class="form-check-label" for="prog_jornada">Diurna</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="prog_jornada2" value="Nocturna" mdbInput mdbValidate formControlName="prog_jornada">
+                        <label class="form-check-label" for="prog_jornada2">Nocturna</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="prog_jornada3" value="Diurna/Nocturna" mdbInput mdbValidate formControlName="prog_jornada">
+                        <label class="form-check-label" for="prog_jornada3">Diurna/Nocturna</label>
+                </div>
+                <mdb-error style="left:auto" *ngIf="formPrograma.controls['prog_jornada'].invalid && (formPrograma.controls['prog_jornada'].dirty || formPrograma.controls['prog_jornada'].touched)">Campo requerido</mdb-error>
+        </div>   
+  </div>      
+  <div class="col-sm-12 col-md-4">       
+    <div class="ml-3 mt-3">
+        <span class="texto_filtro  mr-3 d-block">Programa Ofertado</span>
+        <div class="form-check form-check-inline position-relative">
+                        <input type="radio" class="form-check-input" id="prog_ofertado" [value]="true"  mdbInput mdbValidate formControlName="prog_ofertado">
+                        <label class="form-check-label" for="prog_ofertado">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="prog_ofertado2" [value]="false"   mdbInput mdbValidate formControlName="prog_ofertado">
+                        <label class="form-check-label" for="prog_ofertado2">No</label>
+                </div>
+                <mdb-error style="left:auto" *ngIf="formPrograma.controls['prog_ofertado'].invalid && (formPrograma.controls['prog_ofertado'].dirty || formPrograma.controls['prog_ofertado'].touched)">Campo requerido</mdb-error>
+        </div>
+  </div>
+
+  <div class="col-sm-12 col-md-6 mt-2">
+    <div class="d-flex flex-center">
+      <input type="file" id="inputbrochure" (change)="fileChangeBrochure($event)"  class="d-none" formControlName="prog_brochure"  >
+      <span *ngIf="!previewBrochure">
+        <p class="card-text m-0 p-0 text-center mt-2">Cargar Plegable</p>
+        <div class="d-flex flex-center" (click)="fn_callBrochure()">
+              <i class="fas fa-upload text-gray fa-6x"></i>
+        </div>        
+      </span>
+      <span *ngIf="previewBrochure">
+            <ng-container *ngIf="previewBrochure.url">
+                <a  [href]="previewBrochure.url" target="_blank" [download]="'brochure.pdf'" class="pointer"><i class="text-gray fa-lg mr-2" [ngClass]="previewBrochure.icon"></i> {{previewBrochure.nombre}}</a>
+            </ng-container>
+
+            <ng-container *ngIf="!previewBrochure.url">
+                <a   class="pointer"><i class="text-gray fa-lg mr-2" [ngClass]="previewBrochure.icon"></i> {{previewBrochure.nombre}}</a>
+            </ng-container>
+
+            <a   class="pointer text-underline d-block" (click)="fn_callBrochure()">Cargar plegable diferente</a>
+      </span>
+      
+    </div>
+    
+  </div>
+  <div class="col-sm-12 col-md-6 pointer d-flex justify-content-center" title="Cargar imágen" mdbWavesEffect placement="left" (click)="fn_callFile()" >
+    <input type="file" id="inputfile" (change)="fileChange($event)"  class="d-none"     formControlName="prog_img" accept="image/*" >
+    <span *ngIf="!preview">
+      <p class="card-text m-0 p-0 text-center mt-2">Cargar imágen</p>
+      <div class="d-flex flex-center">
+            <i class="fas fa-upload text-gray fa-6x"></i>
+      </div>        
+      </span>
+      <span *ngIf="preview">
+        <p class="image_preview mt-3">
+          
+          <img  [src]="preview" class="w-75" style="max-height: 100%; max-width: 100%;">
+          
+        </p>
+        <u>Cambiar Imágen</u>
+      </span>
+    
+    </div>
+  </div>      
+</form>
+    <div class="row">
+            <div class="col-sm-12 col-md-6">
+                    <div class="md-form mb-2 d-flex">
+                        <div class="flex-grow-1">
+                            <i class="far fa-comment-alt prefix"></i>
+                            <textarea class="md-textarea form-control" id="prog_opcion_grado" mdbInput [(ngModel)]="opciongrado"></textarea>
+                            <label  for="prog_opcion_grado" >Opcion de Grado 
+          
+                            </label>
+                        </div>
+                        <div class="inherit flex-center">
+                            <a class="degradado-um waves-light btn-sm" title="Añadir" [ngClass]="!opciongrado?'inactive':''" placement="left" (click)="onAdd('opciongrado')" rounded="true" mdbWavesEffect >
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <ul>
+        
+                      <div *ngFor="let item of selectopciongrado;let idx_obs=index;" class="d-flex">
+                            <div class="flex-grow-1">
+                                <li>
+                                    {{item}}
+                                </li>
+                            </div>
+                            <div>
+                              <i class="fas fa-trash-alt"  (click)="fn_borrar(item, 'opciongrado')"></i>
+                            </div>
+                      </div>
+                     </ul>
+        
+                  
+                </div>  
+                <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2 d-flex">
+                      <div class="flex-grow-1">
+                          <i class="far fa-comment-alt prefix"></i>
+                          <textarea class="md-textarea form-control" id="prog_requisitos" mdbInput [(ngModel)]="requisito"></textarea>
+                          <label  for="prog_requisitos" >Requisitos 
+        
+                          </label>
+                      </div>
+                      <div class="inherit flex-center">
+                          <a class="degradado-um waves-light btn-sm" title="Añadir" [ngClass]="!requisito?'inactive':''" placement="top" (click)="onAdd('requisito')" rounded="true" mdbWavesEffect >
+                              <i class="fas fa-plus"></i>
+                          </a>
+                      </div>
+                  </div>
+                  <ul>
+                      <div *ngFor="let item of selectrequisito;let idx_obs=index;" class="d-flex">
+                            <div class="flex-grow-1">
+                                <li>
+                                    {{item}}
+                                </li>
+                            </div>
+                            <div>
+                              <i class="fas fa-trash-alt" (click)="fn_borrar(item, 'requisito')"></i>
+                            </div>
+                      </div>
+                     </ul>
+                
+              </div>  
+    </div>     
+
+</div>
+
+
+<div class="text-center mb-4">
+    <hr>
+    <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormPrograma(formPrograma)">Guardar<i class="fas fa-save ml-2"></i></button>
+    <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormPrograma(formPrograma)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+</div>
+</div>
+</div>
+</div>
+
+<!--
+<div class="fixed-action-btn animated bounceIn add-btn-global">
+    <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalPrueba(true)" title="Añadir"
+        placement="left" mdbWavesEffect>
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+-->
+
+
+<!--Modal modalPrueba de Prueba-->
+<div mdbModal #modalPrueba="mdbModal" class="modal fade" id="modalPrueba" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog  modal-dialog-centered" role="document">
+<div class="modal-content mascara">
+<div class="modal-header text-center">
+  <!--<h4 class="modal-title w-100 font-weight-bold">modalPrueba</h4>-->
+  <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+  <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEditPrueba?'Registrar':'Editar'}} </h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalPrueba.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+    <p class="card-text">
+      Registra o Actualiza la información del Prueba organizado por la <strong>Universidad de Manizales</strong>!
+    </p>
+
+</div>
+
+<!--<a #scrollPrueba mdbPageScroll   href="#{{index_Prueba}}" class="d-none">click</a>-->
+
+
+<div class="text-center mb-4">
+    <hr>
+    <button *ngIf="bSaveEditPrueba" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormPrueba(formPrueba)">Guardar<i class="fas fa-save ml-2"></i></button>          
+    <button *ngIf="!bSaveEditPrueba" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormPrueba(formPrueba)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+</div>
+</div>
+</div>
+</div>

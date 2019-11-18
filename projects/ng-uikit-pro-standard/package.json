@@ -1,0 +1,11 @@
+{
+  "name": "ng-uikit-pro-standard",
+  "version": "7.5.1",
+  "files": [
+    "**/*"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0"
+  }
+}

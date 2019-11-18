@@ -1,0 +1,590 @@
+<div class="row p-0 m-0">
+    <div class="col-3 px-0">
+
+        <div class="container_dependency borde_gris_b max_height_menu scrollbar-gris thin overflow-auto">
+            <div class="md-form mb-0 pb-0 mb-0 mt-3 borde_gris_b d-none" style="height:  76px;" [hidden]="true">
+
+                <i class="fas fa-search prefix icon_search texto-gris"></i>
+                <input type="search" id="search" [(ngModel)]="search" class="form-control validate  mb-1" mdbInput
+                    (keydown)="onKeydown($event)">
+                <label data-error="wrong" data-success="right" for="search">Búsqueda</label>
+                <p class="text-center card-text m-0  p-0" [hidden]="!search">
+                    <img src="./assets/img/enter-key.png" (click)="fn_busquedaCampo()" width="25" height="25"
+                        class="m-0 p-0">
+                    Presione la tecla enter
+                </p>
+            </div>
+            <div class="d-flex flex-end ">
+                <div class="text-right w-100">
+                    <i class=" fas fa-plus-circle mb-3 text-gray pointer mt-1 pr-2  pointer " title="Agregar Área"
+                        placement="left" (click)="fn_callModalArea(true)"></i>
+                </div>
+            </div>
+            <ul class="m-0 ml-2 pl-2 overflow-x-hidden overflow-y-hidden">
+
+                <ng-container *ngFor="let servicio of aServicios; let idx_area=index;">
+
+
+
+                    <li class="m-0 p-0" [ngClass]="idx_area==index_area?'card_seleccionada':''">
+                        <div class="d-flex flex-row p-0 mb-1  pointer " (click)="fn_mostrarTarjeta(servicio,idx_area)"
+                            [id]="servicio._id">
+                            <div>
+                                <i *ngIf="servicio.ser_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[servicio.ser_estado].color" [title]="oEstado_bolas[servicio.ser_estado].texto" placement="top"></i>
+                                <i class="fas fa-id-card mr-2 texto-gris  cursor"></i>
+                            </div>
+                            <div class="flex-grow-1 elementos_unidad">
+                                <span class="card-text line-height-1 ">
+                                    {{servicio.ser_area}}
+                                </span>
+                            </div>
+                            <div>
+                                <div class="text-right w-100">
+                                    <i class="fas fa-sync-alt mr-2 mt-1" placement="right" title="Última Actualización: {{(servicio?.ser_ultima_actualizacion | fechaespanol)}} Administrador: {{servicio?.ser_admin_generacion}} Comentarios: {{servicio?.ser_admin_comentario | ellipsis:102}}" ></i>    
+
+
+                                    <i class=" fas fa-edit mb-1 text-gray pointer mt-1 pr-2  pointer"
+                                        title="Editar Área" placement="left"
+                                        (click)="oAreaSeleccionada=servicio;idArea=servicio._id;fn_callModalArea(false);"></i>
+                                        <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2  pointer"
+                                        title="Eliminar Área" placement="left"
+                                        (click)="oAreaSeleccionada=servicio;fn_AdvertenciaElimArea();"></i>
+  
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--div *ngFor="let responsable of direccion.responsables">
+                            {{responsable.cargo}}
+                        </div>-->
+
+                </ng-container>
+            </ul>
+
+
+        </div>
+    </div>
+
+    <div class="col-9 m-0 p-0" *ngIf="bSeleccionInicial">
+
+        <div class="streak streak-photo rgba-teal-strong bg_verdeum" style="height: 53px;">
+            <!-- style="background-image:url('https://mdbootstrap.com/img/Photos/Others/dress.jpg')"-->
+            <i class="far fa-address-card ml-2 text-white float-left cursor"
+                style="font-size: 40px; line-height: 53px;"></i>
+
+            <div class="flex-center white-text" style="background-attachment: f">
+                <!--  pattern-1-->
+                <ul class="list-unstyled m-0">
+                    <li>
+
+                        <h1 class=" white-text">
+                            <strong>
+                            </strong><span style="font-size: 29px;">{{oSeleccion?.ser_area}}</span></h1>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+
+        <ng-container *ngIf="oSeleccion">
+
+
+            <!--Card content-->
+            <!--Title-->
+            <!---<mdb-card-title class="mb-0">
+                        <h5 class="titulo_card m-0 font-weight-500  py-3 text-center">
+                            <i class="fas fa-project-diagram mr-2 texto-gris"></i> {{oSeleccion.ser_descripcion}}
+                        </h5>
+                    </mdb-card-title>-->
+            <p class="card-text text-justify px-2 mt-2 mb-0 pb-0" *ngIf="oSeleccion.ser_descripcion">
+                {{oSeleccion.ser_descripcion}}
+            </p>
+            <div class="mt-3">
+                <mdb-tabset [buttonClass]="'classic-tabs'" [contentClass]="'card'" class="classic-tabs">
+                    <mdb-tab heading="Responsables">
+                        <div class="d-flex flex-end ">
+                            <div class="text-right w-100">
+                                <i class=" fas fa-plus-circle mb-3 text-gray pointer mt-1 pr-2  pointer "
+                                    title="Agregar Responsable" placement="left"
+                                    (click)="fn_callModalArea(true,'modalresponsable');aItemsServicios=this.aServicios[index_area].ser_integrantes;                                "></i>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-4 mb-5"
+                            *ngFor="let responsable of oSeleccion.ser_integrantes;let idx_responsable=index">
+                            <div class="col-12 col-sm-9 p-0 m-0">
+
+
+
+                                <mdb-card>
+                                    <mdb-card-body class="p-0 pt-3">
+                                        <ng-container
+                                            *ngFor="let userdata of responsable.extension_users; let idx_datausers=index">
+                                            <div class="d-flex" [id]="userdata._id"
+                                                [ngClass]="userdata._id==indexIntegrante?'card_seleccionada':''">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex flex-colum pt-1" *ngIf="userdata.nombre">
+                                                        <div>
+                                                            <i class="ml-2 fas fa-user cursor fa-lg"
+                                                                title="Nombres" placement="bottom"></i>
+                                                        </div>
+                                                        <div class="ml-1 flex-center inherit">
+                                                            <div class="card-text ">
+                                                                <span class="d-block">
+                                                                    {{userdata.nombre}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex flex-colum" *ngIf="userdata.correo">
+                                                        <div>
+                                                            <i class="ml-2 fas fa-envelope cursor fa-lg"
+                                                                title="Correo" placement="bottom"></i>
+                                                        </div>
+                                                        <div class="ml-1 flex-center inherit">
+                                                            <div class="card-text ">
+                                                                <span class="d-block">
+                                                                    {{userdata.correo}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-colum" *ngIf="userdata.cargo">
+                                                        <div>
+                                                            <i class="ml-2 fas fa-cogs cursor fa-lg" title="Cargo"
+                                                                placement="bottom"></i>
+                                                        </div>
+                                                        <div class="ml-1 flex-center inherit">
+                                                            <div class="card-text ">
+                                                                <span class="d-block">
+                                                                    {{userdata.cargo}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right w-100 ">
+                                                        <i class=" fas fa-edit mb-1 text-gray pointer mt-1 pr-2  pointer"
+                                                            title="Editar Responsable" placement="left"
+                                                            (click)="oAreaSeleccionada=oSeleccion.ser_integrantes;fn_callModalArea(false,'modalresponsable',idx_responsable,idx_datausers);"></i>
+                                                        <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2  pointer"
+                                                            title="Eliminar Responsable" placement="left"
+                                                            (click)="index_responsable=idx_responsable;indexIntegrante=idx_datausers;fn_AdvertenciaElimResponsable('eliminar');"></i>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="d-flex justify-content-end align-items-center inherit">
+                                                    <div>
+                                                        <div class="d-flex flex-colum mr-2" *ngIf="userdata.ext">
+                                                            <div>
+                                                                <i class="ml-2 fas fa-phone cursor fa-lg"
+                                                                    title="Extensión" placement="bottom"></i>
+                                                            </div>
+                                                            <div class="ml-1 flex-center inherit">
+                                                                <div class="card-text ">
+                                                                    <span class="d-inline" style="font-size:16px;">
+                                                                        {{userdata.ext}}
+                                                                    </span>
+                                                                    <!--<span class="d-block">
+                                                                                                    juliocesarcastellanos@umanizales.edu.co
+                                                                                            </span>-->
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <hr *ngIf="idx_datausers!=responsable.extension_users.length-1">
+                                            <div *ngIf="idx_datausers==responsable.extension_users.length-1">&nbsp;
+                                            </div>
+
+                                        </ng-container>
+
+
+                                    </mdb-card-body>
+                                </mdb-card>
+                            </div>
+                        </div>
+                    </mdb-tab>
+                    <!---mdb-tab heading="Servicios">
+                            <div class="d-flex" *ngFor="let servicio of oSeleccion.ser_integrantes">
+                                <div>
+    
+                                </div>
+                                <div>
+                                    
+                                </div>
+                            </div>
+                        </mdb-tab>-->
+                    <mdb-tab heading="Servicios" *ngIf="oSeleccion.ser_items.length!=0">
+                        <div class="my-3">
+                            <div class="d-flex" *ngFor="let servicio of oSeleccion.ser_items">
+                                <div>
+                                    <i class="fas fa-check icon_valid mr-2  pl-2 cursor"></i>
+                                </div>
+                                <div>
+                                    <span class="card-text">
+                                        {{servicio}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-5" style="margin-bottom: 4rem !important;">&nbsp;</div>
+
+                    </mdb-tab>
+
+
+                </mdb-tabset>
+            </div>
+
+
+        </ng-container>
+
+    </div>
+
+    <div class="col-9 p-0 m-0 flex-center inherit flex-center height_menu" *ngIf="!bSeleccionInicial">
+        <div class="card card-image h-100 mx-2" style="background-image: url('./assets/img/background_landing2.png');">
+
+            <!-- Content -->
+            <div class="text-white text-center  d-flex align-items-center rgba-teal-strong py-5 px-4 h-100 "
+                style="background-color: rgba(66, 81, 27, 0.7);">
+                <div class="w-100">
+                    <i class="fas fa-id-card-alt text-white fa-4x hover_icon"></i>
+                    <h3 class="mb-4 mt-2 font-weight-bold">
+                        <strong class="text-center">Listado de servicios</strong>
+                    </h3>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Scrollspy -->
+    <a #clickscroll mdbPageScroll href="#{{indexIntegrante}}" class="d-none">click</a>
+
+</div>
+
+
+
+
+
+
+<!--Modal modalServicio de Usuario-->
+<div mdbModal #modalServicio="mdbModal" class="modal fade" id="modalServicio" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+        <div class="modal-content mascara" style="height: 94vh;">
+            <div class="modal-header text-center">
+                <!--<h4 class="modal-title w-100 font-weight-bold">modalServicio</h4>-->
+                <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+                <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">
+                    {{bSaveEditServicio?'Agregar ':'Editar '}} Área</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="modalServicio.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+                <div class="row">
+
+
+
+                    <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <input type="text" class="form-control" id="selecServicio" mdbInput mdbValidate
+                                [(ngModel)]="selecServicio">
+                            <label for="selecServicio">Nombre Servicio</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <textarea class="md-textarea form-control" id="descripcion_Servicio" mdbInput
+                                [(ngModel)]="descripcion_area"></textarea>
+                            <label for="descripcion_Servicio">Descripcion</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card-text">
+                            Agrega los sevicios del área
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+
+                        <div class="md-form mb-2">
+                            <i class="fas fa-list-ul prefix "></i>
+                            <input type="text" class="form-control" id="items" mdbInput [(ngModel)]="servicio">
+                            <label for="items">Servicio</label>
+                        </div>
+
+
+                    </div>
+                    <div class="col-12">
+                        <div class="inherit flex-center">
+                            <a class="degradado-um btn-sm" title="Agregar"
+                                [ngClass]="!selecServicio || !servicio ?'inactive':''" placement="right"
+                                (click)="fn_addServicio()" rounded="true" mdbWavesEffect>
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <ul style="list-style-type: initial !important;">
+                            <div class="d-flex" *ngFor="let item of aItemsServicios; let idx_area=index">
+
+
+                                <div class="card-text flex-grow-1">
+                                    <li style="list-style-type: initial !important;">{{item}}</li>
+                                </div>
+                                <div>
+
+                                    <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2  pointer"
+                                        title="Eliminar Área" placement="left"
+                                        (click)="fn_deleteArea(idx_area)"></i>
+
+                                </div>
+
+                            </div>
+
+                        </ul>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="text-center mb-4">
+                <hr>
+                <button [ngClass]="selecServicio?'':'disabled'" *ngIf="bSaveEditServicio"
+                    class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitServicio()">
+                    Guardar
+                    <i class="fas fa-save ml-2"></i>
+                </button>
+                <button [ngClass]="selecServicio?'':'disabled'" *ngIf="!bSaveEditServicio"
+                    class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitServicio()">
+                    Editar
+                    <i class="fas fa-edit ml-2"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--Modal modalServicioResponsable de Usuario-->
+<div mdbModal #modalServicioResponsable="mdbModal" class="modal fade" id="modalServicioResponsable" tabindex="-1"
+    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+        <div class="modal-content mascara" style="height: 94vh;">
+            <div class="modal-header text-center">
+                <!--<h4 class="modal-title w-100 font-weight-bold">modalServicioResponsable</h4>-->
+                <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+                <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">
+                    {{bSaveEditServicio?'Agregar ':'Editar '}} Responsable</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="modalServicioResponsable.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <i class="fas fa-user prefix"></i>
+                            <input type="text" class="form-control" id="nombre_responsable" mdbInput mdbValidate
+                                [(ngModel)]="nombre_responsable">
+                            <label for="nombre_responsable">Nombres Responsable</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <i class="fas fa-envelope prefix"></i>
+                            <input type="email" class="form-control" id="correo_responsable" mdbInput mdbValidate
+                                [(ngModel)]="correo_responsable">
+                            <label for="correo_responsable">Correo Responsable</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <i class="fas fa-cogs prefix"></i>
+                            <input type="email" class="form-control" id="cargo_responsable" mdbInput mdbValidate
+                                [(ngModel)]="cargo_responsable">
+                            <label for="cargo_responsable">Cargo Responsable</label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <i class="fas fa-phone prefix"></i>
+                            <input type="text" class="form-control" id="extension_responsable" mdbInput mdbValidate
+                                [(ngModel)]="extension_responsable">
+                            <label for="extension_responsable">Extensión</label>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-12" *ngIf="bSaveEditServicio">
+                        <div class="inherit flex-center">
+                            <a class="degradado-um waves-light btn-sm" title="Agregar"
+                                [ngClass]="!nombre_responsable?'inactive':''" placement="right"
+                                (click)="fn_addResponsable()" rounded="true" mdbWavesEffect>
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12">
+
+                        <ul style="list-style-type: initial !important;">
+                            <br>
+                            <mdb-card *ngIf="aItemsServicios?.length!=0 && bSaveEditServicio">
+                                <mdb-card-body class="p-0 pt-3">
+                                    <ng-container
+                                        *ngFor="let responsables of aItemsServicios; let  idx_responsable=index">
+                                        <div class="d-flex borde_gris_b"
+                                            *ngFor="let userdata of responsables?.extension_users; let idx_area=index">
+
+
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex flex-colum pt-1" *ngIf="userdata.nombre">
+                                                    <div>
+                                                        <i class="ml-2 fas fa-user cursor fa-lg" title="Nombres"
+                                                            placement="bottom"></i>
+                                                    </div>
+                                                    <div class="ml-1 flex-center inherit">
+                                                        <div class="card-text ">
+                                                            <span class="d-block">
+                                                                {{userdata.nombre}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex flex-colum" *ngIf="userdata.correo">
+                                                    <div>
+                                                        <i class="ml-2 fas fa-envelope cursor fa-lg" title="Correo"
+                                                            placement="bottom"></i>
+                                                    </div>
+                                                    <div class="ml-1 flex-center inherit">
+                                                        <div class="card-text ">
+                                                            <span class="d-block">
+                                                                {{userdata.correo}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-colum" *ngIf="userdata.cargo">
+                                                    <div>
+                                                        <i class="ml-2 fas fa-cogs cursor fa-lg" title="Cargo"
+                                                            placement="bottom"></i>
+                                                    </div>
+                                                    <div class="ml-1 flex-center inherit">
+                                                        <div class="card-text ">
+                                                            <span class="d-block">
+                                                                {{userdata.cargo}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right w-100 ">
+
+                                                    <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2  pointer"
+                                                        title="Eliminar Responsable" placement="left"
+                                                        (click)="aItemsServicios.splice(idx_area,1);"></i>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="d-flex justify-content-end align-items-center inherit">
+                                                <div>
+                                                    <div class="d-flex flex-colum mr-2" *ngIf="userdata.ext">
+                                                        <div>
+                                                            <i class="ml-2 fas fa-phone cursor fa-lg"
+                                                                title="Extensión" placement="bottom"></i>
+                                                        </div>
+                                                        <div class="ml-1 flex-center inherit">
+                                                            <div class="card-text ">
+                                                                <span class="d-inline" style="font-size:16px;">
+                                                                    {{userdata.ext}}
+                                                                </span>
+                                                                <!--<span class="d-block">
+                                                                                            juliocesarcastellanos@umanizales.edu.co
+                                                                                    </span>-->
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+                                            <!--<div class="card-text flex-grow-1">
+                                <li style="list-style-type: initial !important;">{{item}}</li>
+                            </div>
+                            <div>
+                                <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2  pointer"  title="Eliminar Área" mdbWavesEffect placement="left" (click)="fn_deleteArea(idx_area)"></i>
+                            </div>-->
+
+                                        </div>
+
+                                    </ng-container>
+
+                                </mdb-card-body>
+
+                            </mdb-card>
+                        </ul>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="text-center mb-4">
+                <hr>
+                <button [ngClass]="aItemsServicios?.length!=0?'':'disabled'" *ngIf="bSaveEditServicio"
+                    class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect
+                    (click)="fn_submitResponsable()">
+                    Guardar
+                    <i class="fas fa-save ml-2"></i>
+                </button>
+                <button [ngClass]="aItemsServicios?.length!=0?'':'disabled'" *ngIf="!bSaveEditServicio"
+                    class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect
+                    (click)="fn_submitResponsable('editar')">
+                    Editar
+                    <i class="fas fa-edit ml-2"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+p.card-text:last-child {
+   margin-bottom: 0px !important;
+}
+
+p.card-text {
+    margin-bottom: 0px !important;
+ }
+
+ .md-form .prefix.active {
+  color: #343434; 
+}
+
+
+
+
+.bgimg {
+   /* The image used */
+   background-image: url("../../assets/img/background2.jpg");
+   __height: 100%;
+   width: 100%;
+   /* background-position: center; */
+   /* background-repeat: repeat-y; */
+   background-size: cover;
+   /* position: fixed; */
+   overflow: auto;
+ 
+ }

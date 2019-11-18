@@ -1,0 +1,342 @@
+
+<div class="row pl-4 pr-4 justify-content-around">
+  <div class="col-md-12 streak streak-photo {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.background}} my-2" style="height: 53px;">
+      <i class="fas fa-angle-left ml-2 text-white float-left animated slideInRight infinite animation-3-s"  routerLink="/curso-diplomado" title="Volver" mdbWavesEffect placement="right"  style="font-size: 40px; line-height: 53px;"></i>
+      
+      <div class="flex-center text-white" style="background-attachment: f"><!--  pattern-1-->
+          <ul class="list-unstyled m-0">
+          <li>
+
+          <h1 class=" text-white">
+            <strong>
+              <i *ngIf="oCursoDipSeleccionado?.dip_estado=='pendiente'" class="fas fa-circle pointer mr-1 " style="font-size: 14px;" [ngClass]="oEstado_bolas[oCursoDipSeleccionado?.dip_estado].color" [title]="oEstado_bolas[oCursoDipSeleccionado?.dip_estado].texto" placement="left"></i>
+              <i style="font-size: 30px;" class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.icon}} text-white  cursor mr-3 animated bounce"></i>
+            </strong>
+            <span style="font-size: 29px;"> {{oCursoDipSeleccionado?.dip_nombre}}</span>
+          </h1>
+          </li>
+
+          </ul>
+      </div>
+
+  </div>
+
+    <i class="fas fa-sync-alt mr-2 text-white float-right btn_info " title="Última Actualización: {{(oCursoDipSeleccionado?.dip_ultima_actualizacion | fechaespanol)}}, Administrador: {{oCursoDipSeleccionado?.dip_admin_generacion}}, Comentarios: {{oCursoDipSeleccionado?.dip_admin_comentario | ellipsis:102}}" mdbWavesEffect placement="left"></i>
+
+    <div class="col-md-6 pb-10 ">
+      <mdb-card class="m-2 w-100" >
+          <mdb-card-body cascade="true" class="text-center p-0" >
+
+              <div class="d-flex  borde_gris_b m-0" *ngIf="oCursoDipSeleccionado?.dip_nivel!='null'">
+                  <div class="flex-center">
+                      <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                          <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-user animated bounceInRight cursor"></i>
+                      </a>
+                  </div>
+                  <div class="h-100 flex-center flex-column text-inherit w-100">
+                    <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Nivel: </h6>
+                    <p class="card-text p-0 m-0 line-height-1"> 
+                        
+                        {{oCursoDipSeleccionado?.dip_nivel}}   
+                          <div class="card-text" style="word-break: break-all;font-size: 13px;"></div>
+                  </div>
+                </div>
+
+                <div class="d-flex  borde_gris_b m-0" *ngIf="oCursoDipSeleccionado?.dip_oferta!='null'">
+                    <div class="flex-center">
+                        <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                            <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white far fa-calendar-alt  animated bounceInRight cursor"></i>
+                        </a>
+                    </div>
+                    <div class="h-100 flex-center flex-column text-inherit w-100">
+                      <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Oferta </h6>
+                      <p class="card-text p-0 m-0 line-height-1">
+
+                        {{oCursoDipSeleccionado?.dip_oferta}}       
+                      </p>
+                    </div>
+                  </div>  
+                      
+                <div class="d-flex  borde_gris_b m-0">
+                    <div class="flex-center">
+                        <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                            <i class=" {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-award  animated bounceInRight cursor"></i>
+                        </a>
+                    </div>
+                    <div class="h-100 flex-center flex-column text-inherit w-100">
+                        <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Tipo de Estudio</h6>
+                      <p class="card-text p-0 m-0 line-height-1"> 
+                          {{oCursoDipSeleccionado?.dip_tipoestudio}}
+                      </p>
+                    </div>
+                  </div>   
+                  <div class="d-flex  borde_gris_b m-0" *ngIf="oCursoDipSeleccionado?.dip_costo!='null'">
+                    <div class="flex-center">
+                        <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                            <i class=" {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-hand-holding-usd  animated bounceInRight cursor"></i>
+                        </a>
+                    </div>
+                    <div class="h-100 flex-center flex-column text-inherit w-100">
+                        <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Costo</h6>
+                      <p class="card-text p-0 m-0 line-height-1"> 
+                          $ {{oCursoDipSeleccionado?.dip_costo}}
+                      </p>
+                    </div>
+                  </div>  
+          </mdb-card-body>
+      </mdb-card>
+  </div>
+  <div class="col-md-6 pb-10">
+      <mdb-card class="m-2 w-100" >
+          <mdb-card-body cascade="true" class="text-center p-0" >
+            <div class="d-flex  borde_gris_b m-0">
+              <div class="flex-center">
+                  <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                      <i class="fas fa-user {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} animated bounceInRight cursor"></i>
+                  </a>
+              </div>
+              <div class="h-100 flex-center flex-column text-inherit w-100 p-3">
+                <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Contacto</h6>
+                <p class="card-text p-0 m-0 line-height-1">
+                  
+                  {{oCursoDipSeleccionado?.dip_contacto}}
+
+                      <div class="card-text" style="word-break: break-all;font-size: 13px;">
+                        <ng-container *ngIf="oCursoDipSeleccionado?.dip_correo">
+
+                          
+                          <ng-container *ngIf="oCursoDipSeleccionado.dip_correo.split(',').length!=0">
+                              <span *ngFor="let contacto of oCursoDipSeleccionado.dip_correo.split(',')" class="d-block">
+                                      {{contacto}}
+                              </span>
+                            </ng-container>
+
+                            <ng-container *ngIf="oCursoDipSeleccionado.dip_correo.split(' ').length==0 && oCursoDipSeleccionado.dip_correo.split(',').length==0">
+                                {{oCursoDipSeleccionado?.dip_correo}}
+                            </ng-container>
+
+
+                          </ng-container>
+                      
+                      
+                      
+                      </div>
+              </div>
+            </div>
+            <div class="d-flex  borde_gris_b m-0" *ngIf="oCursoDipSeleccionado?.dip_periodicidad!='ninguno'">
+              <div class="flex-center">
+                  <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                      <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-clock  animated bounceInRight cursor"></i>
+                  </a>
+              </div>
+              <div class="h-100 flex-center flex-column text-inherit w-100">
+                <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Frecuencia</h6>
+                <p class="card-text p-0 m-0 line-height-1">
+                  {{oCursoDipSeleccionado?.dip_periodicidad}} 
+                      <div class="card-text" style="word-break: break-all;font-size: 13px;"></div>
+              </div>
+            </div>
+              <div class="d-flex  borde_gris_b m-0" *ngIf="oCursoDipSeleccionado?.dip_periodicidad=='ninguno'">
+                  <div class="flex-center">
+                      <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                          <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-calendar  animated bounceInRight cursor"></i>
+                      </a>
+                  </div>
+                  <div class="h-100 flex-center flex-column text-inherit w-100">
+                    <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Fecha de Inscripción</h6>
+                    <p class="card-text p-0 m-0 line-height-1">
+                      {{oCursoDipSeleccionado?.dip_fechainscripcion | fechaespanol}} 
+                          <div class="card-text" style="word-break: break-all;font-size: 13px;"></div>
+                  </div>
+                </div>
+
+                <div class="d-flex  borde_gris_b m-0" *ngIf="oCursoDipSeleccionado?.dip_periodicidad=='ninguno'">
+                    <div class="flex-center">
+                        <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                            <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-hourglass-end  animated bounceInRight cursor"></i>
+                        </a>
+                    </div>
+                    <div class="h-100 flex-center flex-column text-inherit w-100">
+                      <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Fecha Límite</h6>
+                      <p class="card-text p-0 m-0 line-height-1"> 
+                        {{oCursoDipSeleccionado?.dip_fechalimiteinscripcion | fechaespanol}} 
+                      </p>
+                    </div>
+                  </div>  
+                      
+                <div class="d-flex  borde_gris_b m-0">
+                    <div class="flex-center">
+                        <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                            <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-stopwatch  animated bounceInRight cursor"></i>
+                        </a>
+                    </div>
+                    <div class="h-100 flex-center flex-column text-inherit w-100">
+                      <h6 class="p-0 mx-0 mb-1 mt-0 font-weight-500">Duración</h6>
+                      <p class="card-text p-0 m-0 line-height-1">
+
+                        {{oCursoDipSeleccionado?.dip_duracion}}
+                      </p>
+                    </div>
+                  </div>   
+          </mdb-card-body>
+      </mdb-card>
+  </div>
+  <div class="col-md-4 " *ngIf="oCursoDipSeleccionado?.dip_requisito.length!=0 && oCursoDipSeleccionado?.dip_requisito!='null'">
+      <mdb-card cascade="true" narrower="true">                 
+          <div class="d-flex  borde_gris_b m-0">
+              <div class="flex-center">
+                  <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                      <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white fas fa-list-ol  animated bounceInRight cursor"></i>
+                  </a>
+              </div>
+              <div class="h-100 flex-center flex-column text-inherit w-100">
+                  <h2 class="p-0 mx-0 mb-1 mt-0 font-weight-500 {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}}  " style="font-size:17px" >Requisitos</h2>
+
+              </div>
+            </div>          
+               
+          <mdb-card-body   cascade="true" class="text-center">
+                           
+            <div class="d-flex  borde_gris_b m-0" *ngFor="let item of oCursoDipSeleccionado?.dip_requisito">
+              <div class="flex-center inherit p-2">
+                  <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} fas fa-check ml-1 animated bounceInRight cursor"></i>
+              </div>
+              <div  class="flex-center card-text line-height-1 p-2">
+                {{item}}
+              </div>    
+            </div>                     
+          </mdb-card-body>
+                    
+        </mdb-card>
+  </div>
+  <div class="col-md-4"  *ngIf="oCursoDipSeleccionado?.dip_observacion.length!=0 && oCursoDipSeleccionado?.dip_observacion!='null'">
+      <mdb-card cascade="true" narrower="true">    
+          <div class="d-flex  borde_gris_b m-0">
+              <div class="flex-center">
+                  <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                      <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white far fa-list-alt  animated bounceInRight cursor"></i>
+                  </a>
+              </div>
+              <div class="h-100 flex-center flex-column text-inherit w-100">
+                  <h2 class="p-0 mx-0 mb-1 mt-0 font-weight-500 {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} " style="font-size:17px" >Observaciones</h2>
+
+              </div>
+            </div>                  
+          <mdb-card-body cascade="true" class="text-center">
+            <div class="d-flex  borde_gris_b m-0" *ngFor="let item of oCursoDipSeleccionado?.dip_observacion">
+              <div class="flex-center inherit p-2">
+                  <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} fas fa-check ml-1 animated bounceInRight cursor"></i>
+              </div>
+              <div class="flex-center card-text line-height-1 p-2">
+                {{item}}
+              </div>    
+            </div>   
+          </mdb-card-body>
+                   
+        </mdb-card>
+  </div>
+  <div class="col-md-4" *ngIf="oCursoDipSeleccionado?.dip_horario.length!=0 && oCursoDipSeleccionado?.dip_horario!='null'">
+      <mdb-card cascade="true" narrower="true">                    
+          <div class="d-flex  borde_gris_b m-0">
+              <div class="flex-center">
+                  <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                      <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} text-white far fa-calendar-check  animated bounceInRight cursor"></i>
+                  </a>
+              </div>
+              <div class="h-100 flex-center flex-column text-inherit w-100">
+                  <h2 class="p-0 mx-0 mb-1 mt-0 font-weight-500 {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} " style="font-size:17px" >Horarios</h2>
+
+              </div>
+            </div>                            
+          <mdb-card-body cascade="true" class="text-center">
+                              
+            <div class="d-flex  borde_gris_b m-0" *ngFor="let item of oCursoDipSeleccionado?.dip_horario">
+              <div class="flex-center inherit p-2">
+                  <i class="{{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.color}} fas fa-check ml-1 animated bounceInRight cursor"></i>
+              </div>
+              <div class="flex-center card-text line-height-1 p-2">
+                {{item}}
+              </div>    
+            </div>                       
+          </mdb-card-body>
+                           
+        </mdb-card>
+  </div> 
+</div>
+<div class="mb-5">&nbsp;</div>
+<div class="fixed-action-btn animated bounceIn show_img_brochure" *ngIf="brochure || oCursoDipSeleccionado?.dip_img">
+  <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalCursoDip()" title="Añadir"
+      placement="right" mdbWavesEffect>
+      <i class="far fa-images"></i>
+  </a>
+</div>
+
+ <!--Modal  ModalDetCursoDip de Usuario modal-dialog-centered-->
+ <div mdbModal #ModalDetCursoDip="mdbModal" class="modal fade" id="ModalDetCursoDip" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+ aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-fluid modal-full-height" role="document">
+   <div class="modal-content mascara centrado_absolutomodal">
+     <div class="modal-header text-center">
+        <div class="flex-center white-text w-100 {{oFacultades[oCursoDipSeleccionado?.dip_facultad]?.background}}">
+            <ul class="list-unstyled m-0">
+            <li>
+  
+            <h1>
+            <strong><i class="fas fa-image mr-2 white-text" style="font-size: 30px;"></i></strong><span style="font-size: 29px;">Imágen/Brochure</span></h1>
+            </li>
+  
+            </ul>
+  
+        </div>
+       <!--<h4 class="modal-title w-100 font-weight-bold"> ModalDetCursoDip</h4>-->
+       <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold"></h4>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)=" ModalDetCursoDip.hide()">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body mx-3 thin scrollbar-gris" > 
+         <div class="row justify-content-center" >
+             <div class="col-sm-12 col-md-6 p-0 m-0 d-flex flex-center inherit" >
+                 <div class="md-form mb-2" *ngIf="oCursoDipSeleccionado?.dip_img">
+                     <img [src]="oCursoDipSeleccionado?.dip_img" class="imagen_completa tamaño-imagen-brochure" alt="Sample image with waves effect.">
+
+                 </div>
+                 <p class="card-text" *ngIf="!oCursoDipSeleccionado?.dip_img">
+                     No se ha cargado una imágen
+                  </p>
+
+
+                 
+             </div>
+             <div class="col-sm-12 col-md-6 p-0 m-0 ">
+               
+                 <a  [href]="brochure?.url" target="_blank" [download]="'brochure.pdf'" class="pointer">
+                   <i class="text-gray fa-lg mr-2 text-center" [ngClass]="brochure?.icon"></i> 
+                   {{brochure?.nombre}}
+                 </a>
+                 <p class="card-text" *ngIf="!brochure">
+                    No se ha cargado un brochure
+                 </p>
+
+                 
+                 <div class="d-flex flex-center tam-brochure">
+                     <ng-container *ngIf="brochure?.extension=='pdf'">
+                         <object *ngIf="brochure?.url" [data]="brochure?.url | safepipe" type="application/pdf" width="100%" height="100%">
+                           <p><b>Example fallback content</b>: This browser does not support PDFs. Please download the PDF to view it: 
+                           <a [href]="brochure?.url" target="_blank">Download PDF</a>.</p>
+                         </object>                      
+                     </ng-container>                      
+                 </div>
+
+
+               
+           </div>              
+          </div>      
+
+     </div>
+
+
+
+   </div>
+ </div>
+</div>

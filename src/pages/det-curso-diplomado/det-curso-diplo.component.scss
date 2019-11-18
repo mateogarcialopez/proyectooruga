@@ -1,0 +1,103 @@
+
+.alinear{
+    
+    display: flex;
+    justify-content: flex-start !important;
+    text-align: justify;
+}
+
+.cabecera {
+    width: 1000px !important ;
+    
+}
+.color{
+    color: white;
+    font-size: 18px;
+}
+
+.atributos{
+    font-weight: 250;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+p.card-text:last-child {
+  margin-bottom: 0px !important;
+}
+
+p.card-text {
+   margin-bottom: 0px !important;
+}
+.titulo_card{
+    font-weight: bold; 
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    font-size: 30px;
+    padding: 12px;
+    color:white !important;
+  }
+  
+  .bgimg {
+    /* The image used */
+    background-image: url("../../assets/img/background.jpg");
+    __height: 100%;
+    width: 100%;
+    /* background-position: center; */
+    /* background-repeat: repeat-y; */
+    background-size: cover;
+    /* position: fixed; */
+    overflow: auto;
+    
+    }
+
+
+    .card-text{
+        font-size: 1em;
+    }
+    
+    h6{
+        font-size: 1.1em;
+    }    
+
+    
+    .col-md-6,.col-md-4,.col-md-12{
+        padding-bottom: 10px;
+    }
+
+    .btn-floating i {
+        display: inline-block;
+        width: inherit;
+        text-align: center;
+       
+    }
+    .card-text{
+        font-size: 1em;
+    }
+    
+    h6{
+        font-size: 1.1em;
+    }
+    .img-fluid, .modal-dialog.cascading-modal.modal-avatar .modal-header, .comments-list img, .reply-form img, .video-fluid {
+        max-width: 100%;
+        height: 440px;
+    }
+    
+    .imgprog {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 454px;
+    }
+
+    .btn_info{
+        width: 95%;
+        height: 100%;
+        font-size: 20px;
+        line-height: 53px;
+        position: static;
+        z-index: 193px;
+        -webkit-transform: translate(-48%, 0%);
+        transform: translate(100%, -118%) !important;
+    }
+

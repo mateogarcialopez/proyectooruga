@@ -1,0 +1,82 @@
+[
+    
+    {
+      "icono":"fas fa-book-open",  
+      "color":"amarillo",
+      "nombre":"Validación ",
+      "descripcion":[          
+          "Si un estudiante se encuentra interesado en realizar una validación de una asignatura vista en otra universidad, debe realizar una solicitud al decano, quien se encarga de estudiar la factibilidad, y posteriormente comunicarle al estudiante la aprobación de éste y los requisitos exigidos, fijando fechas correspondientes para las pruebas. ",
+          "Si un estudiante se encuentra interesado en validar lengua extranjera puede realizar una prueba de suficiencia estructurada por el departamento de idiomas, en algunas ocasiones el estudiante no pasa la prueba pero puede quedar en uno de los niveles exigidos por la universidad"
+                     ],
+      "observacion":["La primer prueba de suficiencia en lengua extranjera no tiene costo, si el estudiante la pierde y desea volverla a presentar debe asumir un costo de $20.000.",
+                     "Se realiza un examén oral y escrito 35% respectivametne y sustentación 30%, tener en cuenta que la nota obtenida debe ser mayor a 4.0"
+                     ],
+      "costo":83000
+  },
+  {
+    "icono":"fas fa-book-reader",  
+    "color":"naranja",
+    "nombre":"Habilitación",
+    "descripcion":[          
+        "Terminado el módulo, se identifican los estudianes que hayan perdido la asignatura, se le informa al docente quienes pueden habilitar ",
+        "En los s de pregrado según reglamento estudiantil solo se habilita una materia cuyo rango de notas se encuentre entre 2 y 2.9",
+        "En los s de posgrado los seminarios se habilitan si tienen una nota entre 3.0 y 3.45"
+                   ],
+    "observacion":["Si es un estudiante de pregrado su costo es de $30.000.",
+                   "Si es estudiante de postgrado su costo es del 50% del crédito actual.",
+                   "Este paso es regido por el reglamento estudiantil Capítulo IX, artículo 72."
+                   ],
+    "costo":0
+},
+{
+    "icono":"fas fa-clipboard-check",  
+    "color":"verde",
+    "nombre":"Homologación",
+    "descripcion":[          
+        "Desde la inducción se les informa a los estudiantes que pueden realizar proceso de homologación.",
+        "El estudiante envía contenidos programáticos al  y respectivas notas con firma y sello de la institución procedente",
+        "Se le envía al estudiante un oficio donde se le informa las materias con el visto bueno para ser homologadas",
+        "El estudiante realiza el pago parcial o total de las materias autorizadas a homologar",
+        "De la facultad se envía a registro académico el aval especificando el número de materias que el estudiante pagó por homologación"
+                   ],
+    "observacion":["Cada  maneja los procesos de homologación de forma diferente.",
+                   "Algunos directores de  solo realizan homologación si tienen los contenidos programáticos en físico, otros van adelantando el proceso si los estudiantes envían los contenidos de forma digital.",
+                   "No todos los contenidos programáticos que envía el estudiante son homologables.",
+                   "El  de contaduría no comparte al estudiante la resolución facilitándola solo a registro académico, además falta comunicación entre secretaria y tutor, pues, en ocaciones no se comparte las resoluciones para la creación de las rutas y retrasa el proceso."
+                   ],
+    "costo":35000
+},
+{
+    "icono":"fas fa-flag-usa",
+    "color":"rojo",  
+    "nombre":"Homologación Lengua Extranjera",
+    "descripcion":[          
+        "Si un estudiante desea realizar homologación de la lengua extranjera, lo puede hacer siempre y cuando cumpla con los parámetros del marco común europeo, como requisito debe tener comprensión lectora nivel B1 y una periodicidad máxima de dos años.",
+        "En el caso de inglés, los niveles de referencia son PET (Preliminary English Test), BEC (Business English Certificate Preliminary), MET (Michigan Englis Test), TOEIC L&R, TOEIC Brigde84, TOELFL PBT, TOELFL CBT y TOELFL IBT."
+                   ],
+    "observacion":["Reglamento Estudiantil Capitulo I, articulos 11 y 12.",
+                   "Para homologar lengua extranjera consultar la Norma Técnica Colombiana NTC 5580."
+                   ],
+    "costo":35000
+},
+{
+    "icono":"fas fa-graduation-cap",
+    "color":"gris",
+    "nombre":"Derecho de Grado Público",
+    "descripcion":null,
+    "observacion":["Legalmente no existe diferencia entre grados públicos o grados privados, estas redican escencialmente en precios, y que los grados públicos son con fechas establecidas desde la Secretaría General y la ceremonia es con todos los s de la universidad, el grado privado se realiza con máximo 15 personas y se lleva a cabo en cualquier fecha ya sea por no haber alcanzado a pasar papeles a tiempo o por la necesidad de agilizar su grado."
+                   ],
+
+    "costo":290000
+},
+{
+    "icono":"fas fa-user-graduate", 
+    "color":"azul", 
+    "nombre":"Derecho de Grado Privado",
+    "descripcion":null,
+    "observacion":["Legalmente no existe diferencia entre grados públicos o grados privados, estas redican escencialmente en precios, y que los grados públicos son con fechas establecidas desde la Secretaría General y la ceremonia es con todos los s de la universidad, el grado privado se realiza con máximo 15 personas y se lleva a cabo en cualquier fecha ya sea por no haber alcanzado a pasar papeles a tiempo o por la necesidad de agilizar su grado."
+                   ],
+
+    "costo":570000
+}
+]

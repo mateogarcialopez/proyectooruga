@@ -1,0 +1,85 @@
+
+.image_preview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+ }
+ 
+ 
+ .bgimg {
+   /* The image used */
+   background-image: url("../../assets/img/background.jpg");
+   __height: 100%;
+   width: 100%;
+   /* background-position: center; */
+   /* background-repeat: repeat-y; */
+   background-size: cover;
+   /* position: fixed; */
+   overflow: auto;
+ }
+ 
+ 
+ .table thead th {
+    border-bottom: 1px solid #dee2e6;
+    color:#aeb1b1;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .table td {
+    color:#666e75;
+    font-weight: 600;
+  }
+  .registros{
+    font-size: 20px;
+    font-weight: 500;
+  }
+  table,td,th{
+    text-align:center;
+  }
+ 
+ 
+  .tamano_icons{
+     font-size:20px;
+  }
+ 
+ .contenedor_tabla{
+    padding: 0px 48px;
+    border-radius: 4px;
+    border: 1px solid #d9e3e2;
+    background: #fff;
+    //margin-bottom: 48px;
+    /* margin-top: 48px; */
+ }
+ 
+ .card-text:last-child {
+    margin-bottom: 0px !important;
+ }
+ 
+ .tachado{
+    text-decoration:line-through;
+    color:red;
+ }
+ 
+ .texto_nuevo{
+    color:#76c04e;
+ }
+ 
+ 
+ .card-body {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+ }
+ 
+ img{
+    max-width: 100%;
+    max-height: 100%;
+ }
+
+ app-root {
+   height: 100%;
+   font-family: Arthur;
+   height: 95%;
+   overflow-x: hidden !important;
+   /* overflow-y: hidden !important; */
+}

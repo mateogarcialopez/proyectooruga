@@ -1,0 +1,520 @@
+
+  <!-- Section: Group of personal cards -->
+  <div class="animated bounceIn add-btn-global position-fixed" style="z-index: 999;"  >
+    <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalEvento(true)"  title="Añadir Evento"  placement="left" mdbWavesEffect >
+      <i class="fas fa-plus"></i>
+    </a>
+</div>
+
+<mdb-card class="mx-3 mt-5 mb-5" *ngIf="aEventos?.hoy.length==0 && aEventos?.semana.length==0 && aEventos?.mes.length==0">
+    <mdb-card-body>
+      <mdb-card-title>
+        <h4 style="font-size:8em;" class="font-weight-bold text-gray text-center">Oops! </h4>
+      </mdb-card-title>
+  
+      <!--Text-->
+      <mdb-card-text class="text-center" style="font-size: 3em;">No se han encontrado eventos en el rango de fecha actual..</mdb-card-text> 
+  
+    </mdb-card-body>
+</mdb-card>
+
+
+<h3 *ngIf="aEventos?.hoy?.length!=0" class="mx-5 my-3 font-weight-bold texto-gris" >¡Hoy!</h3>
+<hr *ngIf="aEventos?.hoy?.length!=0">
+<ng-container  *ngIf="aEventos?.hoy?.length!=0" class="mx-5 mb-3 sombra py-3 mascara">
+    <div class="row mx-3 my-3">
+      <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" *ngFor="let item of aEventos?.hoy">
+        <!-- Card -->
+        <mdb-card class="mt-2">
+          <!--<div class="view rgba-white-slight waves-light" mdbWavesEffect>-->
+            <!-- Card img -->
+            <!--<mdb-card-img  [src]="item?.eve_imagen" alt="Card image cap"></mdb-card-img>-->
+            <div class="contenedor_imagen flex-center">
+                <img [src]="item?.eve_imagen" class="img-fluid">
+            </div>
+          <!--Card content-->
+          <mdb-card-body>
+            <!--Title-->
+            <mdb-card-title *ngIf="item.eve_nombre">
+              <h5 class="flex-center altura_texto text-center borde_gris_b mb-0 pb-3">{{item.eve_nombre | ellipsis:74}}</h5>
+            </mdb-card-title>
+
+            <!--altura contenedor-->
+            <div class="p-0 m-0 flex-center flex-column altura_comentarios_admin" >
+
+                <div class="d-flex w-100">
+                    <div >
+                        <i title="Responsable" placement="top" class="fas fa-user mr-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ">
+                        <span class="card-text">{{item.eve_organizador}}     </span>               
+                    </div>
+                </div>
+
+                <div class="d-flex w-100">
+                  <div *ngIf="item.eve_correo">
+                    <i title="Correo" placement="top" class="fas fa-envelope mr-2"></i>
+                </div>
+                <div *ngIf="item.eve_correo" class="flex-grow-1 ">
+                    <span class="card-text">{{item.eve_correo}}     </span>               
+                </div>
+              </div>
+                <div class="d-flex w-100">
+                    <div >
+                      <i title="Lugar" placement="top" class="fas fa-map-marker-alt mr-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ">
+                        <span class="card-text">{{item.eve_lugar}}     </span>               
+                    </div>
+                </div>
+                <div class="d-flex w-100">
+                    <div >
+                        <i title="Vencimiento" placement="top" class="fas fa-bullhorn mr-2 fa-sm"></i>
+                    </div>
+                    <div class="flex-grow-1 espacioLinea">
+                      <mdb-badge [danger]="item.fechahumana?.expirado"  [success]="item.fechahumana?.tiempo.dias>=2 && item.fechahumana?.expirado==false" [warning]="item.fechahumana?.tiempo.dias<2 && item.fechahumana?.expirado==false"  >{{item.fechahumana.mensaje}}</mdb-badge>
+                        <span class="tamañoFecha">  {{item.eve_fecha_inicio+" "+item.eve_fecha_fin | fechaespanol}}  </span>
+
+                      </div>
+
+                  </div>
+
+                <div class="d-flex w-100">
+                    <div >
+                        <i *ngIf="item.eve_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[item.eve_estado].color" [title]="oEstado_bolas[item.eve_estado].texto" placement="top"></i>
+                    </div>
+    
+                </div>     
+                <div class="d-flex justify-content-center align-items-center w-100 line-height-1" *ngIf="item.eve_admin_comentario">
+                    <div >
+                        <div class="circle pointer mr-2" [title]="item.eve_admin_generacion" placement="top" >{{item.eve_admin_generacion |  inicialesnombre}}</div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="card-meta m-0 texto-pequeno line-height-1 text-center">{{item.eve_admin_comentario | ellipsis:102}}</span>
+                    </div>
+                </div>  
+            </div>
+            <hr>
+            <p class="text-center mb-0">
+              <a mdbBtn class="degradado-um text-white" mdbWavesEffect [routerLink]="['detalle-evento',item._id]">Ver más <i class="ml-1 fas fa-angle-right text-white"  aria-hidden="true"></i></a>
+            </p>
+            <p class="float-right m-0">
+                <i title="Última Actualización {{(item.eve_ultima_actualizacion | fechaespanol)}}" placement="top" class="fas fa-sync-alt mr-2"></i><i class="fas fa-edit mr-2" title="Editar" (click)="fn_callModalEvento(false);fn_setDataEventoEdit(item);" mdbWavesEffect placement="top"></i><i title="Eliminar" placement="top" class="fas fa-trash-alt pointer" (click)="fn_AdvertenciaElimEvento(item._id)"></i>
+            </p>
+          </mdb-card-body>
+        </mdb-card>
+        <!-- Card -->
+      </div>
+    </div>
+</ng-container>
+
+
+<h3 *ngIf="aEventos?.semana?.length!=0" class="mx-5 my-3 font-weight-bold texto-gris" >¡Esta Semana!</h3>
+<hr *ngIf="aEventos?.semana?.length!=0">
+<ng-container  *ngIf="aEventos?.semana?.length!=0" class="mx-5 mb-3 sombra py-3 mascara">
+    <div class="row mx-3 my-3">
+      <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" *ngFor="let item of aEventos?.semana">
+        <!-- Card -->
+        <mdb-card class="mt-2">
+          <!--<div class="view rgba-white-slight waves-light" mdbWavesEffect>-->
+            <!-- Card img -->
+            <!--<mdb-card-img  [src]="item?.eve_imagen" alt="Card image cap"></mdb-card-img>-->
+            <div class="contenedor_imagen flex-center">
+                <img [src]="item?.eve_imagen" class="img-fluid">
+            </div>
+          <!--Card content-->
+          <mdb-card-body>
+            <!--Title-->
+            <mdb-card-title *ngIf="item.eve_nombre">
+              <h5 class="flex-center altura_texto text-center borde_gris_b mb-0 pb-3">{{item.eve_nombre | ellipsis:74}}</h5>
+            </mdb-card-title>
+
+            <!--altura contenedor-->
+            <div class="p-0 m-0 flex-center flex-column altura_comentarios_admin" >
+
+                <div class="d-flex w-100">
+                    <div >
+                        <i title="Responsable" placement="top" class="fas fa-user mr-2"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="card-text">{{item.eve_organizador}}     </span>               
+                    </div>
+
+                </div>
+                <div class="d-flex w-100">
+                  <div *ngIf="item.eve_correo">
+                    <i title="Correo" placement="top" class="fas fa-envelope mr-2"></i>
+                </div>
+                <div *ngIf="item.eve_correo" class="flex-grow-1 ">
+                    <span class="card-text">{{item.eve_correo}}     </span>               
+                </div>
+              </div>
+                <div class="d-flex w-100">
+                    <div >
+                      <i title="Lugar" placement="top" class="fas fa-map-marker-alt mr-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ">
+                        <span class="card-text">{{item.eve_lugar}}     </span>               
+                    </div>
+                </div>
+                <div class="d-flex w-100">
+                    <div >
+                        <i title="Vencimiento" placement="top" class="fas fa-bullhorn mr-2 fa-sm"></i>
+                    </div>
+                    <div class="flex-grow-1 espacioLinea">
+                      <mdb-badge [danger]="item.fechahumana?.expirado"  [success]="item.fechahumana?.tiempo.dias>=2 && item.fechahumana?.expirado==false" [warning]="item.fechahumana?.tiempo.dias<2 && item.fechahumana?.expirado==false"  >{{item.fechahumana.mensaje}}</mdb-badge>
+                        <span class="tamañoFecha">  {{item.eve_fecha_inicio+" "+item.eve_fecha_fin | fechaespanol}}  </span>
+                      </div>
+                  </div>
+
+                <div class="d-flex w-100 mt-2">
+                    <div >
+                        <i *ngIf="item.eve_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[item.eve_estado].color" [title]="oEstado_bolas[item.eve_estado].texto" placement="top"></i>
+                    </div>
+
+                </div>     
+                <div class="d-flex justify-content-center align-items-center w-100 line-height-1" *ngIf="item.eve_admin_comentario">
+                    <div >
+                        <div class="circle pointer mr-2" [title]="item.eve_admin_generacion" placement="top" >{{item.eve_admin_generacion |  inicialesnombre}}</div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="card-meta m-0 texto-pequeno line-height-1 text-center">{{item.eve_admin_comentario | ellipsis:102}}</span>
+                    </div>
+                </div>  
+            </div>
+            <hr>
+            <p class="text-center mb-0">
+              <a mdbBtn class="degradado-um text-white" mdbWavesEffect [routerLink]="['detalle-evento',item._id]">Ver más <i class="ml-1 fas fa-angle-right text-white"  aria-hidden="true"></i></a>
+            </p>
+            <p class="float-right m-0">
+                <i title="Última Actualización {{(item.eve_ultima_actualizacion | fechaespanol)}}" placement="top" class="fas fa-sync-alt mr-2"></i><i class="fas fa-edit mr-2" title="Editar" (click)="fn_callModalEvento(false);fn_setDataEventoEdit(item);" mdbWavesEffect placement="top"></i><i title="Eliminar" placement="top" class="fas fa-trash-alt pointer" (click)="fn_AdvertenciaElimEvento(item._id)"></i>
+              </p>
+          </mdb-card-body>
+        </mdb-card>
+        <!-- Card -->
+      </div>
+    </div>
+</ng-container>
+
+
+
+
+
+
+
+    <h3 *ngIf="aEventos?.mes?.length!=0" class="mx-5 my-3 font-weight-bold texto-gris" >¡Este Mes!</h3>
+    <hr *ngIf="aEventos?.mes?.length!=0">
+    <ng-container  *ngIf="aEventos?.mes?.length!=0" class="mx-5 mb-3 sombra py-3 mascara">
+        <div class="row mx-3 my-3">
+          <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" *ngFor="let item of aEventos?.mes">
+            <!-- Card -->
+            <mdb-card class="mt-2">
+              <!--<div class="view rgba-white-slight waves-light" mdbWavesEffect>-->
+                <!-- Card img -->
+                <!--<mdb-card-img  [src]="item?.eve_imagen" alt="Card image cap"></mdb-card-img>-->
+                <div class="contenedor_imagen flex-center">
+                    <img [src]="item?.eve_imagen" class="img-fluid">
+                </div>
+              <!--Card content-->
+              <mdb-card-body>
+                <!--Title-->
+                <mdb-card-title *ngIf="item.eve_nombre">
+                  <h5 class="flex-center altura_texto text-center borde_gris_b mb-0 pb-3">{{item.eve_nombre | ellipsis:74}}</h5>
+                </mdb-card-title>
+
+                <!--altura contenedor-->
+                <div class="p-0 m-0 flex-center flex-column altura_comentarios_admin" >
+
+                    <div class="d-flex w-100">
+                        <div >
+                            <i title="Responsable" placement="top" class="fas fa-user mr-2"></i>
+                        </div>
+                        <div class="flex-grow-1 ">
+                            <span class="card-text">{{item.eve_organizador}}     </span>               
+                        </div>
+                       
+                    </div>
+                    <div class="d-flex w-100">
+                      <div *ngIf="item.eve_correo">
+                        <i title="Correo" placement="top" class="fas fa-envelope mr-2"></i>
+                    </div>
+                    <div *ngIf="item.eve_correo" class="flex-grow-1 ">
+                        <span class="card-text">{{item.eve_correo}}     </span>               
+                    </div>
+                  </div>
+                    <div class="d-flex w-100">
+                        <div >
+                          <i title="Lugar" placement="top" class="fas fa-map-marker-alt mr-2"></i>
+                        </div>
+                        <div class="flex-grow-1 ">
+                            <span class="card-text">{{item.eve_lugar}}     </span>               
+                        </div>
+                    </div>
+                    <div class="d-flex w-100">
+                        <div >
+                            <i title="Vencimiento" placement="top" class="fas fa-bullhorn mr-2 fa-sm"></i>
+                        </div>
+                        <div class="flex-grow-1 espacioLinea">
+                          <mdb-badge [danger]="item.fechahumana?.expirado"  [success]="item.fechahumana?.tiempo.dias>=2 && item.fechahumana?.expirado==false" [warning]="item.fechahumana?.tiempo.dias<2 && item.fechahumana?.expirado==false"  >{{item.fechahumana.mensaje}}</mdb-badge>
+                            <span class="tamañoFecha">  {{item.eve_fecha_inicio+" "+item.eve_fecha_fin | fechaespanol}}  </span>
+                          </div>
+
+                      </div>
+  
+                    <div class="d-flex w-100">
+                        <div >
+                            <i *ngIf="item.eve_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[item.eve_estado].color" [title]="oEstado_bolas[item.eve_estado].texto" placement="top"></i>
+                        </div>
+
+                    </div>     
+                    <div class="d-flex justify-content-center align-items-center w-100 line-height-1" *ngIf="item.eve_admin_comentario">
+                        <div >
+                            <div class="circle pointer mr-2" [title]="item.eve_admin_generacion" placement="top" >{{item.eve_admin_generacion |  inicialesnombre}}</div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <span class="card-meta m-0 texto-pequeno line-height-1 text-center">{{item.eve_admin_comentario | ellipsis:102}}</span>
+                        </div>
+                    </div>  
+                </div>
+                <hr>
+                <p class="text-center mb-0">
+                  <a mdbBtn class="degradado-um text-white" mdbWavesEffect [routerLink]="['detalle-evento',item._id]">Ver más <i class="ml-1 fas fa-angle-right text-white"  aria-hidden="true"></i></a>
+                </p>
+                <p class="float-right m-0">
+                  <i title="Última Actualización {{(item.eve_ultima_actualizacion | fechaespanol)}}" placement="top" class="fas fa-sync-alt mr-2"></i><i class="fas fa-edit mr-2" title="Editar" (click)="fn_callModalEvento(false);fn_setDataEventoEdit(item);" mdbWavesEffect placement="top"></i><i title="Eliminar" placement="top" class="fas fa-trash-alt pointer" (click)="fn_AdvertenciaElimEvento(item._id)"></i>
+                </p>
+              </mdb-card-body>
+            </mdb-card>
+            <!-- Card -->
+          </div>
+        </div>
+    </ng-container>
+
+
+
+
+
+
+
+    <div class="mb-5" style="margin-bottom: 4rem !important;">&nbsp;</div>
+
+
+
+
+
+
+
+
+<!--Modal modalEvento de Usuario-->
+<div mdbModal #modalEvento="mdbModal" class="modal fade" id="modalEvento" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+    <div class="modal-content mascara">
+      <div class="modal-header text-center">
+        <!--<h4 class="modal-title w-100 font-weight-bold">modalEvento</h4>-->
+        <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Registrar':'Editar'}} Evento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalEvento.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+          <p class="card-text">
+            Registra o Actualiza la información del evento organizado por la <strong>Universidad de Manizales</strong>!
+          </p>
+        <form [formGroup]="formEvento">
+          <div class="row">
+              <div class="col-sm-12 col-md-12">
+                  <div class="md-form mb-2">
+                    <i class="far fa-calendar-check prefix " [ngClass]="{icon_valid:formEvento.controls['eve_nombre'].valid && formEvento.controls['eve_nombre'].touched,icon_invalid:formEvento.controls['eve_nombre'].invalid && formEvento.controls['eve_nombre'].touched }"></i>
+                    <input type="text" class="form-control" id="eve_nombre" mdbInput mdbValidate formControlName="eve_nombre">
+                    <label  for="eve_nombre" >Nombre Evento</label>
+                    <mdb-error *ngIf="formEvento.controls['eve_nombre'].invalid && (formEvento.controls['eve_nombre'].dirty || formEvento.controls['eve_nombre'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-user prefix " [ngClass]="{icon_valid:formEvento.controls['eve_organizador'].valid && formEvento.controls['eve_organizador'].touched,icon_invalid:formEvento.controls['eve_organizador'].invalid && formEvento.controls['eve_organizador'].touched }"></i>
+                    <input type="text" class="form-control" id="eve_organizador" mdbInput mdbValidate formControlName="eve_organizador">
+                    <label  for="eve_organizador" >Organizador</label>
+                    <mdb-error *ngIf="formEvento.controls['eve_organizador'].invalid && (formEvento.controls['eve_organizador'].dirty || formEvento.controls['eve_organizador'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-envelope prefix " [ngClass]="{icon_valid:formEvento.controls['eve_correo'].valid && formEvento.controls['eve_correo'].touched,icon_invalid:formEvento.controls['eve_correo'].invalid && formEvento.controls['eve_correo'].touched }"></i>
+                    <input type="text" class="form-control" id="eve_correo" mdbInput mdbValidate formControlName="eve_correo">
+                    <label  for="eve_correo" >Correo</label>
+                    <mdb-error *ngIf="formEvento.controls['eve_correo'].invalid && (formEvento.controls['eve_correo'].dirty || formEvento.controls['eve_correo'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12 col-md-6">
+                  <div class="row">
+                      <div class="col-sm-12 col-md-6">
+                          <div class="md-form mb-2">
+                              <i class="fas fa-calendar-day prefix" [ngClass]="{icon_valid:formEvento.controls['eve_fecha_inicio'].valid && formEvento.controls['eve_fecha_inicio'].touched,icon_invalid:formEvento.controls['eve_fecha_inicio'].invalid && formEvento.controls['eve_fecha_inicio'].touched }"></i>
+                              <!---<input type="text" class="form-control" id="eve_fecha" mdbInput mdbValidate formControlName="eve_fecha">-->
+                              <mdb-date-picker name="eve_fecha_inicio" style="margin-left: 39px; width: 76% !important;" id="eve_fecha_inicio" [options]="opciones_fecha"  [placeholder]="!formEvento.controls['eve_fecha_inicio'].value?'Fecha inicio':formEvento.controls['eve_fecha_inicio'].value"   formControlName="eve_fecha_inicio"  mdbInput   class="calendario mb-0 p-0" ></mdb-date-picker>
+                              <mdb-error *ngIf="formEvento.controls['eve_fecha_inicio'].invalid && (formEvento.controls['eve_fecha_inicio'].dirty || formEvento.controls['eve_fecha_inicio'].touched)">Campo requerido</mdb-error>
+                            </div>   
+                                               
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div class="md-form mb-2">
+                              <i class="far fa-clock prefix" [ngClass]="{icon_valid:formEvento.controls['eve_hora_inicio'].valid && formEvento.controls['eve_hora_inicio'].touched,icon_invalid:formEvento.controls['eve_hora_inicio'].invalid && formEvento.controls['eve_hora_inicio'].touched }"></i>
+                              <mdb-time-picker [buttonLabel]="'Hecho'" [twelvehour]="false"  [darktheme]="false" [placeholder]="'Hora inicio'"  mdbValidate   formControlName="eve_hora_inicio" class="mb-0 p-0"></mdb-time-picker>
+                              <mdb-error *ngIf="formEvento.controls['eve_hora_inicio'].invalid && (formEvento.controls['eve_hora_inicio'].dirty || formEvento.controls['eve_hora_inicio'].touched)">Campo requerido</mdb-error>
+                          </div>
+                      </div>
+
+                      <div class="col-sm-12 col-md-6">
+                          <div class="md-form mb-2">
+                              <i class="fas fa-calendar-day prefix" [ngClass]="{icon_valid:formEvento.controls['eve_fecha_fin'].valid && formEvento.controls['eve_fecha_fin'].touched,icon_invalid:formEvento.controls['eve_fecha_fin'].invalid && formEvento.controls['eve_fecha_fin'].touched }"></i>
+                              <!---<input type="text" class="form-control" id="eve_fecha" mdbInput mdbValidate formControlName="eve_fecha">-->
+                              <mdb-date-picker name="eve_fecha_fin" style="margin-left: 39px; width: 76% !important;" id="eve_fecha_fin" [options]="opciones_fecha_fin"  [placeholder]="!formEvento.controls['eve_fecha_fin'].value?'Fecha fin':formEvento.controls['eve_fecha_fin'].value"   formControlName="eve_fecha_fin"  mdbInput   class="calendario mb-0 p-0" ></mdb-date-picker>
+                              <mdb-error *ngIf="formEvento.controls['eve_fecha_fin'].invalid && (formEvento.controls['eve_fecha_fin'].dirty || formEvento.controls['eve_fecha_fin'].touched)">Campo requerido</mdb-error>
+                            </div>   
+                                               
+                      </div>
+                      
+                      <div class="col-sm-12 col-md-6">
+                          <div class="md-form mb-2">
+                              <i class="far fa-clock prefix" [ngClass]="{icon_valid:formEvento.controls['eve_hora_fin'].valid && formEvento.controls['eve_hora_fin'].touched,icon_invalid:formEvento.controls['eve_hora_fin'].invalid && formEvento.controls['eve_hora_fin'].touched }"></i>
+                              <mdb-time-picker [buttonLabel]="'Hecho'" [twelvehour]="false"  [darktheme]="false" [placeholder]="'Hora fin'"  mdbValidate   formControlName="eve_hora_fin" class="mb-0 p-0"></mdb-time-picker>
+                              <mdb-error *ngIf="formEvento.controls['eve_hora_fin'].invalid && (formEvento.controls['eve_hora_fin'].dirty || formEvento.controls['eve_hora_fin'].touched)">Campo requerido</mdb-error>
+                          </div>
+                      </div>
+
+                      <div class="col-sm-12 col-md-6">
+                          <div class="md-form mb-2">
+                              <i class="fas fa-phone-square prefix" [ngClass]="{icon_valid:formEvento.controls['eve_extension'].valid && formEvento.controls['eve_extension'].touched,icon_invalid:formEvento.controls['eve_extension'].invalid && formEvento.controls['eve_extension'].touched }"></i>
+                              <input type="number" class="form-control" id="eve_extension" mdbInput mdbValidate formControlName="eve_extension">
+                              <label  for="eve_extension" >Extensión</label>
+                              <mdb-error *ngIf="formEvento.controls['eve_extension'].invalid && (formEvento.controls['eve_extension'].dirty || formEvento.controls['eve_extension'].touched)">Campo requerido</mdb-error>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div class="md-form mb-2">
+                              <i class="fas fa-dollar-sign prefix" [ngClass]="{icon_valid:formEvento.controls['eve_costo'].valid && formEvento.controls['eve_costo'].touched,icon_invalid:formEvento.controls['eve_costo'].invalid && formEvento.controls['eve_costo'].touched }"></i>
+                              <input type="number" class="form-control" id="eve_costo" mdbInput mdbValidate formControlName="eve_costo">
+                              <label  for="eve_costo" >Costo</label>
+                              <mdb-error *ngIf="formEvento.controls['eve_costo'].invalid && (formEvento.controls['eve_costo'].dirty || formEvento.controls['eve_costo'].touched)">Campo requerido</mdb-error>
+                          </div>
+                      </div> 
+                      <div class="col-sm-12 col-md-12">
+                        <div class="md-form mb-2">
+                            <i class="fas fa-users prefix" [ngClass]="{icon_valid:formEvento.controls['eve_asistentes'].valid && formEvento.controls['eve_asistentes'].touched,icon_invalid:formEvento.controls['eve_asistentes'].invalid && formEvento.controls['eve_asistentes'].touched }"></i>
+                            <input type="number" class="form-control" id="eve_asistentes" mdbInput mdbValidate formControlName="eve_asistentes">
+                            <label  for="eve_asistentes" >Número de Asistentes</label>
+                            <mdb-error *ngIf="formEvento.controls['eve_asistentes'].invalid && (formEvento.controls['eve_asistentes'].dirty || formEvento.controls['eve_asistentes'].touched)">Campo requerido</mdb-error>
+                        </div>
+                    </div> 
+
+                      <!--<div class="col-sm-12 col-md-12">
+                          <div class="md-form mb-2">
+                              <i class="fas fa-stopwatch prefix" [ngClass]="{icon_valid:formEvento.controls['eve_duracion'].valid && formEvento.controls['eve_duracion'].touched,icon_invalid:formEvento.controls['eve_duracion'].invalid && formEvento.controls['eve_duracion'].touched }"></i>
+                              <input type="number" class="form-control" id="eve_duracion" mdbInput mdbValidate formControlName="eve_duracion">
+                              <label  for="eve_duracion" >Duración</label>
+                              <mdb-error *ngIf="formEvento.controls['eve_duracion'].invalid && (formEvento.controls['eve_duracion'].dirty || formEvento.controls['eve_duracion'].touched)">Campo requerido</mdb-error>
+                          </div>
+                      </div> -->                     
+                      
+                  </div>
+
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 pointer" title="Cargar imágen" mdbWavesEffect placement="left" (click)="fn_callFile()" >
+                    <input type="file" id="inputfile"  (change)="fileChange($event)"  class="d-none"     formControlName="eve_imagen" accept="image/*" >
+                    <span *ngIf="!preview">
+                      <p class="card-text m-0 p-0 text-center mt-2">Cargar imágen</p>
+                      <div class="d-flex flex-center">
+                            <i class="fas fa-upload text-gray fa-6x"></i>
+                      </div>        
+                    </span>
+                    <span *ngIf="preview">
+                      <p class="image_preview">
+                          <img  [src]="preview" class="w-75" style="max-height: 200px;">
+                      </p>
+                    </span>
+  
+                </div>
+                <div class="col-sm-12 col-md-12 mt-2">
+                  <div class="d-flex flex-center">
+                    <input type="file" id="inputbrochure" (change)="fileChangeBrochure($event)"  class="d-none" formControlName="eve_brochure"  >
+                    <span *ngIf="!previewBrochure">
+                      <p class="card-text m-0 p-0 text-center mt-2">Cargar Plegable</p>
+                      <div class="d-flex flex-center" (click)="fn_callBrochure()">
+                            <i class="fas fa-upload text-gray fa-6x"></i>
+                      </div>        
+                    </span>
+                    <span *ngIf="previewBrochure">
+                          <ng-container *ngIf="previewBrochure.url">
+                              <a  [href]="previewBrochure.url" target="_blank" [download]="'brochure.pdf'" class="pointer"><i class="text-gray fa-lg mr-2" [ngClass]="previewBrochure.icon"></i> {{previewBrochure.nombre}}</a>
+                          </ng-container>
+              
+                          <ng-container *ngIf="!previewBrochure.url">
+                              <a   class="pointer"><i class="text-gray fa-lg mr-2" [ngClass]="previewBrochure.icon"></i> {{previewBrochure.nombre}}</a>
+                          </ng-container>
+              
+                          <a   class="pointer text-underline d-block" (click)="fn_callBrochure()">Cargar plegable diferente</a>
+                    </span>
+                    
+                  </div>
+                  
+                </div>
+                </div>
+              </div>
+
+
+
+          </div>
+
+
+
+          <div class="row">
+  
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-map-marker-alt prefix " [ngClass]="{icon_valid:formEvento.controls['eve_lugar'].valid && formEvento.controls['eve_lugar'].touched,icon_invalid:formEvento.controls['eve_lugar'].invalid && formEvento.controls['eve_lugar'].touched }"></i>
+                    <input type="text" class="form-control" id="eve_lugar" mdbInput mdbValidate formControlName="eve_lugar">
+                    <label  for="eve_lugar" >Lugar</label>
+                    <mdb-error *ngIf="formEvento.controls['eve_lugar'].invalid && (formEvento.controls['eve_lugar'].dirty || formEvento.controls['eve_lugar'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>    
+
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                      <i class="far fa-comment-alt prefix" [ngClass]="{icon_valid:formEvento.controls['eve_observacion'].valid && formEvento.controls['eve_observacion'].touched,icon_invalid:formEvento.controls['eve_observacion'].invalid && formEvento.controls['eve_observacion'].touched }"></i>
+                      <textarea class="md-textarea form-control" id="eve_observacion" mdbInput  formControlName="eve_observacion"></textarea>
+                      <label  for="eve_observacion" >Comentarios</label>
+                      <mdb-error *ngIf="formEvento.controls['eve_observacion'].invalid && (formEvento.controls['eve_observacion'].dirty || formEvento.controls['eve_observacion'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>   
+
+          
+              
+
+          </div>
+
+
+
+        </form>
+      </div>
+
+      <div class="text-center mb-4">
+          <hr>
+          <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormEvento(formEvento)">Guardar<i class="fas fa-save ml-2"></i></button>
+          <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormEvento(formEvento)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

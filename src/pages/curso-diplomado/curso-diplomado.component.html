@@ -1,0 +1,435 @@
+<div class="">
+<!--Rotating card-->
+
+
+<div class="pl-4 pr-4 pt-2">
+
+    <div class="row  justify-content-around mt-3 mb-1 ">
+
+        <div class="col-12 col-md-4 p-0">
+            <div class=" ml-3 d-flex justify-content-around w-100"></div>
+            
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center filters-container facultad">
+                    <div class="ml-3">
+                        <span class="texto_filtro  mr-3 d-block">Tipo de Estudio: </span>  
+                        </div> 
+                        <div class="ml-3">
+                    <mdb-checkbox [default]="true" [inline]="true"  [(ngModel)]="checkFilterCD['todos']" class="facultad mr-2 check_todos CursoDips" (change)="fn_checkTodosCD()">{{checkFilterCD['todos']?'Desmarcar todos':'Marcar todos'}} </mdb-checkbox>
+                  <mdb-checkbox [default]="true" [inline]="true" class="check_curso facultad"  [(ngModel)]="checkFilterCD.Curso">Cursos</mdb-checkbox>
+                    <mdb-checkbox [default]="true" [inline]="true" class="check_diplomado facultad " [(ngModel)]="checkFilterCD.Diplomado">Diplomados</mdb-checkbox>       
+                          </div>
+                  </div>
+              </div>
+              <div class="col-12 col-md-8 pb-3">
+                  <div class="ml-3 d-flex flex-column">
+                          <div class="ml-3">
+                          <span class="texto_filtro  mr-3">Facultad: </span>
+                          </div>
+                          <div class="ml-3">
+                              <mdb-checkbox [default]="true" [inline]="true" [(ngModel)]="checkFacultad['todos']" class="facultad mr-2 check_todos CursoDips" (change)="fn_checkTodos()">{{checkFacultad['todos']?'Desmarcar todos':'Marcar todos'}} </mdb-checkbox>
+                              <mdb-checkbox [default]="true" [inline]="true" [ngClass]="oFacultades['Ciencias e Ingeniería'].checkbox" [(ngModel)]="checkFacultad['Ciencias e Ingeniería']" class="facultad" >Ciencias e Ingeniería</mdb-checkbox>
+                              <mdb-checkbox [default]="true" [inline]="true" [ngClass]="oFacultades['Ciencias Contables, Económicas y Administrativas'].checkbox" [(ngModel)]="checkFacultad['Ciencias Contables, Económicas y Administrativas']" class="facultad" >Ciencias Contables, Económicas y Administrativas</mdb-checkbox>
+                              <mdb-checkbox [default]="true" [inline]="true" [ngClass]="oFacultades['Ciencias Sociales y Humanas'].checkbox" [(ngModel)]="checkFacultad['Ciencias Sociales y Humanas']" class="facultad" >Ciencias Sociales y Humanas</mdb-checkbox>
+                              <mdb-checkbox [default]="true" [inline]="true" [ngClass]="oFacultades['Ciencias Jurídicas'].checkbox" [(ngModel)]="checkFacultad['Ciencias Jurídicas']" class="facultad" >Ciencias Jurídicas</mdb-checkbox>
+                              <mdb-checkbox [default]="true" [inline]="true" [ngClass]="oFacultades['Ciencias de la Salud'].checkbox" [(ngModel)]="checkFacultad['Ciencias de la Salud']" class="facultad" >Ciencias de la Salud </mdb-checkbox>
+                              <mdb-checkbox [default]="true" [inline]="true" [ngClass]="oFacultades['General'].checkbox" [(ngModel)]="checkFacultad['General']" class="facultad" >General</mdb-checkbox> </div>  
+               
+                          </div>
+                  </div> 
+        <!--
+               <div  class="filters-container p-4">     
+             <mdb-checkbox [default]="true" [inline]="true" class="ingenieria" [(ngModel)]="checkFilters.ingenieria">Ciencias e Ingeniería</mdb-checkbox>
+             <mdb-checkbox [default]="true" [inline]="true" class="salud" [(ngModel)]="checkFilters.salud">Ciencias de la Salud</mdb-checkbox>
+             <mdb-checkbox [default]="true" [inline]="true" class="juridicas" [(ngModel)]="checkFilters.juridicas">Ciencias Jurídicas</mdb-checkbox>
+             <mdb-checkbox [default]="true" [inline]="true" class="sociales" [(ngModel)]="checkFilters.sociales">Ciencias Sociales y Humanas</mdb-checkbox>
+             <mdb-checkbox [default]="true" [inline]="true" class="contables" [(ngModel)]="checkFilters.contables">Ciencias Contables, Económicas y Administrativas</mdb-checkbox>
+             <mdb-checkbox [default]="true" [inline]="true" class="salud" [(ngModel)]="checkFilters.general">General</mdb-checkbox>
+          </div>
+        -->
+
+          <!--<mdb-checkbox [default]="true" [inline]="true" *ngFor="let item of checkFacultad | keyvalue"  [ngClass]="oFacultades[item.key].checkbox" [(ngModel)]="checkFacultad[item.key]">{{item.key}}</mdb-checkbox>-->
+  </div>
+  <div class="row mx-2  justify-content-start" >   
+        <div class="col-12 col-sm-12 col-md-4 col-lg-3 animated zoomIn position-relative "  *ngFor="let nombreCD of aCursosDiplomados; let idx=index" [hidden]="!checkFacultad[nombreCD.dip_facultad] || nombreCD.dip_tipoestudio=='Curso' && !checkFilterCD.Curso || nombreCD.dip_tipoestudio=='Diplomado' && !checkFilterCD.Diplomado  " >
+                <mdb-card class="mb-3 tarjetas-cursos" >
+                        <!--Card content-->
+                        <mdb-card-body class="p-0">
+                          <!--Title-->
+                          <mdb-card-title  >
+                           <h4 class="titulo_card m-0 text-white font-weight-500 {{oFacultades[nombreCD.dip_facultad].background}}" style="text-align: center; padding: 14px; padding-right: 39px; "><i placement="top" class="{{oFacultades[nombreCD.dip_facultad].icon}} text-white float-left font-size-2 "></i>{{nombreCD.dip_nombre}} </h4>
+                            
+                          </mdb-card-title>     
+                                  
+                          <div class="p-1">      
+                              <div class="ribbon" ><span class="card-text " [ngClass]="nombreCD['dip_tipoestudio']=='Diplomado'?'bg_diplomado':'bg_curso'" *ngIf="nombreCD?.dip_tipoestudio!='null'">
+                                        {{nombreCD.dip_tipoestudio}}
+                              </span>
+                              </div>                  
+                              <div class="card-text  item_prog pt-2 pb-0 ml-3 mr-2 " >                              
+                                <div class="d-flex flex-column justify-content-center" style="height: 100px">                                      
+
+                                            <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD?.dip_nivel!='null'"><i title="Nivel" placement="top" class="far fa-address-card mr-2"></i><b class="atributos">Nivel: </b>{{nombreCD.dip_nivel}}</p> 
+                                            <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD?.dip_fechalimiteinscripcion!='null' && nombreCD?.dip_fechalimiteinscripcion!='0'"><i title="Fecha límite" placement="top" class="fas fa-hourglass-start mr-2"></i><b class="atributos">Duracion: </b>{{nombreCD.dip_duracion}}</p>   
+                                            <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD?.dip_costo!='null'"><i title="Valor" placement="top" class="fas fa-hand-holding-usd  mr-2"></i><b class="atributos"></b><b class="atributos ">Costo: </b>${{nombreCD.dip_costo}}</p>              
+                                            <p class="card-text mb-0 w-100 atributos mb-1" *ngIf="nombreCD?.dip_fechainscripcion!='null' && nombreCD?.dip_fechainscripcion!='0'"><i title="Fecha de inscripción" placement="top" class="mb-1 fas fa-bullhorn mr-2"></i><b class="atributos">Vigencia: </b><mdb-badge pill=true [danger]="(nombreCD.dip_fechainscripcion  | fechahumana:nombreCD.dip_fechalimiteinscripcion)?.expirado"  [success]="(nombreCD.dip_fechainscripcion  | fechahumana:nombreCD.dip_fechalimiteinscripcion)?.tiempo.dias>=3 && (nombreCD.dip_fechainscripcion  | fechahumana:nombreCD.dip_fechalimiteinscripcion)?.expirado==false" [warning]="(nombreCD.dip_fechainscripcion  | fechahumana:nombreCD.dip_fechalimiteinscripcion)?.tiempo.dias<2 && (nombreCD.dip_fechainscripcion  | fechahumana:nombreCD.dip_fechalimiteinscripcion)?.expirado==false"  >{{(nombreCD.dip_fechainscripcion  | fechahumana:nombreCD.dip_fechalimiteinscripcion).mensaje}}</mdb-badge>
+                                              <span class="card-text texto-pequeno" *ngIf="nombreCD?.dip_fechainscripcion && nombreCD?.dip_fechainscripcion!='0'">
+                                                  {{nombreCD.dip_fechainscripcion | fechaespanol:'no_hora'}} 
+                                              </span>
+                                            </p> 
+                                            <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD?.dip_periodicidad!='ninguno'"><i title="Frecuencia" placement="top" class="fas fa-clock mr-2"></i><b class="atributos">Frecuencia: </b>{{nombreCD.dip_periodicidad}}</p>
+
+                                              <!-- <p class="card-text mb-0 w-100 atributos" *ngIf="nombreCD.dip_fechalimiteinscripcion!=null"><i title="Fecha límite" placement="top" class="fas fa-stopwatch mr-2"></i><b class="atributos">Fecha límite: </b>{{nombreCD.dip_fechalimiteinscripcion}}</p>   
+                                            -->
+                                </div>   
+                                <p class="mt-2 m-0 mr-2">
+                                  <i class="fas fa-trash-alt texto-gris float-right "   title="Eliminar" mdbWavesEffect placement="left" (click)="fn_AdvertenciaElimCursoDip(nombreCD._id)" ></i>
+                                  <i class="fas fa-edit texto-gris float-right  mr-1"    (click)="fn_callModalCursoDip(false);fn_setDataCursoDipEdit(nombreCD);" title="Editar" mdbWavesEffect placement="left"></i>                                                                         
+                                  <i *ngIf="nombreCD.dip_estado=='pendiente'" class="fas fa-circle pointer mr-1 float-right" [ngClass]="oEstado_bolas[nombreCD.dip_estado].color" [title]="oEstado_bolas[nombreCD.dip_estado].texto" mdbWavesEffect placement="left"></i>
+                                </p>  
+                                <hr class="mt-4">                                                                                                                                  
+                              </div>
+
+
+                               </div>
+                                  
+                        </mdb-card-body>
+                      </mdb-card> 
+                      <hr class="m-1">       
+                      <div style="position: absolute; bottom: 32px; left: 50%;transform: translate(-50%,0); width:155px; ">   
+                        
+                        <button  mdbBtn type="button" color="danger"  rounded="true" outline="true" [routerLink]="['det-curso-diplomado',nombreCD._id]"  mdbWavesEffect class="mb-2">   Ver Más<i class="ml-1 fas fa-angle-right" style="color: rgb(102, 97, 97)" aria-hidden="true"></i></button>
+                        <!--
+                        <p class="card-text mb-0 mt-1 p-0" >
+                            <a (click)="fn_detailCursoDiplomado(nombreCD)" style="background-color:#919191 "  class="  btn  btn-rounded">Ver más <i class="fas fa-angle-right" style="color: white" aria-hidden="true"></i> </a>       
+                         </p>
+                        -->
+
+                   </div>   
+
+        </div>
+   </div>
+</div>
+</div>
+<div class="mb-5">&nbsp;</div>
+
+
+<div class="fixed-action-btn animated bounceIn add-btn-global">
+  <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalCursoDip(true)" title="Añadir"
+      placement="left" mdbWavesEffect>
+      <i class="fas fa-plus"></i>
+  </a>
+</div>
+
+
+<!--Modal modalCursoDip de Usuario-->
+<div mdbModal #modalCursoDip="mdbModal" class="modal fade" id="modalCursoDip" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid  modal-dialog-centered" role="document">
+    <div class="modal-content mascara">
+      <div class="modal-header text-center">
+        <!--<h4 class="modal-title w-100 font-weight-bold">modalCursoDip</h4>-->
+        <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Registrar':'Editar'}} </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalCursoDip.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+          <p class="card-text">
+            Registra o Actualiza la información del curso o diplomado organizado por la <strong>Universidad de Manizales</strong>!
+          </p>
+        <form [formGroup]="formCursoDip">
+          <div class="row">
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-book prefix " [ngClass]="{icon_valid:formCursoDip.controls['dip_nombre'].valid && formCursoDip.controls['dip_nombre'].touched,icon_invalid:formCursoDip.controls['dip_nombre'].invalid && formCursoDip.controls['dip_nombre'].touched }"></i>
+                    <input type="text" class="form-control" id="dip_nombre" mdbInput mdbValidate formControlName="dip_nombre">
+                    <label  for="dip_nombre" >Nombre</label>
+                    <mdb-error *ngIf="formCursoDip.controls['dip_nombre'].invalid && (formCursoDip.controls['dip_nombre'].dirty || formCursoDip.controls['dip_nombre'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="far fa-address-card  prefix " [ngClass]="{icon_valid:formCursoDip.controls['dip_nivel'].valid && formCursoDip.controls['dip_nivel'].touched,icon_invalid:formCursoDip.controls['dip_nivel'].invalid && formCursoDip.controls['dip_nivel'].touched }"></i>
+                    <input type="text" class="form-control" id="dip_nivel" mdbInput mdbValidate formControlName="dip_nivel">
+                    <label  for="dip_nivel" >Nivel</label>
+                    <mdb-error *ngIf="formCursoDip.controls['dip_nivel'].invalid && (formCursoDip.controls['dip_nivel'].dirty || formCursoDip.controls['dip_nivel'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+
+
+            <div class="col-sm-12 col-md-6">
+              <div class="md-form mb-2" [ngClass]="formCursoDip.controls['dip_periodicidad'].value!='ninguno'?'d-none':''">
+                  <i class="fas fa-calendar-day prefix" [ngClass]="{icon_valid:formCursoDip.controls['dip_fechainscripcion'].valid && formCursoDip.controls['dip_fechainscripcion'].touched,icon_invalid:formCursoDip.controls['dip_fechainscripcion'].invalid && formCursoDip.controls['dip_fechainscripcion'].touched }"></i>
+                  <!---<input type="text" class="form-control" id="dip_fecha" mdbInput mdbValidate formControlName="dip_fecha">-->
+                  <mdb-date-picker name="dip_fechainscripcion" style="margin-left: 39px; width: 76% !important;" id="dip_fechainscripcion" [options]="opciones_fecha"  [placeholder]="!formCursoDip.controls['dip_fechainscripcion'].value?'':formCursoDip.controls['dip_fechainscripcion'].value"   formControlName="dip_fechainscripcion"  mdbInput   class="calendario mb-0 p-0" ></mdb-date-picker>
+                  <label class="positio-label">Fecha inicio</label>
+                  <mdb-error *ngIf="formCursoDip.controls['dip_fechainscripcion'].invalid && (formCursoDip.controls['dip_fechainscripcion'].dirty || formCursoDip.controls['dip_fechainscripcion'].touched)">Campo requerido</mdb-error>
+                </div>   
+                                   
+          </div>
+                <div class="col-sm-12 col-md-6">
+        <div class="md-form mb-2" [ngClass]="formCursoDip.controls['dip_periodicidad'].value!='ninguno'?'d-none':''">
+            <i class="far fa-clock prefix" [ngClass]="{icon_valid:formCursoDip.controls['dip_hora_inicio'].valid && formCursoDip.controls['dip_hora_inicio'].touched,icon_invalid:formCursoDip.controls['dip_hora_inicio'].invalid && formCursoDip.controls['dip_hora_inicio'].touched }"></i>
+            <mdb-time-picker [buttonLabel]="'Hecho'" [twelvehour]="false"  [darktheme]="false"  mdbValidate   formControlName="dip_hora_inicio" class="mb-0 p-0"></mdb-time-picker>
+            <label class="positio-label">Hora inicio</label>
+            <mdb-error *ngIf="formCursoDip.controls['dip_hora_inicio'].invalid && (formCursoDip.controls['dip_hora_inicio'].dirty || formCursoDip.controls['dip_hora_inicio'].touched)">Campo requerido</mdb-error>
+        </div>
+    </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="md-form mb-2" [ngClass]="formCursoDip.controls['dip_periodicidad'].value!='ninguno'?'d-none':''">
+                <i class="fas fa-calendar-day prefix" [ngClass]="{icon_valid:formCursoDip.controls['dip_fechalimiteinscripcion'].valid && formCursoDip.controls['dip_fechalimiteinscripcion'].touched,icon_invalid:formCursoDip.controls['dip_fechalimiteinscripcion'].invalid && formCursoDip.controls['dip_fechalimiteinscripcion'].touched }"></i>
+                <!---<input type="text" class="form-control" id="dip_fecha" mdbInput mdbValidate formControlName="dip_fecha">-->
+                <mdb-date-picker name="dip_fechalimiteinscripcion" style="margin-left: 39px; width: 76% !important;" id="dip_fechalimiteinscripcion" [options]="opciones_fecha_fin"  [placeholder]="!formCursoDip.controls['dip_fechalimiteinscripcion'].value?'':formCursoDip.controls['dip_fechalimiteinscripcion'].value"   formControlName="dip_fechalimiteinscripcion"  mdbInput   class="calendario mb-0 p-0" ></mdb-date-picker>
+                <label class="positio-label">Fecha fin</label>
+                <mdb-error *ngIf="formCursoDip.controls['dip_fechalimiteinscripcion'].invalid && (formCursoDip.controls['dip_fechalimiteinscripcion'].dirty || formCursoDip.controls['dip_fechalimiteinscripcion'].touched)">Campo requerido</mdb-error>
+              </div>   
+                                 
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="md-form mb-2" [ngClass]="formCursoDip.controls['dip_periodicidad'].value!='ninguno'?'d-none':''">
+              <i class="far fa-clock prefix" [ngClass]="{icon_valid:formCursoDip.controls['dip_hora_fin'].valid && formCursoDip.controls['dip_hora_fin'].touched,icon_invalid:formCursoDip.controls['dip_hora_fin'].invalid && formCursoDip.controls['dip_hora_fin'].touched }"></i>
+              <mdb-time-picker [buttonLabel]="'Hecho'"  [twelvehour]="false"  [darktheme]="false" mdbValidate   formControlName="dip_hora_fin" class="mb-0 p-0"></mdb-time-picker>
+              <label class="positio-label">Hora fin</label>
+              <mdb-error *ngIf="formCursoDip.controls['dip_hora_fin'].invalid && (formCursoDip.controls['dip_hora_fin'].dirty || formCursoDip.controls['dip_hora_fin'].touched)">Campo requerido</mdb-error>
+          </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div class="md-form mb-2">
+          <i class="far fa-calendar-alt  prefix " [ngClass]="{icon_valid:formCursoDip.controls['dip_oferta'].valid && formCursoDip.controls['dip_oferta'].touched,icon_invalid:formCursoDip.controls['dip_oferta'].invalid && formCursoDip.controls['dip_oferta'].touched }"></i>
+          <input type="text" class="form-control" id="dip_oferta" mdbInput mdbValidate formControlName="dip_oferta">
+          <label  for="dip_oferta" >Oferta</label>
+          <mdb-error *ngIf="formCursoDip.controls['dip_oferta'].invalid && (formCursoDip.controls['dip_oferta'].dirty || formCursoDip.controls['dip_oferta'].touched)">Campo requerido</mdb-error>
+        </div>
+    </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="md-form mb-2">
+            <i class="fas fa-hourglass-start prefix " [ngClass]="{icon_valid:formCursoDip.controls['dip_duracion'].valid && formCursoDip.controls['dip_duracion'].touched,icon_invalid:formCursoDip.controls['dip_duracion'].invalid && formCursoDip.controls['dip_duracion'].touched }"></i>
+            <input type="text" class="form-control" id="dip_duracion" mdbInput mdbValidate formControlName="dip_duracion">
+            <label  for="dip_duracion" >Duración</label>
+            <mdb-error *ngIf="formCursoDip.controls['dip_duracion'].invalid && (formCursoDip.controls['dip_duracion'].dirty || formCursoDip.controls['dip_duracion'].touched)">Campo requerido</mdb-error>
+          </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6">
+        <div class="md-form mb-2">
+          <i class="fas fa-hand-holding-usd prefix " [ngClass]="{icon_valid:formCursoDip.controls['dip_costo'].valid && formCursoDip.controls['dip_costo'].touched,icon_invalid:formCursoDip.controls['dip_costo'].invalid && formCursoDip.controls['dip_costo'].touched }"></i>
+          <input type="text" class="form-control" id="dip_costo" mdbInput mdbValidate formControlName="dip_costo">
+          <label  for="dip_costo" >Costo</label>
+          <mdb-error *ngIf="formCursoDip.controls['dip_costo'].invalid && (formCursoDip.controls['dip_costo'].dirty || formCursoDip.controls['dip_costo'].touched)">Campo requerido</mdb-error>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="md-form mb-2">
+        <i class="fas fa-user-tie prefix " [ngClass]="{icon_valid:formCursoDip.controls['dip_contacto'].valid && formCursoDip.controls['dip_contacto'].touched,icon_invalid:formCursoDip.controls['dip_contacto'].invalid && formCursoDip.controls['dip_contacto'].touched }"></i>
+        <input type="text" class="form-control" id="dip_contacto" mdbInput mdbValidate formControlName="dip_contacto">
+        <label  for="dip_contacto" >Contacto</label>
+        <mdb-error *ngIf="formCursoDip.controls['dip_contacto'].invalid && (formCursoDip.controls['dip_contacto'].dirty || formCursoDip.controls['dip_contacto'].touched)">Campo requerido</mdb-error>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="md-form mb-2">
+      <i class="far fa-envelope prefix" [ngClass]="{icon_valid:formCursoDip.controls['dip_correo'].valid && formCursoDip.controls['dip_correo'].touched,icon_invalid:formCursoDip.controls['dip_correo'].invalid && formCursoDip.controls['dip_correo'].touched }"></i>
+      <input type="text" class="form-control" id="dip_correo" mdbInput mdbValidate formControlName="dip_correo">
+      <label  for="dip_correo" >Correo de Contacto</label>
+      <mdb-error *ngIf="formCursoDip.controls['dip_correo'].invalid && (formCursoDip.controls['dip_correo'].dirty || formCursoDip.controls['dip_correo'].touched)">Campo requerido</mdb-error>
+    </div>
+</div>
+      <div class="col-sm-12 col-md-6 mt-2">
+        <div class="md-form pb-0  mb-0">
+          <label for="facultad" class="col-form-label pl-2 ml-1">Facultad</label>
+          <select class="browser-default custom-select" mdbInput mdbValidate id="facultad" formControlName="dip_facultad"  > 
+            <option [ngValue]="null">Seleccione facultad</option>
+            <option *ngFor="let item of oFaculad" [value]="item">{{item}}</option>    
+          </select>
+          <mdb-error *ngIf="formCursoDip.controls['dip_facultad'].invalid && (formCursoDip.controls['dip_facultad'].dirty || formCursoDip.controls['dip_facultad'].touched)">Campo requerido</mdb-error>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6">       
+        <div class="ml-3 mt-3">
+            <span class="texto_filtro  mr-3 d-block">Tipo de Estudio</span>
+              <div class="form-check form-check-inline position-relative">
+                <input type="radio" class="form-check-input" id="dip_tipo_estudio" value="Curso" mdbInput mdbValidate formControlName="dip_tipoestudio">
+                <label class="form-check-label" for="dip_tipo_estudio">Curso</label>
+              </div>
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="dip_tipo_estudio2" value="Diplomado" mdbInput mdbValidate formControlName="dip_tipoestudio">
+                  <label class="form-check-label" for="dip_tipo_estudio2">Diplomado</label>
+              </div>
+            <mdb-error style="left:auto" *ngIf="formCursoDip.controls['dip_tipoestudio'].invalid && (formCursoDip.controls['dip_tipoestudio'].dirty || formCursoDip.controls['dip_tipoestudio'].touched)">Campo requerido</mdb-error>
+        </div>    
+      </div>
+      <div class="col-sm-12 col-md-6">       
+        <div class="ml-3 mt-3">
+            <span class="texto_filtro  mr-3 d-block">Frecuencia</span>
+            <div class="form-check form-check-inline position-relative">
+                            <input type="radio" class="form-check-input" id="dip_periodicidad" (change)="fn_changePeriodo()" value="semanal" mdbInput mdbValidate formControlName="dip_periodicidad">
+                            <label class="form-check-label" for="dip_periodicidad">Semanal</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" id="dip_periodicidad2" (change)="fn_changePeriodo()" value="mensual" mdbInput mdbValidate formControlName="dip_periodicidad">
+                            <label class="form-check-label" for="dip_periodicidad2">Mensual</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" id="dip_periodicidad3" (change)="fn_changePeriodo()" value="ninguno" mdbInput mdbValidate formControlName="dip_periodicidad">
+                            <label class="form-check-label" for="dip_periodicidad3">Ninguna</label>
+                    </div>
+                    <mdb-error style="left:auto" *ngIf="formCursoDip.controls['dip_periodicidad'].invalid && (formCursoDip.controls['dip_periodicidad'].dirty || formCursoDip.controls['dip_periodicidad'].touched)">Campo requerido</mdb-error>
+            </div>
+            
+      </div>  
+      <div class="col-sm-12 col-md-6 mt-2">
+      <div class="d-flex flex-center">
+        <input type="file" id="inputbrochure" (change)="fileChangeBrochure($event)"  class="d-none" formControlName="dip_brochure"  >
+        <span *ngIf="!previewBrochure">
+          <p class="card-text m-0 p-0 text-center mt-2">Cargar Plegable</p>
+          <div class="d-flex flex-center" (click)="fn_callBrochure()">
+                <i class="fas fa-upload text-gray fa-6x"></i>
+          </div>        
+        </span>
+        <span *ngIf="previewBrochure">
+              <ng-container *ngIf="previewBrochure.url">
+                  <a  [href]="previewBrochure.url" target="_blank" [download]="'brochure.pdf'" class="pointer"><i class="text-gray fa-lg mr-2" [ngClass]="previewBrochure.icon"></i> {{previewBrochure.nombre}}</a>
+              </ng-container>
+
+              <ng-container *ngIf="!previewBrochure.url">
+                  <a   class="pointer"><i class="text-gray fa-lg mr-2" [ngClass]="previewBrochure.icon"></i> {{previewBrochure.nombre}}</a>
+              </ng-container>
+
+              <a   class="pointer text-underline d-block" (click)="fn_callBrochure()">Cargar plegable diferente</a>
+        </span>
+        
+      </div>
+      
+    </div>
+    <div class="col-sm-12 col-md-6 pointer d-flex justify-content-center" title="Cargar imágen" mdbWavesEffect placement="left" (click)="fn_callFile()">
+       
+      <input type="file" id="inputfile"  (change)="fileChange($event)"  class="d-none"     formControlName="dip_img" accept="image/*" >
+      <span *ngIf="!preview" class="pt-2" >
+          <p class="card-text m-0 p-0 text-center mt-2">Cargar imágen</p>
+          <div class="d-flex flex-center">
+                <i class="fas fa-upload text-gray fa-6x"></i>
+          </div>        
+        </span>
+      <span *ngIf="preview" class="d-flex" style="align-items: center;">
+          <u>Cambiar Imágen</u>
+          <p class="image_preview mt-1 m-0">
+              
+              <img  [src]="preview" class="w-75" style="max-height: 100%; max-width: 100%;">
+              
+          </p>
+   
+        </span>
+
+  </div>
+    </div>     
+
+  </form>
+        <div class="row pt-2">
+            <div class="col-sm-12 col-md-4">
+              <div class="md-form mb-2 d-flex">
+                  <div class="flex-grow-1">
+                      <i class="far fa-comment-alt prefix"></i>
+                      <textarea class="md-textarea form-control" id="dip_observacion" mdbInput [(ngModel)]="observacion"></textarea>
+                      <label  for="dip_observacion" >Observaciones 
+    
+                      </label>
+                  </div>
+                  <div class="inherit flex-center">
+                      <a class="degradado-um waves-light btn-sm" [ngClass]="!observacion?'inactive':''" title="Añadir observación" placement="right" (click)="onAdd('observacion')" rounded="true" mdbWavesEffect >
+                          <i class="fas fa-plus"></i>
+                      </a>
+                  </div>
+              </div>
+              <ul>
+
+                  <div *ngFor="let item of selectobservacion;let idx_obs=index;" class="d-flex" >
+                        <div class="flex-grow-1">
+                            <li>
+                                {{item}}
+                            </li>
+                        </div>
+                        <div>
+                          <i class="fas fa-trash-alt" (click)="fn_borrar(item, 'observacion')"></i>
+                        </div>
+                  </div>
+                 </ul>
+            
+          </div>  
+          
+          <div class="col-sm-12 col-md-4">
+            <div class="md-form mb-2 d-flex">
+                <div class="flex-grow-1">
+                    <i class="far fa-comment-alt prefix"></i>
+                    <textarea class="md-textarea form-control" id="dip_horario" mdbInput [(ngModel)]="horario"></textarea>
+                    <label  for="dip_horario" >Horarios 
+  
+                    </label>
+                </div>
+                <div class="inherit flex-center">
+                    <a class="degradado-um waves-light btn-sm" title="Añadir Horario" [ngClass]="!horario?'inactive':''" placement="right" (click)="onAdd('horario')" rounded="true" mdbWavesEffect >
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            <ul>
+
+              <div *ngFor="let item of selecthorario;let idx_obs=index;" class="d-flex">
+                    <div class="flex-grow-1">
+                        <li>
+                            {{item}}
+                        </li>
+                    </div>
+                    <div>
+                      <i class="fas fa-trash-alt"  (click)="fn_borrar(item, 'horario')"></i>
+                    </div>
+              </div>
+             </ul>
+
+          
+        </div>  
+        <div class="col-sm-12 col-md-4">
+          <div class="md-form mb-2 d-flex">
+              <div class="flex-grow-1">
+                  <i class="far fa-comment-alt prefix"></i>
+                  <textarea class="md-textarea form-control" id="dip_requisito" mdbInput [(ngModel)]="requisito"></textarea>
+                  <label  for="dip_requisito" >Requisitos 
+
+                  </label>
+              </div>
+              <div class="inherit flex-center">
+                  <a class="degradado-um waves-light btn-sm" title="Añadir Requisito" [ngClass]="!requisito?'inactive':''" placement="left" (click)="onAdd('requisito')" rounded="true" mdbWavesEffect >
+                      <i class="fas fa-plus"></i>
+                  </a>
+              </div>
+          </div>
+          <ul>
+              <div *ngFor="let item of selectrequisito;let idx_obs=index;" class="d-flex">
+                    <div class="flex-grow-1">
+                        <li>
+                            {{item}}
+                        </li>
+                    </div>
+                    <div>
+                      <i class="fas fa-trash-alt" (click)="fn_borrar(item, 'requisito')"></i>
+                    </div>
+              </div>
+             </ul>
+        
+      </div>  
+          </div>
+
+      </div>
+
+
+
+      <div class="text-center mb-4">
+          <hr>
+          <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormCursoDip(formCursoDip)">Guardar<i class="fas fa-save ml-2"></i></button>
+          <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormCursoDip(formCursoDip)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+      </div>
+    </div>
+  </div>
+</div>

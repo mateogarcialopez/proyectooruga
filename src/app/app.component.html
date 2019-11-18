@@ -1,0 +1,6 @@
+    <menu (llamarIndexador)='fn_llamarIndexador($event)' class="m-0 p-0" *ngIf="hide"></menu>
+    <!--<search></search>-->
+    <!--<router-outlet class="m-0 p-0" (activate)='onActivate($event)' ></router-outlet>-->
+
+    <router-outlet class="m-0 p-0"  (activate)='onActivate($event)' ></router-outlet>
+    <footer_component  *ngIf="hide"></footer_component>

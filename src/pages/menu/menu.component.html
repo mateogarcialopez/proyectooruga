@@ -1,0 +1,357 @@
+<div  style="position:absolute; z-index: 101; top: 28px; left: 47%; transform: translate(-50%,0);">
+  <ng-container *ngFor="let bread of ServicesProvider.breadcum; let idx=index;"> 
+    <span class="gray-text pointer" [routerLink]="bread.ruta" [ngClass]="bread.clase">
+      <i class="mr-2" [ngClass]="bread.icono"></i>{{bread.titulo}}</span>
+      <i *ngIf="ServicesProvider.breadcum.length-1 != idx" class="mx-3 fas fa-angle-double-right cursor"></i>
+  </ng-container>
+</div>
+
+<!--Navbar-->
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark top_bar" [containerInside]="false">
+  <!-- Navbar brand -->
+  <!-- SideNav slide-out button -->
+  <a (click)="sidenav.toggle()" [hidden]="ServicesProvider.urlActual=='DashboardComponent'" class="p-2 button-collapse" mdbWavesEffect><i class="color-oruga fas fa-bars fa-lg"></i></a>
+  <!--/. SideNav slide-out button -->
+  <a routerLink="/dashboard">
+      <img src="./assets/img/orugaIcons/OLLPRO.png"    width="60.1">
+      <span class="OrugaText color-oruga">Oruga Learning...</span>
+  </a>
+
+ 
+
+  <!-- Collapsible content -->
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li>
+          <span id="dynamicContentWrapper-mainNavbar" class="dynamic-content d-none d-lg-inline-block">
+            <a alt="Dynamic: Pro (Angular)" id="navbar-angular-dynamic-pro" class="btn btn-danger btn-sm my-0" (click)="fn_callModalCompra(true)" role="button">Suscribete<i class="far fa-gem  ml-1"></i>
+          </a></span>
+      </li>
+      <li *ngIf="oUsuario.rol=='administrador'" class="d-flex flex-center inherit">
+        <i class="fas fa-chart-line color-oruga ml-2 mr-2" style="font-size: 20px"  title="Indicadores de la Plataforma" mdbWavesEffect placement="left" routerLink="/estadistica"></i>
+      </li>
+      <li *ngIf="oUsuario.rol=='administrador'" class="d-flex flex-center inherit">
+        <i class="fas fa-user-plus color-oruga ml-2 mr-2"  title="Añadir Usuario" mdbWavesEffect placement="left" routerLink="/usuario"></i>
+      </li>
+      
+     <li *ngIf="oUsuario.rol=='administrador'" class="nav-item avatar dropdown"   dropdown> <!--mdbWavesEffect-->
+          <a dropdownToggle  type="button" class="nav-link dropdown-toggle" >
+            <mdb-badge [hidden]="ServicesProvider.numNotificaciones==0" pill="true" danger="true" style="position: absolute;left: 21px;top: -6px;padding: 1px 4px;z-index: 9!important;">{{ServicesProvider.numNotificaciones}}</mdb-badge>
+            <!--<img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" alt="" class="img-fluid rounded-circle z-depth-0">-->
+            <div class="circle" [ngClass]="clase_icon_user" (mouseover)="clase_icon_user='animated heartBeat'" (mouseout)="clase_icon_user=false;" >  {{oUsuario.nombre+' '+oUsuario.apellido | inicialesnombre}}</div>
+          </a>
+          <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+            <a class="dropdown-item" mdbWavesEffect routerLink="/solicitud" *ngFor="let item of ServicesProvider.aNotificaciones"><i class="{{oIcons[item.sol_tipo_solicitud].icono}} mr-2"></i>{{oIcons[item.sol_tipo_solicitud].tipo}} en {{item.sol_categoria}} | {{item.sol_usuario_genera}} | {{item.sol_fecha_actualizacion | fechaespanol}}</a>
+            <a class="dropdown-item text-center borde_gris_t" style="text-decoration: underline;" mdbWavesEffect routerLink="/solicitud" >Ver todas</a>
+
+          </div>
+      </li>
+      <li class="d-flex flex-center inherit">
+          <a routerLink="/" (click)="fn_cerrarSesion()" mdbWavesEffect ><i class="ml-3 color-oruga fa fa-sign-out-alt fa-lg"></i></a>
+
+      </li>
+    </ul>
+  <!-- Collapsible content -->
+
+</mdb-navbar>
+<!--/.Navbar-->
+
+<!-- Sidebar navigation -->
+<mdb-side-nav #sidenav  [fixed]="false" >
+  <div class="logo-wrapper  waves-light w-100  d-flex justify-content-center align-items-center" >
+    <a  (click)="sidenav.hide();" (click)="ServicesProvider.parametrosSeccion=null;" routerLink="/dashboard" class="d-flex flex-center">
+      
+      <img src="./assets/img/orugaIcons/OLL.png" style="width:127px;" class="p-0 mb-1">
+    </a>
+  </div>
+
+    <a *ngFor="let opcion of aCategorias" class="cursor hover_icon  menu-item" style="height:46px" (click)="ServicesProvider.parametrosSeccion=null;" [routerLink]="'/'+opcion.redirect" (click)="sidenav.hide();">
+      <mdb-icon fas [icon]="opcion.icono"></mdb-icon>
+      <span>{{opcion.nombre}}</span>
+      <!--<mdb-badge [ngClass]="opcion.clase_badge" pill="true" default="true">{{opcion.texto_mostrar}}</mdb-badge>-->
+    </a>
+<hr class="m-0">
+
+</mdb-side-nav>
+
+<!--/. Sidebar navigation -->
+
+
+<div class="container_search" [ngClass]="{'!hide_container_search':showSearch,'w-100':sidenav.shown}">
+<i class="fas fa-times-circle fa-2x close_icon"  mdbWavesEffect (click)="showSearch=false; sidenav.hide();"></i>
+<div class="logo_um_search">
+  <div class="d-flex flex-center mt-2">
+      <img src="./assets/img/LogoUMAlta.png"  width="100" >
+  </div>
+</div>
+
+
+
+<div class="d-flex justify-content-center align-items-center background w-100 " style="margin-top: 74px !important;">
+  <div class="p-0 m-0 w-80">
+    <span class="input input--nao" [ngClass]="animacion_input || focus_input?'input--filled':''" > 
+      <input class="input__field input__field--nao" type="text" id="input-1" #search (keyup)="getFilteredData()" [(ngModel)]="animacion_input"  (focus)="focus_input=true" (blur)="animacion_input?focus_input=true:focus_input=false;"  />
+      <i class="fas fa-times pointer fa-lg ml-3 pt-4 equis_input" [hidden]="!animacion_input" (click)="resultsAutocomplete=[];animacion_input=''" ></i>
+      <label class="input__label input__label--nao" for="input-1" >
+        <span class="input__label-content input__label-content--nao">Ingresa tu consulta</span>
+      </label>
+      <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
+      </svg>
+    </span>
+  </div>
+  <div class="p-0 m-0" >
+    <i class="fas fa-search cursor fa-lg ml-3 pt-4" ></i>
+  </div>
+
+
+
+</div>
+<div class="d-flex justify-content-center" style="margin-top: -19px;margin-left: -2px;">
+    <div class="p-0 m-0 w-80 autocomplete sombra  thin scrollbar-gris scroll_y">
+      <div class="pointer line-height-1 d-flex" (click)="showSearch=false;fn_goToSection(item)" *ngFor="let item of resultsAutocomplete"
+        >
+          <div class="d-flex flex-center" [ngStyle]="{background: item==animacion_input?'#eee':''  }">
+              <ng-container *ngIf="aCategoriasBadge[item.ruta]">
+                  <mdb-badge class="ml-2" [ngClass]="aCategoriasBadge[item.ruta].clase_badge" pill="true" default="true">
+                      <i class=" mr-2 text-white" [ngClass]="aCategoriasBadge[item.ruta].icono"></i>
+                      {{aCategoriasBadge[item.ruta].texto_mostrar}}
+                    </mdb-badge>
+              </ng-container>
+          </div>
+          <div class="ml-2 flex-grow-1  d-flex align-items-center">
+                {{item.textoM}}
+
+          </div>
+
+      </div>
+      <div class="p-2" *ngIf="animacion_input?.length>=3 && resultsAutocomplete?.length==0">
+        No existen resultados para tu consulta
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- Card -->
+<!---
+<div class="row mx-3 " style="position: absolute;bottom: 30px;">
+<div class="col-6" >
+<mdb-card>
+    <div class="row">
+      <div class="col-4">
+          <img class="h-100 w-100" src="../../assets/img/evento.jpg">
+      </div>
+      <div class="col-8" style="max-height: 200px;height: 200px;">
+          <mdb-card-body style="max-height: 200px;" class="overflow-auto thin scrollbar-gris">
+              <mdb-card-title>
+                <h4 class="mb-0">Eventos de <strong>¡Hoy!</strong></h4>
+              </mdb-card-title>
+              <hr class="mt-0">
+              <div class="row item_element mr-0" (click)="sidenav.hide();showSearch=false;" routerLink="/evento">
+                  <div class="col-4 card-text bt-gris py-2">
+                      16:00
+                  </div>
+                  <div class="col-8 card-text bt-gris py-2">
+                      Psicosemana
+                  </div>
+              </div>
+            </mdb-card-body>
+      </div>
+    </div>
+  </mdb-card>
+</div>
+<div class="col-6" >
+    <mdb-card>
+        <div class="row">
+          <div class="col-4">
+              <img class="h-100 w-100" src="../../assets/img/calendario.jpg">
+          </div>
+          <div class="col-8" style="max-height: 200px;height: 200px;">
+              <mdb-card-body style="max-height: 200px;" class="overflow-auto thin scrollbar-gris">
+                  <mdb-card-title>
+                    <h4 class="mb-0">Calendario <strong>Académico</strong></h4>
+                  </mdb-card-title>
+                  <hr class="mt-0">
+                  <div class="row item_element mr-0">
+                      <div class="col-4 card-text bt-gris py-2">
+                          24/05/2019 - 15/06/2019
+                      </div>
+                      <div class="col-8 card-text bt-gris py-2">
+                          Inscripciones estudiantes Nuevos
+                      </div>
+                  </div>
+                </mdb-card-body>
+          </div>
+        </div>
+      </mdb-card>
+    </div>
+
+</div>
+
+
+-->
+
+
+<!--
+  <div class="suceso_hoy d-inline suceso_hoy" style="width:33.3%">
+    Eventos de <strong>¡HOY!</strong>
+    <br>
+    <div class="d-inline" >
+      08:00
+    </div>
+    <div class="d-inline" style="width:70%">
+        Dia del psicologo
+    </div>
+  </div> 
+
+  <div class="suceso_hoy d-inline suceso_hoy" style="width:33.3%">
+      Eventos de <strong>¡HOY!</strong>
+      <br>
+      <div class="d-inline" >
+        08:00
+      </div>
+      <div class="d-inline" style="width:70%">
+          Dia del psicologo
+      </div>
+    </div>    
+  -->
+</div>
+
+
+<div class="fixed-action-btn animated pulse infinite animation-3-s" style="bottom: 20px;right: 6px;z-index: 1040;margin: 0px;padding: 0px;" >
+  <a class="btn-floating btn-large degradado-um waves-light" (click)="frame.show()"  [title]="'Registrar interesado'"  placement="left"  >
+    <i class="fas fa-headset fa-lg"></i>
+  </a>
+</div>
+
+
+<div mdbModal #frame="mdbModal" class="modal fade right" id="frameModalTop" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-side modal-bottom-right cascading-modal modal-avatar modal-md" role="document">
+
+  <!--Content-->
+  <div class="modal-content">
+      <i class="fas fa-times prefix green-text pointer" (click)="frame.hide();" style="position: absolute;top: 5px;right: 5px; z-index: 1040;"></i>
+
+    <!--Header-->
+    <div class="modal-header">
+      
+      <img src="./assets/img/woman_callcenter.jpg" alt="avatar" class="rounded-circle img-responsive">
+      <!--<a type="button" class="btn-floating btn-lg sombra  bordes-gris cursor contenedor_icono_header_llamada bordes_icon_header" >
+          <i class="fas  fa-headset animated bounceInLeft cursor estilos_icono_header texto-verde"></i>
+      </a>-->
+    </div>
+    <!--Body-->
+    <form [formGroup]="ServicesProvider.formDifusion">
+    <div class="modal-body mx-3 difusion">
+      <div class="md-form mb-1">
+        <i class="fas fa-user prefix grey-text"></i>
+        <input type="text" id="form34" class="form-control validate" mdbInput mdbValidate formControlName="nombre">
+        <label data-error="wrong" data-success="right" for="form34" >Nombre</label>
+        <mdb-error *ngIf="ServicesProvider.formDifusion.controls['nombre'].invalid && (ServicesProvider.formDifusion.controls['nombre'].dirty || ServicesProvider.formDifusion.controls['nombre'].touched)">Campo requerido</mdb-error>
+      </div>
+
+      <div class="md-form mb-1">
+        <i class="fas fa-envelope prefix grey-text"></i>
+        <input type="email" id="form29" class="form-control validate" mdbInput mdbValidate formControlName="correo">
+        <label data-error="wrong" data-success="right" for="form29">Correo</label>
+        <mdb-error *ngIf="ServicesProvider.formDifusion.controls['correo'].invalid && (ServicesProvider.formDifusion.controls['correo'].dirty || ServicesProvider.formDifusion.controls['correo'].touched)">Campo requerido</mdb-error>
+      </div>
+      <div class="md-form mb-1">
+        <i class="fas fa-phone prefix grey-text"></i>
+        <input type="number" id="form30" class="form-control validate" mdbInput mdbValidate formControlName="telefono">
+        <label data-error="wrong" data-success="right" for="form30">Número Teléfonico</label>
+      </div>
+      <div class="md-form">
+        <i class="fas fa-comment-alt prefix grey-text"></i>
+        <textarea type="text" id="form8" class="md-textarea form-control" rows="1" mdbInput  formControlName="motivo"></textarea>
+        <label data-error="wrong" data-success="right" for="form8">Motivo de LLamada</label>
+      </div>
+
+      <div class="form-group mt-1">
+          <input class="form-check-input" type="checkbox" id="checkbox624" mdbValidate formControlName="termino">
+          <label for="checkbox624" class="form-check-label card-text">Autoriza la recepción de correos electrónicos y envio de información</label>
+      </div>
+
+      <div class="md-form pb-0 mb-0" >
+        <label for="difusion1" class="col-form-label pl-0" >Sección de llamada</label>
+        <select class="browser-default custom-select" mdbInput mdbValidate id="difusion" formControlName="categoria">
+          <option *ngFor="let item of ServicesProvider.oCategoria" [value]="item.seccion">{{item.value}}</option>    
+        </select>
+        <mdb-error *ngIf="ServicesProvider.formDifusion.controls['categoria'].invalid && (ServicesProvider.formDifusion.controls['categoria'].dirty || ServicesProvider.formDifusion.controls['categoria'].touched)">Campo requerido</mdb-error>
+        {{ServicesProvider?.oDifusionEnviar?.nombre}}
+      </div>
+
+    </div>
+  </form>
+    <div class="modal-footer justify-content-center">
+        
+        <button type="button" mdbBtn  class="degradado-um relative waves-light text-white" mdbWavesEffect (click)="fn_submitformDifusion(ServicesProvider.formDifusion)">Guardar <i class="fas fa-save prefix ml-2 text-white"></i></button>
+    </div>
+  </div>
+  <!--/.Content-->
+</div>
+</div>
+
+
+
+<!--Modal modalCompra de Usuario-->
+<div mdbModal #modalCompra="mdbModal" class="modal fade" id="modalCompra" tabindex="-1" role="dialog" [config]="{backdrop: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid modal-dialog-centered" role="document">
+    <div class="modal-content" style="background-color: transparent;"> 
+      <div class="modal-body mx-3 thin scrollbar-gris">
+        <form [formGroup]="formCompra" class="d-flex justify-content-center">
+          <div class="row width-50">
+
+          <div class="col-md-12">
+                      
+              <div class="wrapper">          
+                
+                  <div style="display: grid; justify-self: center;border: 1px solid #25824b; border-bottom-left-radius: 70% 70%;" class="white-text bg_oruga w-100 m-0">
+                      <span  style="font-size: 45px; font-weight: bold; text-align: center;">
+                          Oruga Premium
+                        </span>
+                       <div class="d-flex justify-content-center">
+                        
+                         <ul>
+                            <h5>Beneficios</h5>
+                           <li>Más contenido</li>
+                           <li>Tiempo de respuesta inmediato en foro</li>
+                           <li>Acesorias</li>
+                           <li>Subir contenido</li>
+                         </ul>
+                       </div>
+                  </div>
+                  <div class="container">      
+                          <div class="cc-num">
+                              <label for="card-num">Número de la tarjeta</label>
+                              <input type="text" name="card-num" formControlName="numero_tarjeta">
+                              <mdb-error *ngIf="formCompra.controls['numero_tarjeta'].invalid && (formCompra.controls['numero_tarjeta'].dirty || formCompra.controls['numero_tarjeta'].touched)">Campo requerido</mdb-error>
+                            </div>
+                          <div class="cc-info">
+                              <div>
+                                  <label for="card-num">Exp</label>
+                                  <input type="text" name="expire" formControlName="exp">
+                                  <mdb-error *ngIf="formCompra.controls['exp'].invalid && (formCompra.controls['exp'].dirty || formCompra.controls['exp'].touched)">Campo requerido</mdb-error>
+                                </div>
+                              <div>
+                                  <label for="card-num">CCV</label>
+                                  <input type="text" name="security" formControlName="ccv">
+                                  <mdb-error *ngIf="formCompra.controls['ccv'].invalid && (formCompra.controls['ccv'].dirty || formCompra.controls['ccv'].touched)">Campo requerido</mdb-error>
+                              </div>
+                          </div>
+                          <div class="d-flex justify-content-center mt-3 btns">
+                              <button mdbWavesEffect (click)="fn_submitFormCompra(formCompra)">Suscribirse</button>
+                          </div>
+                     
+                  </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

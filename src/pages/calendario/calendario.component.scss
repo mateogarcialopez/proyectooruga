@@ -1,0 +1,124 @@
+$verde_umanizalesb:  #a8cf45;
+$verde_umanizales2: #76c04e;
+$gris_umanizales_background: #666666;
+$gris_claro: #eaeaea;
+$gris_oscuro:#343434;
+
+
+.calendario-container{
+    margin: 15px auto;
+    width: 97%;
+}
+.year-container{
+    text-align: center;
+}
+.year-container h5{
+    font-weight: bold;
+}
+.year-container:first-child{
+    border-right: 1px solid $gris_claro;
+}
+.period-container{
+    border-right: 1px solid $gris_claro;
+    text-align: center;
+    padding: 0;
+}
+.period-container:last-child{
+    border-right: 0;
+}
+.cards-container{
+    max-height: calc(100vh - 250px);
+    overflow: auto;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+}
+.card.card-cascade .view.view-cascade.gradient-card-header{
+    padding: 0.3rem 1rem !important;
+}
+.date-number{
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: $verde_umanizales2;
+}
+.card{
+    margin-top: 2rem !important;
+}
+.card .card-body{
+    padding: 0.5rem;
+}
+.categoria-content{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.concepto-content{
+    position: relative;
+    width: 49%;
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    background-color: #eceff181;
+    padding: 0.8rem 0.5rem;
+}
+.chip{
+    margin-bottom: 0;
+}
+.filters-container{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0.2rem 0 1rem 0;
+    
+}
+
+.filters-container label.form-check-label{
+    padding-left: 25px;
+}
+
+.filters-container span{
+    color: #666666;
+    padding-right: 1rem;
+}
+
+.edit-calendar{
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    color: #979797 !important;
+}
+.delete-calendar{
+    position: absolute;
+    right: 23px;
+    bottom: 3px;
+    color: #979797 !important;
+}
+.sync-calendar{
+    position: absolute;
+    right: 39px;
+    bottom: 3px;
+    color: #979797 !important;
+}
+.pointer-calendar{
+    position: absolute;
+    right: 190px;
+    bottom: 3px;
+
+}
+.comentario-calendar{
+    position: absolute;
+    right: 140px;
+    bottom: 3px;
+
+}
+.element_selection
+{
+    background: #e6e4e4;
+    box-shadow: 1px 1px 4px black;
+}
+
+.desactivar{
+    display: none;
+}
+

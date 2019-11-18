@@ -1,0 +1,859 @@
+<div class="row p-0 m-0">
+    <div class="col-3 px-0 ">
+
+        <div class="container_dependency max_height_menu scrollbar-gris thin overflow-auto">
+            <div class="md-form mb-0 pb-0 mb-0 mt-3 borde_gris_b d-none" style="height:  76px;" >
+
+                <i class="fas fa-search prefix icon_search texto-gris"></i>
+                <input type="search" id="search" [(ngModel)]="search" class="form-control validate  mb-1" mdbInput
+                    (keydown)="onKeydown($event)">
+                <label data-error="wrong" data-success="right" for="search">Búsqueda</label>
+                <p class="text-center card-text m-0  p-0" [hidden]="!search">
+                    <img src="./assets/img/enter-key.png" (click)="fn_busquedaCampo()" width="25" height="25"
+                        class="m-0 p-0">
+                    Presione la tecla enter
+                </p>
+            </div>
+            <div class="d-flex flex-end d-none">
+                <div class="text-right w-100">
+                    <i class=" fas fa-plus-circle mb-3 text-gray pointer mt-1 pr-2  pointer"
+                        title="Agregar Dependencia" mdbWavesEffect placement="left"
+                        (click)="fn_callModalDependencia(true)"></i>
+                </div>
+            </div>
+
+            <mdb-accordion [multiple]="true" *ngFor="let  dependencia of  aDependencias; let idx_dependencia=index"
+                class="acordion_dependencia" (click)="fn_mostrarTarjeta(dependencia,null,idx_dependencia,null)">
+                <mdb-accordion-item [collapsed]="true">
+                    <mdb-accordion-item-head>
+                        <span #acc class="item_element_dependency texto-gris  d-flex pointer py-3"
+                            [id]="dependencia._id">
+                            <div class="d-flex w-100">
+                                <div class="mt-0 ml-1">
+                                    <i *ngIf="dependencia.dep_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[dependencia.dep_estado].color" [title]="oEstado_bolas[dependencia.dep_estado].texto" placement="top"></i>
+                                    <i class="fas fa-address-book texto-gris mr-2"></i>
+                                </div>
+                                <div class="flex-grow-1 tamano_titulo_accordion" id="accordion_0">
+                                    {{dependencia.dep_nombre}}
+                                </div>
+                                <i class="fas fa-sync-alt mr-2 mt-1" placement="left" title="Última Actualización: {{(dependencia?.dep_ultima_actualizacion | fechaespanol)}} Administrador: {{dependencia?.dep_admin_generacion}} Comentarios: {{dependencia?.dep_admin_comentario | ellipsis:102}}" ></i>    
+                                <i class=" fas fa-edit  text-gray pointer  p-1  pointer" title="Editar Dependencia"
+                                    placement="left"
+                                    (click)="oDependenciaSeleccionada=dependencia;fn_callModalDependencia(false,idx_dependencia);"></i>
+                                <i class=" fas fa-trash text-gray pointer  p-1  pointer mr-3"
+                                    title="Eliminar Dependencia" placement="left"
+                                    (click)="fn_AdvertenciaElimDependencia(idx_dependencia)"></i>
+
+                            </div>
+
+                        </span>
+
+                    </mdb-accordion-item-head>
+                    <mdb-accordion-item-body>
+
+
+                        <div class="d-flex flex-end d-none">
+                            <div class="text-right w-100">
+                                <i class=" fas fa-plus-circle mb-3 text-gray pointer mt-1 pr-2  pointer"
+                                    title="Agregar Área" placement="left"
+                                    (click)="fn_callModalResponsable(true,idx_dependencia)"></i>
+                            </div>
+                        </div>
+
+
+                        <ng-container *ngFor="let direccion of dependencia.dep_areas; let idx_card=index;">
+
+                            <div class="d-flex">
+
+                                <div class="flex-grow-1">
+                                    <ul class="m-0 pl-2" *ngIf="direccion.nombre"
+                                    
+                                        [ngClass]="indexDireccion==direccion._id?'card_seleccionada':''">
+
+                                        <li class="m-0 p-0">
+                                            <p class="p-0 mb-1 line-height-1 pointer elementos_unidad"
+                                                [id]="direccion._id"
+                                                (click)="fn_mostrarTarjeta(dependencia,direccion,idx_dependencia,idx_card)"
+                                                [ngClass]="indexDireccion==(idx_dependencia+''+idx_card)?'card_seleccionada':''">
+                                                {{direccion.nombre}}</p>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <i class="fas fa-edit  text-gray p-0 px-1 pointer" title="Editar Área"
+                                    placement="left"
+                                    (click)="oDependenciaSeleccionada=dependencia;fn_callModalResponsable(false,idx_dependencia,idx_card)"></i>
+                                <i class="fas fa-trash  text-gray  p-0 px-1 pointer" title="Eliminar Área"
+                                    placement="left" (click)="fn_AdvertenciaElimnArea(idx_dependencia,idx_card)"></i>
+
+
+                            </div>
+
+
+
+                            <!--div *ngFor="let responsable of direccion.responsables">
+                                {{responsable.cargo}}
+                            </div>-->
+
+                        </ng-container>
+                    </mdb-accordion-item-body>
+                </mdb-accordion-item>
+            </mdb-accordion>
+
+        </div>
+    </div>
+
+    <div class="col-9 m-0 p-0" *ngIf="bSeleccionInicial">
+
+        <div class="streak streak-photo rgba-teal-strong" style="height: 53px;">
+            <!-- style="background-image:url('https://mdbootstrap.com/img/Photos/Others/dress.jpg')"-->
+            <i class="far fa-address-card ml-2 text-white float-left cursor"
+                style="font-size: 40px; line-height: 53px;"></i>
+
+            <div class="flex-center white-text" style="background-attachment: f">
+                <!--  pattern-1-->
+                <ul class="list-unstyled m-0">
+                    <li>
+
+                        <h1 class=" white-text">
+                            <strong>
+                            </strong><span style="font-size: 29px;">{{oSeleccion.dep_nombre}}</span></h1>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <br>
+        <mdb-tabset [buttonClass]="'classic-tabs'" [contentClass]="'card'" class="classic-tabs">
+            <ng-container *ngIf="oSeleccion?.dep_servicio?.length!=0">
+
+
+                <mdb-tab heading="Descripción Dependencia">
+                    <p class="card-text mt-4 ml-4 mb-2">
+                        {{oSeleccion.dep_descripcion?oSeleccion.dep_descripcion:'No se ha definido una descripción'}}
+
+                    </p>
+                    <div class="mb-1" style="margin-bottom: 1rem !important;">&nbsp;</div>
+
+                </mdb-tab>
+            </ng-container>
+            <ng-container *ngIf="oSeleccion?.dep_servicios?.length!=0">
+                <mdb-tab heading="Servicios" *ngIf="oSeleccion.dep_servicios[0].items.length!=0">
+
+
+                    <div class="mt-3">
+                        <div class="" *ngFor="let servicio of oSeleccion.dep_servicios">
+                            <div class="font-weight-500 text-center" *ngIf="servicio.concepto">
+                                <!--<i class="fas fa-check icon_valid mr-2  pl-2 cursor"></i>-->
+                                {{servicio.concepto}}
+                                <hr>
+                            </div>
+
+                            <div class="d-flex" *ngFor="let item of servicio.items">
+                                <div>
+                                    <i class="fas fa-check icon_valid mr-2  pl-2 cursor"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="card-text">
+                                        {{item}}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-1" style="margin-bottom: 1rem !important;">&nbsp;</div>
+
+                </mdb-tab>
+            </ng-container>
+
+        </mdb-tabset>
+        <br>
+
+
+        <mdb-tabset [buttonClass]="'classic-tabs'" [contentClass]="'card'" class="classic-tabs">
+
+                <mdb-tab heading="Áreas">
+        <ng-container *ngFor="let dep of aDependencias[indexDependencia]?.dep_areas; let idx_area=index;">
+            <!---
+                    <mdb-tabset [buttonClass]="'classic-tabs'" [contentClass]="'card'" class="classic-tabs">
+                        <mdb-tab heading="Área">-->
+            <mdb-card class="mb-4 mt-4 mx-3">
+
+                <mdb-card-title class="mb-0 d-flex" [id]="'r'+dep._id"
+                    [ngClass]="indexDireccion=='r'+dep._id || indexDireccion==dep._id?'card_seleccionada':''">
+                    <div class="flex-grow-1">
+                        <h5 class="ml-2 titulo_card m-0 font-weight-500  py-3 text-left">
+                            <i class="fas fa-project-diagram mr-2 texto-gris"></i> {{dep?.nombre}}
+                        </h5>
+                    </div>
+                    <div class="d-flex flex-center inherit">
+                        <span class="mr-2">
+                            <i class="ml-2 fas fa-phone cursor fa-lg" title="Extensión" placement="bottom"></i>
+                            {{dep?.extension}}
+                        </span>
+                    </div>
+
+
+                </mdb-card-title>
+
+
+                <ng-container *ngFor="let responsable of dep?.responsables; let idx_card=index">
+                    <!--Card content-->
+                    <!--Title-->
+
+                    <mdb-card-body class="p-0">
+
+                        <div class="p-0 m-0 borde_gris_t" [id]="responsable._id" *ngIf="responsable.nombre"
+                            [ngClass]="idResponsable==responsable._id?'card_seleccionada':''">
+
+
+                            <!--<hr *ngIf="idx_responsable > 0 && (idx_responsable)!=((direccion.responsables.length)) ">-->
+
+                            <div class="d-flex flex-colum pt-1">
+                                <div>
+                                    <i class="ml-2 fas fa-user cursor fa-lg" title="Nombres"
+                                        placement="bottom"></i>
+                                </div>
+                                <div class="ml-1 flex-center inherit">
+                                    <div class="card-text ">
+                                        <span class="d-block">
+                                            {{responsable.nombre}}
+                                        </span>
+                                        <!--<span class="d-block">
+                                                                juliocesarcastellanos@umanizales.edu.co
+                                                        </span>-->
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-colum" *ngIf="responsable.Correo">
+                                <div>
+                                    <i class="ml-2 fas fa-envelope cursor fa-lg" title="Correo"
+                                        placement="bottom"></i>
+                                </div>
+                                <div class="ml-1 flex-center inherit">
+                                    <div class="card-text ">
+                                        <span class="d-block">
+                                            {{responsable.Correo}}
+                                        </span>
+                                        <!--<span class="d-block">
+                                                            juliocesarcastellanos@umanizales.edu.co
+                                                    </span>-->
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="d-flex flex-colum" *ngIf="responsable.dep_numero">
+                                <div>
+                                    <i class="ml-2 fas fa-phone cursor fa-lg" title="Extensión"
+                                        placement="bottom"></i>
+                                </div>
+                                <div class="ml-1 flex-center inherit">
+                                    <div class="card-text ">
+                                        <span class="d-block">
+                                            {{responsable.dep_numero}}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div>
+
+                                <div class="d-flex flex-colum" *ngIf="responsable.cargo">
+                                    <div>
+                                        <i class="ml-2 fas fa-cogs cursor fa-lg" title="Cargo"
+                                            placement="bottom"></i>
+                                    </div>
+                                    <div class="ml-1 flex-center inherit">
+                                        <div class="card-text ">
+                                            <span class="d-block">
+                                                {{responsable.cargo}}
+                                            </span>
+                                            <!--<span class="d-block">
+                                                                juliocesarcastellanos@umanizales.edu.co
+                                                        </span>-->
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="text-right w-100">
+                            <i class="fas fa-edit  text-gray p-0 px-1 pointer text-right "
+                                title="Editar Responsable" placement="left"
+                                (click)="fn_setResponsable(idx_area,idx_card,true)"></i>
+                            <i class="fas fa-trash  text-gray  p-0 px-1 pointer text-right "
+                                title="Eliminar Responsable" placement="left"
+                                (click)="fn_AdvertenciaElimnResponsable(idx_area,idx_card,true)"></i>
+
+
+                        </div>
+
+                    </mdb-card-body>
+
+                </ng-container>
+            </mdb-card>
+            <div class="mb-1" style="margin-bottom: 1rem !important;">&nbsp;</div>
+
+            <!--</mdb-tab>
+                <ng-container *ngIf="dep?.servicios?.length!=0">
+                    <mdb-tab heading="Servicios" *ngIf="dep?.servicios[0]">
+    
+    
+                        <div class="mt-3">
+                            <div class="" *ngFor="let servicio of dep?.servicios">
+                                <div class="font-weight-500 text-center" *ngIf="servicio.concepto">
+                                    {{servicio.concepto}}
+                                    <hr>
+                                </div>
+    
+                                <div class="d-flex" *ngFor="let item of servicio.items">
+                                    <div>
+                                        <i class="fas fa-check icon_valid mr-2  pl-2 cursor"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="card-text">
+                                            {{item}}
+                                        </span>
+                                    </div>
+    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1" style="margin-bottom: 1rem !important;">&nbsp;</div>
+
+                    </mdb-tab>
+                </ng-container>
+    
+            </mdb-tabset>-->
+
+
+        </ng-container>
+    </mdb-tab>
+</mdb-tabset>
+
+    </div>
+
+    <div class="col-9 p-0 m-0 flex-center inherit flex-center height_menu" *ngIf="!bSeleccionInicial">
+        <div class="card card-image h-100 mx-2" style="background-image: url('./assets/img/background_landing.png');">
+
+            <!-- Content -->
+            <div class="text-white text-center d-flex align-items-center rgba-teal-strong py-5 px-4 h-100 ">
+                <div class="w-100">
+                    <i class="far fa-address-card text-white fa-4x "></i>
+                    <h3 class="mb-4 mt-2 font-weight-bold">
+                        <strong class="text-center">Listado de Dependencias</strong>
+                    </h3>
+                    <p class="text-center">Ahora tienes la posibilidad de realizar búsquedas a una unidad en específico
+                        por medio de un buscador.</p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Scrollspy -->
+    <a #clickscroll mdbPageScroll href="#card_{{indexDireccion}}" class="d-none">click</a>
+    <a #clickscrollresponsable mdbPageScroll href="#res_{{idResponsable}}" class="d-none">click</a>
+
+</div>
+
+
+
+
+
+
+<!--Modal modalDependencia de Usuario-->
+<div mdbModal #modalDependencia="mdbModal" class="modal fade" id="modalDependencia" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"  
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fluid modal-full-height modal-dialog-centered" role="document">
+        <div class="modal-content mascara">
+            <div class="modal-header text-center">
+                <!--<h4 class="modal-title w-100 font-weight-bold">modalDependencia</h4>-->
+                <i class="fas fa-address-book ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+                <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">
+                    {{bSaveEditDependencia?'Agregar ':'Editar '}} Dependencia</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="modalDependencia.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+                <div class="row">
+                    <form [formGroup]="formDependencia" class="w-100">
+
+
+
+                        <div class="col-sm-12 col-md-12">
+                            <div class="md-form mb-2">
+                                <input type="text" class="form-control" id="selecdependencia" mdbInput mdbValidate
+                                    formControlName="selecdependencia">
+                                <label for="selecdependencia">Nombre dependencia</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12">
+                            <div class="md-form mb-2">
+                                <textarea class="md-textarea form-control" id="descripcion_dependencia" mdbInput
+                                    formControlName="descripcion_dependencia"></textarea>
+                                <label for="descripcion_dependencia">Descripcion</label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card-text">
+                                Agrega los sevicios de la dependencia (Debes de tener/crear una categoría de servicio, para asociar los respectivos servicios)
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 d-flex align-items-center">
+                            <div class="flex-grow-1 mt-2">
+                                <div class="md-form mb-2 ">
+                                    <label for="dependencias" class="col-form-label pl-2">Categoría de Servicio</label>
+                                    <select class="browser-default custom-select" (change)="fn_setIndexServicios()"
+                                        formControlName="selectconcepto" mdbInput mdbValidate id="dependencias">
+                                        <option [ngValue]="null"
+                                            *ngIf="!formDependencia.controls['selectconcepto'].value">Selecciona
+                                            categoría del servicio</option>
+                                        <option *ngFor="let item of aNombresServicios" [value]="item.concepto">
+                                            {{item.concepto}}</option>
+                                    </select>
+                                </div>
+                                <a class="pointer text-underline d-block"
+                                    (click)="fn_callModalNombreServicio(true)">Agregar una categoría de servicio</a>
+
+                            </div>
+                            <div class="inherit mx-1">
+
+                                <a class="degradado-um  btn-sm" title="Editar"
+                                    placement="left" (click)="fn_callModalNombreServicio(false);"
+                                    [ngClass]="!formDependencia.controls['selectconcepto'].value?'inactive':''"
+                                    rounded="true">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a class="degradado-um  btn-sm" (click)="fn_advertenciaNombreServico()" placement="left"
+                                    title="Eliminar"
+                                    [ngClass]="!formDependencia.controls['selectconcepto'].value?'inactive':''"
+                                    rounded="true">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+
+
+                        <!---<div class="col-12 d-flex justify-content-center align-items-center">
+                            <div class="md-form flex-grow-1 mb-2">
+                                <i class="fas fa-book prefix"></i>
+                                <input type="text" class="form-control" id="concepto" mdbInput
+                                    formControlName="concepto">
+                                <label for="concepto">Nombre de servicio</label>
+
+                            </div>
+                        </div>-->
+                        <div class="col-12  d-flex justify-content-center align-items-center">
+                            <div class="md-form mb-2 flex-grow-1">
+                                <i class="fas fa-list-ul prefix "></i>
+                                <input type="text" class="form-control" id="items" mdbInput formControlName="servicio">
+                                <label for="items">servicio</label>
+                            </div>
+                            <div>
+                                <a class="degradado-um waves-light btn-sm" title="Agregar Servicio"
+                                    [ngClass]="!formDependencia.controls['servicio'].value || !formDependencia.controls['selectconcepto'].value?'inactive':''"
+                                    placement="left" (click)="fn_addServicioDep()" rounded="true" mdbWavesEffect>
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <ul>
+
+                                <ng-container>
+                                    <!-- *ngIf="item.concepto!='' && item.items.length!=0"-->
+
+
+                                    <div class="d-flex"
+                                        *ngFor="let servicio of aNombresServicios[indexServicios]?.items; let idx_servicios=index">
+                                        <div>
+                                            <li></li>
+                                        </div>
+                                        <div class="card-text flex-grow-1">
+                                            {{servicio}}
+                                        </div>
+                                        <div class="pointer" title="Eliminar Elemento" placement="left"
+                                            (click)="fn_eliminarServicio(idx_itemservicio)">
+                                            <!--<i class=" fas fa-edit mb-1 text-gray pointer mt-1 pr-2  pointer"  title="Eliminar Dependencia"  placement="left" (click)="fn_AdvertenciaElimDependencia(idx_dependencia)"></i>-->
+                                            <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2"></i>
+
+                                        </div>
+
+
+                                    </div>
+                                </ng-container>
+
+                            </ul>
+
+
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="text-center mb-4">
+                <hr>
+                <button [ngClass]="formDependencia.controls['selecdependencia'].valid?'':'disabled'"
+                    *ngIf="bSaveEditDependencia" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect
+                    (click)="fn_submitDependencia()">
+                    Guardar
+                    <i class="fas fa-edit ml-2"></i>
+                </button>
+                <button [ngClass]="formDependencia.controls['selecdependencia']?'':'disabled'"
+                    *ngIf="!bSaveEditDependencia" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect
+                    (click)="fn_submitDependencia()">
+                    Editar
+                    <i class="fas fa-save ml-2"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--Modal modalServicioResponsable de Usuario-->
+<div mdbModal #modalServicioResponsable="mdbModal" class="modal fade" id="modalServicioResponsable" tabindex="-1"
+    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+        <div class="modal-content mascara" style="height: 94vh;">
+            <div class="modal-header text-center">
+                <!--<h4 class="modal-title w-100 font-weight-bold">modalServicioResponsable</h4>-->
+                <i class="fas fa-address-book ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+                <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">
+                    {{bSaveEditDependencia?'Agregar ':'Editar '}} Área</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="fn_CloseremoveDependenciaBlanca()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+                <div class="row">
+                    <form [formGroup]="formArea" class="w-100">
+
+
+                        <div class="col-sm-12 col-md-12">
+                            <div class="md-form mb-2">
+                                <!--<i class="fas fa-user prefix"></i>-->
+                                <input type="text" class="form-control" id="nombre_area" mdbInput mdbValidate
+                                    formControlName="nombre_area">
+                                <label for="nombre_area">Nombres Área</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12">
+                            <div class="md-form mb-2">
+                                <!--<i class="fas fa-user prefix"></i>-->
+                                <input type="text" class="form-control" id="descripcion_area" mdbInput mdbValidate
+                                    formControlName="descripcion_area">
+                                <label for="descripcion_area">Descripción Área</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12">
+                            <div class="md-form mb-2">
+                                <i class="fas fa-phone prefix"></i>
+                                <input type="text" class="form-control" id="extension_responsable" mdbInput
+                                    mdbValidate formControlName="extension">
+                                <label for="extension_responsable">Extensión</label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card-text my-4">
+                                Agregar responsable
+
+                            </div>
+                        </div>
+                        <div class="bordes-gris mb-1 pb-4">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="md-form mb-2">
+                                    <i class="fas fa-user prefix"></i>
+                                    <input type="text" class="form-control" id="nombre_responsable" mdbInput mdbValidate
+                                        formControlName="nombre_responsable">
+                                    <label for="nombre_responsable">Nombres Responsable</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <div class="md-form mb-2">
+                                    <i class="fas fa-envelope prefix"></i>
+                                    <input type="email" class="form-control" id="correo_responsable" mdbInput
+                                        mdbValidate formControlName="Correo">
+                                    <label for="correo_responsable">Correo Responsable</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <div class="md-form mb-2">
+                                    <i class="fas fa-cogs prefix"></i>
+                                    <input type="text" class="form-control" id="cargo_responsable" mdbInput mdbValidate
+                                        formControlName="cargo">
+                                    <label for="cargo_responsable">Cargo Responsable</label>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                        <div class="col-12" *ngIf="!bEditResponsablle">
+                            <div class="inherit flex-center">
+                                <a class="degradado-um waves-light btn-sm" title="Agregar"
+                                    [ngClass]="!formArea.controls['nombre_responsable'].value?'inactive':''"
+                                    placement="right" (click)="fn_addArea()" rounded="true" mdbWavesEffect>
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
+                            <p class="card-text mt-2 text-center">Debes agregar al responsable o responsables primero.</p>
+
+                        </div>
+
+                        <div class="col-12" *ngIf="bEditResponsablle">
+                                <div class="inherit flex-center">
+                                    <div>
+                                        <a class="degradado-um waves-light btn-sm mr-1" title="Editar Responsable"
+                                        
+                                            placement="right" (click)="fn_editResponsable();" rounded="true" mdbWavesEffect>
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                    <div>
+                                            <a class="degradado-um waves-light btn-sm" title="Cancelar"
+                                            
+                                            placement="right" (click)="fn_resetDataResponsable();bEditResponsablle=false;" rounded="true" mdbWavesEffect>
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                
+
+                        </div>
+                        <p *ngIf="bEditResponsablle" class="card-text mt-2">Antes de guardar los cambios debes confirmar la edición del responsable actual.</p>
+                        <div class="col-12" [hidden]="bEditResponsablle">
+
+
+                            <mdb-card class="mb-4 mt-4 mx-3">
+
+
+                                <ng-container
+                                    *ngFor="let responsable of aDependencias[indexDependencia]?.dep_areas[indexArea]?.responsables; let idx_responsable=index">
+                                    <!--Card content-->
+                                    <!--Title-->
+
+                                    <mdb-card-body class="p-0">
+
+                                        <div class="p-0 m-0 borde_gris_t" *ngIf="responsable.nombre">
+
+
+                                            <!--<hr *ngIf="idx_responsable > 0 && (idx_responsable)!=((direccion.responsables.length)) ">-->
+
+                                            <div class="d-flex flex-colum pt-1">
+                                                <div>
+                                                    <i class="ml-2 fas fa-user cursor fa-lg" title="Nombres"
+                                                        placement="bottom"></i>
+                                                </div>
+                                                <div class="ml-1 flex-center inherit">
+                                                    <div class="card-text ">
+                                                        <span class="d-block">
+                                                            {{responsable.nombre}}
+                                                        </span>
+                                                        <!--<span class="d-block">
+                                                                            juliocesarcastellanos@umanizales.edu.co
+                                                                    </span>-->
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex flex-colum" *ngIf="responsable.Correo">
+                                                <div>
+                                                    <i class="ml-2 fas fa-envelope cursor fa-lg" title="Correo"
+                                                        placement="bottom"></i>
+                                                </div>
+                                                <div class="ml-1 flex-center inherit">
+                                                    <div class="card-text ">
+                                                        <span class="d-block">
+                                                            {{responsable.Correo}}
+                                                        </span>
+                                                        <!--<span class="d-block">
+                                                                        juliocesarcastellanos@umanizales.edu.co
+                                                                </span>-->
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="d-flex flex-colum" *ngIf="responsable.dep_numero">
+                                                <div>
+                                                    <i class="ml-2 fas fa-phone cursor fa-lg" title="Extensión"
+                                                        placement="bottom"></i>
+                                                </div>
+                                                <div class="ml-1 flex-center inherit">
+                                                    <div class="card-text ">
+                                                        <span class="d-block">
+                                                            {{responsable.dep_numero}}
+                                                        </span>
+                                                        <!--<span class="d-block">
+                                                                            juliocesarcastellanos@umanizales.edu.co
+                                                                    </span>-->
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex flex-colum" *ngIf="responsable.cargo">
+                                                <div>
+                                                    <i class="ml-2 fas fa-cogs cursor fa-lg" title="Cargo"
+                                                        placement="bottom"></i>
+                                                </div>
+                                                <div class="ml-1 flex-center inherit">
+                                                    <div class="card-text ">
+                                                        <span class="d-block">
+                                                            {{responsable.cargo}}
+                                                        </span>
+                                                        <!--<span class="d-block">
+                                                                            juliocesarcastellanos@umanizales.edu.co
+                                                                    </span>-->
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-colum">
+                                                <div class="text-right w-100">
+                                                    <i  class=" fas fa-edit mb-1 text-gray pointer mt-1 pr-2  pointer" title="Editar Responsable" placement="left" (click)="fn_setResponsable(indexArea,idx_responsable,false)"></i>
+                                                    <i class=" fas fa-trash mb-1 text-gray pointer mt-1 pr-2  pointer" title="Eliminar Responsable" placement="left" (click)="fn_AdvertenciaElimnResponsable(indexArea,idx_responsable,false)"></i>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </mdb-card-body>
+                                </ng-container>
+
+                            </mdb-card>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+            <div class="text-center mb-4">
+                <hr>
+                <button *ngIf="bSaveEditDependencia" class="btn degradado-um btn-lg z-depth-1a waves-light"
+                    mdbWavesEffect (click)="fn_submitArea()">
+                    Guardar
+                    <i class="fas fa-save ml-2"></i>
+                </button>
+                <button [ngClass]="bEditResponsablle?'disabled':''" *ngIf="!bSaveEditDependencia" class="btn degradado-um btn-lg z-depth-1a waves-light"
+                    mdbWavesEffect (click)="fn_submitArea()">
+                    Editar
+                    <i class="fas fa-edit ml-2"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--Modal modalNombreServicio de Usuario-->
+<div mdbModal #modalNombreServicio="mdbModal" class="modal fade" id="modalNombreServicio" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content mascara" style="height: 94vh;">
+            <div class="modal-header text-center">
+                <!--<h4 class="modal-title w-100 font-weight-bold">modalNombreServicio</h4>-->
+                <i class="fas fa-address-book ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+                <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">
+                    {{bNombreServicio?'Agregar ':'Editar '}} Nombre de Servicio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="modalNombreServicio.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+                <div class="row">
+                    <form [formGroup]="formNombreServicio" class="w-100">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <div class="md-form flex-grow-1 mb-2">
+                                <i class="fas fa-book prefix"></i>
+                                <input type="text" class="form-control" id="concepto" mdbInput
+                                    formControlName="concepto">
+                                <label for="concepto">Nombre de servicio</label>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+            <div class="text-center mb-4">
+                <hr>
+                <button [ngClass]="!formNombreServicio.controls['concepto'].value?'disabled':''"
+                    class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect
+                    (click)="fn_saveNombreServicio()">
+                    {{bNombreServicio?'Agregar':'Actualizar'}}
+                    <i class="fas fa-save ml-2"></i>
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+</div>

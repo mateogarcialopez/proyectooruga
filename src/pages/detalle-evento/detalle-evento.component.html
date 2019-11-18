@@ -1,0 +1,234 @@
+<i class="fas fa-angle-left ml-2 texto-gris float-left animated slideInRight infinite animation-3-s"  routerLink="/evento" title="Volver" mdbWavesEffect placement="right"  style="font-size: 40px; line-height: 53px;"></i>
+ 
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-5">
+
+        <mdb-card cascade="true" wider="true" reverse="true" class="my-4">
+            <!--Card image-->
+            <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+              <mdb-card-img [src]="oEvento?.eve_imagen"></mdb-card-img>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--/Card image-->
+          
+            <!-- Card content -->
+            <mdb-card-body cascade="true" class="text-center">
+          
+              <!--Title-->
+              <mdb-card-title>
+                <h4>
+                  <strong>{{oEvento?.eve_nombre}}</strong>
+                </h4>
+              </mdb-card-title>
+          
+              <h5 class="indigo-text">
+                <strong class="green-text">
+                    <i title="Lugar" placement="top" class="fas fa-map-marker-alt mr-2 green-text"></i>
+                    <span class="green-text">
+                        {{oEvento?.eve_lugar}}                      
+                    </span>
+                </strong>
+              </h5>
+          
+              <ng-container *ngIf="oEvento?.eve_fecha_inicio" class="text-center">
+                  
+                  <p class="card-text line-height-1">
+                      <i title="Fechas" placement="top" class="fas fa-calendar-day mr-2"></i> 
+                    {{oEvento?.eve_fecha_inicio + ' '+oEvento?.eve_fecha_fin | fechaespanol }}
+                  </p>
+              </ng-container>
+<!---
+              <div>
+              </div>
+              <div class="text-left">
+                  <i title="Responsable" placement="top" class="fas fa-user mr-2"></i>
+                  <span class="card-text">
+                      {{oEvento?.eve_organizador}}
+                  </span>
+              </div>-->
+              <div class="d-flex flex-wrap justify-content-center mt-2 mb-2">
+              <div class="d-flex justify-content-center w-100 mt-1" *ngIf="oEvento">
+                    <i title="Vencimiento" placement="top" class="fas fa-bullhorn mr-2 fa-sm"></i>
+                    <mdb-badge [danger]="(oEvento?.eve_fecha_inicio | fechahumana)?.expirado"  [success]="(oEvento?.eve_fecha_inicio | fechahumana)?.tiempo.dias>=2 && (oEvento?.eve_fecha_inicio | fechahumana)?.expirado==false" [warning]="(oEvento?.eve_fecha_inicio | fechahumana)?.tiempo.dias<2 && (oEvento?.eve_fecha_inicio | fechahumana)?.expirado==false"  >{{(oEvento?.eve_fecha_inicio | fechahumana).mensaje}}</mdb-badge>
+              </div>
+              <div>
+                <i title="Asistencia" placement="top" class="fas fa-users mr-2"></i>
+              </div>
+              <div class="mr-5">
+                  <span class="card-text">
+                      {{oEvento?.eve_asistentes}}
+                  </span>
+              </div>
+            </div>
+              <div class="d-flex flex-wrap justify-content-center mt-2 mb-2">
+
+                <div>
+                  <i title="Responsable" placement="top" class="fas fa-user mr-2"></i>
+                </div>
+                <div class="mr-5">
+                    <span class="card-text">
+                        {{oEvento?.eve_organizador}}
+                    </span>
+                </div>
+                <div *ngIf="oEvento?.eve_correo">
+                        <i title="Correo" placement="top" class="fas fa-envelope mr-2"></i>
+                      </div>
+                      <div *ngIf="oEvento?.eve_correo" class="mr-5">
+                          <span class="card-text">
+                              {{oEvento?.eve_correo}}
+                          </span>
+                      </div>
+                <!--<ng-container *ngIf="oEvento?.eve_fecha_fin">
+                    <div>
+                        <i title="Fecha Fin" placement="top" class="fas fa-calendar-day mr-2"></i>                
+                    </div>
+                    <div class="mr-4">
+                        <span class="card-text">
+                            {{oEvento?.eve_fecha_fin | fechaespanol }}
+                        </span>
+                    </div>
+                </ng-container>-->
+
+                <div>
+                    <i title="Extensión" placement="top" class="fas fa-phone-square mr-2"></i>                
+                </div>
+                <div class="mr-5">
+                    <span class="card-text">
+                        {{oEvento?.eve_extension }}
+                    </span>
+                </div>
+                
+
+                <div class="mr-5">
+                    <i title="Costo" placement="top" class="fas fa-dollar-sign mr-2"></i>                
+
+                    <span class="card-text">
+                        {{oEvento?.eve_costo | number }}
+                    </span>
+                </div>
+
+
+              </div>
+          
+
+              <div >
+
+                  <p class="card-text line-height-1">
+                      <i [title]="'Observaciones'" placement="top" class="far fa-comment-alt mr-2"></i>                
+                      {{oEvento?.eve_observacion }}
+                  </p>
+              </div>
+
+
+
+
+
+              <div class="d-flex w-100 justify-content-center align-items-center mt-1" *ngIf="oEvento">
+                  <div >
+                      <i *ngIf="oEvento?.eve_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[oEvento?.eve_estado].color" [title]="oEstado_bolas[oEvento?.eve_estado].texto" placement="top"></i>
+                  </div>
+                  <div class="mr-2">
+                      <i title="Última Actualización" placement="top" class="fas fa-sync-alt mr-1"></i>
+                  </div>
+                  <div class=" line-height-1 text-center">
+                      <span class="card-text ">
+                          <span class="card-meta m-0 texto-pequeno">{{(oEvento?.eve_ultima_actualizacion | fechaespanol)}}</span>
+                      </span>               
+                  </div>
+              </div>     
+              <div class="d-flex w-100" *ngIf="oEvento?.eve_admin_comentario">
+                  <div >
+                      <div class="circle pointer" [title]="oEvento?.eve_admin_generacion" placement="top" >{{oEvento?.eve_admin_generacion |  inicialesnombre}}</div>
+                  </div>
+                  <div class="flex-grow-1">
+                      <span class="card-meta m-0 texto-pequeno line-height-1 text-center">{{oEvento?.eve_admin_comentario}}</span>
+                  </div>
+              </div>                    
+
+
+
+
+            </mdb-card-body>
+          
+        </mdb-card>
+      
+
+    </div>
+  </div>
+
+  <div class="mb-5" style="margin-bottom: 4rem !important;">&nbsp;</div>
+  
+  <div class="fixed-action-btn animated bounceIn show_img_brochure" *ngIf="brochure || oEvento?.eve_imagen">
+    <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalEvento()" title="Imágen/Brochure"
+        placement="right" mdbWavesEffect>
+        <i class="far fa-images text-white"></i>
+    </a>
+</div>
+ <!--Modal  ModalDetEvento de Usuario modal-dialog-centered-->
+ <div mdbModal #ModalDetEvento="mdbModal" class="modal fade" id="ModalDetEvento" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+ aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-fluid modal-full-height" role="document">
+   <div class="modal-content mascara centrado_absolutomodal">
+    <div class="modal-header text-center">
+        <div class="flex-center white-text w-100" style="background-color: darkgrey;">
+            <ul class="list-unstyled m-0">
+                <li><h1>
+                    <strong><i class="fas fa-image mr-2 white-text" style="font-size: 30px;"></i></strong><span style="font-size: 29px;">Imágen/Brochure</span></h1>
+                </li>
+            </ul>
+          
+                </div>
+       <!--<h4 class="modal-title w-100 font-weight-bold"> ModalDetEvento</h4>-->
+       <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold"></h4>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)=" ModalDetEvento.hide()">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body mx-3 thin scrollbar-gris" > 
+         <div class="row justify-content-center" >
+             <div class="col-sm-12 col-md-6 p-0 m-0 d-flex flex-center inherit" >
+                 <div class="md-form mb-2" *ngIf="oEvento?.eve_imagen">
+                     <img [src]="oEvento?.eve_imagen" class="imagen_completa tamaño-imagen-brochure" alt="Sample image with waves effect.">
+
+                 </div>
+                 <p class="card-text" *ngIf="!oEvento?.eve_imagen">
+                     No se ha cargado una imágen
+                  </p>
+
+
+                 
+             </div>
+             <div class="col-sm-12 col-md-6 p-0 m-0 ">
+               
+                 <a  [href]="brochure?.url" target="_blank" [download]="'brochure.pdf'" class="pointer">
+                   <i class="text-gray fa-lg mr-2 text-center" [ngClass]="brochure?.icon"></i> 
+                   {{brochure?.nombre}}
+                 </a>
+                 <p class="card-text" *ngIf="!brochure">
+                    No se ha cargado un brochure
+                 </p>
+
+                 
+                 <div class="d-flex flex-center tam-brochure">
+                     <ng-container *ngIf="brochure?.extension=='pdf'">
+                         <object *ngIf="brochure?.url" [data]="brochure?.url | safepipe" type="application/pdf" width="100%" height="100%">
+                           <p><b>Example fallback content</b>: This browser does not support PDFs. Please download the PDF to view it: 
+                           <a [href]="brochure?.url" target="_blank">Download PDF</a>.</p>
+                         </object>                      
+                     </ng-container>                      
+                 </div>
+
+
+               
+           </div>              
+          </div>      
+
+     </div>
+
+
+
+   </div>
+ </div>
+</div>

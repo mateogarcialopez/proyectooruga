@@ -1,0 +1,51 @@
+[
+    {
+      "icono":"../../assets/img/iconosBancos/bancolombia.png",  
+      "banco":"Bancolombia",
+      "tipocuenta":"Cuenta Corriente",
+      "clasecuenta":[
+        {"numerocuenta":"070-08236974",
+          "nombre":"Recaudo CON código de Barras"
+        },
+        {"numerocuenta":"70550137737",
+          "nombre":"Deposito SIN código de Barras"
+        }
+      ]
+    },
+    {
+        "icono":"../../assets/img/iconosBancos/bogota.jpg", 
+        "banco":"Banco de Bogotá",
+        "tipocuenta":"Cuenta Corriente",
+        "clasecuenta":[{"numerocuenta":"428-079628","nombre":"Recaudo CON código de Barras"}]
+    },
+    {
+        "icono":"../../assets/img/iconosBancos/davivienda.jpeg",   
+        "banco":"Banco Davivienda",
+        "tipocuenta":"Cuenta Corriente",
+        "clasecuenta":[{"numerocuenta":"258-990100","nombre":"Recaudo CON código de Barras"}]
+    },
+    {
+        "icono":"../../assets/img/iconosBancos/bbva.png",  
+        "banco":"Banco BBVA",
+        "tipocuenta":"Cuenta de ahorros",
+        "clasecuenta":[{"numerocuenta":"801-000340","nombre":"Recaudo CON código de Barras"}]
+    },
+    {
+        "icono":"../../assets/img/iconosBancos/avvillas.jpg",    
+        "banco":"Banco AV Villas",
+        "tipocuenta":"Cuenta de ahorros",
+        "clasecuenta":[{"numerocuenta":"351-227129","nombre":"Recaudo CON código de Barras"}]
+    },
+      {
+        "icono":"../../assets/img/iconosBancos/occidente.jpeg",  
+        "banco":"Banco de Occidente",
+        "tipocuenta":"Cuenta Corriente",
+        "clasecuenta":[{"numerocuenta":"060-070877","nombre":"Recaudo CON código de Barras"}]
+      },
+      {
+        "icono":"../../assets/img/iconosBancos/agrario.png",    
+        "banco":"Banco Agrario",
+        "tipocuenta":"Cuenta Corriente",
+        "clasecuenta":[{"numerocuenta":"3-1803-000332-7","nombre":"Recaudo CON código de Barras"}]
+      } 
+]

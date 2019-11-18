@@ -1,0 +1,176 @@
+.form-elegant .font-small {
+    font-size: 0.8rem;
+  }
+  
+  .form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+  }
+  
+  .form-elegant .z-depth-1-half,
+  .form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+  }
+
+  .bg_opacity div.card {
+      background-color: rgba(255,255,255,0.5) !important;
+}
+
+
+.view {
+	height: 100vh;
+  }
+
+  @media (max-width: 740px) {
+	html,
+	body,
+	header,
+	.view {
+	  height: 815px;
+	}
+  }
+
+  @media (min-width: 800px) and (max-width: 850px) {
+	html,
+	body,
+	header,
+	.view  {
+	  height: 650px;
+	}
+  }
+
+
+  .top-nav-collapse {
+	  background-color: #3f51b5 !important;
+  }
+  .navbar:not(.top-nav-collapse) {
+	  background: transparent !important;
+  }
+  @media (max-width: 768px) {
+	  .navbar:not(.top-nav-collapse) {
+		  background: #3f51b5 !important;
+	  }
+  }
+  @media (min-width: 800px) and (max-width: 850px) {
+	  .navbar:not(.top-nav-collapse) {
+		  background: #3f51b5!important;
+	  }
+  }
+
+.card {
+	background-color: rgba(229, 228, 255, 0.2);
+}
+/* estilos sólo para el login*/
+.view input.form-control.validate-error.ng-invalid.ng-touched, input.form-control.validate-error.ng-invalid.ng-dirty, .form-submitted input.form-control.validate-error.ng-invalid {
+ 	border-bottom: 1px solid #ffffff !important;
+	 box-shadow: 0 1px 0 0 #ffffff !important;
+	
+	 
+}
+.view input.form-control.validate-error.ng-invalid.ng-touched + label, input.form-control.validate-error.ng-invalid.ng-dirty + label, .form-submitted input.form-control.validate-error.ng-invalid + label {
+	color: #ffffff !important;
+}
+.view .md-form label {
+	color: #ffffff;
+}
+/* estilos sólo para el login*/
+
+
+h6 {
+	line-height: 1.7;
+}
+  
+
+  .card {
+	  margin-top: 30px;
+	  /*margin-bottom: -45px;*/
+
+  }
+
+
+  
+
+	.view .md-form .form-control {
+		color: #fff;
+	}
+
+/* esitlos de input */
+	.intro-2 {
+		background: url("../../assets/img/background.jpg") no-repeat center center;
+		background-size: cover;
+	}
+
+	.view .md-form[_ngcontent-c3] label[_ngcontent-c3].active{
+		color:#fff !important;
+	}
+
+	.view .md-form[_ngcontent-c3] input[type=text][_ngcontent-c3]:focus:not([readonly]), .md-form[_ngcontent-c3] input[type=password][_ngcontent-c3]:focus:not([readonly]) {
+		border-bottom: 1px solid #fff;
+		box-shadow: 0 1px 0 0 #fff;
+	}
+
+	.view .md-form .prefix.active {
+		color: #fff;
+	}
+
+  .view .md-form input[type=text]:focus:not([readonly]),
+  .view .md-form input[type=password]:focus:not([readonly]) {
+	  border-bottom: 1px solid #fff;
+	  box-shadow: 0 1px 0 0 #fff;
+  }
+  .view .md-form input[type=password]:focus:not([readonly])+label {
+	  color: #fff;
+  }
+
+  .view .md-form .form-control {
+	  color: #fff;
+  }
+
+	.color_stepper{
+		color: #343434;
+		
+	}
+	.color_backgr{
+		background-color: rgba(208, 204, 204, 0.3);
+	}
+	.modal-footer-n {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-bottom-right-radius: 0.3rem;
+		border-bottom-left-radius: 0.3rem;
+	
+	
+}
+
+.formlogin, input.form-control.validate-success.ng-valid.ng-dirty, .formlogin, input.form-control.validate-success.ng-valid.ng-touched, .form-submitted .formlogin, input.form-control.validate-success.ng-valid {
+	border-bottom: 1px solid #fff !important;
+	box-shadow: 0 1px 0 0 #fff !important;
+}
+
+input.form-control.validate-success.ng-valid.ng-dirty, input.form-control.validate-success.ng-valid.ng-touched, .form-submitted input.form-control.validate-success.ng-valid {
+	border-bottom: 1px solid #ffffff !important;
+	box-shadow: 0 1px 0 0 #ffffff !important;
+}
+
+
+input.form-control.validate-success.ng-valid.ng-dirty + label, input.form-control.validate-success.ng-valid.ng-touched + label, .form-submitted input.form-control.validate-success.ng-valid + label {
+	color: #ffffff !important;
+}
+
+
+
+
+form label {
+    /* text-transform: uppercase; */
+    font-size: 12px;
+    /* letter-spacing: 2px; */
+    color: #25824b;
+}
+
+.btn_entrar{
+    background-color: #94c245 !important;
+    color: white !important;	
+}

@@ -1,0 +1,82 @@
+p.card-text:last-child {
+  margin-bottom: 0px !important;
+}
+
+p.card-text {
+   margin-bottom: 0px !important;
+}
+
+.md-form .prefix.active {
+ color: #343434; 
+}
+
+
+.image_preview{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+.bgimg {
+  /* The image used */
+  background-image: url("../../assets/img/background2.jpg");
+  __height: 100%;
+  width: 100%;
+  /* background-position: center; */
+  /* background-repeat: repeat-y; */
+  background-size: cover;
+  /* position: fixed; */
+  overflow: auto;
+
+}
+
+img{
+  max-width: 100%;
+  /* height: auto; */
+  max-height: 100%;
+}
+.contenedor_imagen{
+  __height: 200px;
+  height: 190px;
+  overflow: hidden;
+}
+
+.altura_texto{
+  height: 58px;
+}
+
+.altura_comentarios_admin{
+  height: 150px; 
+}
+
+h5{
+  font-size: 18px;
+}
+.positio-label {
+  position: absolute;
+  top: -45%;
+  left: -3%;
+  cursor: text;
+  color: #757575;
+}
+.posicionFecha{
+  height: 32px;
+    position: absolute;
+    left: 51%;
+    bottom: 34%;
+    margin-left: 1%;
+}
+.tamañoFecha{
+  color: #747373;
+  font-weight: 400;
+  font-size: 12px;
+}
+.tamañoIconoFecha{
+  font-size: 8px;
+}
+
+.espacioLinea{
+  line-height: 1
+}

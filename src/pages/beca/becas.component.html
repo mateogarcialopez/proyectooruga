@@ -1,0 +1,184 @@
+<!-- 
+    <div class="container-becas">
+    <div class="row">
+        <div class="col-sm-12 first-row-text-container">
+            <p *ngFor="let mensaje of aBecas.mensajes_iniciales">
+                <mdb-icon fas [icon]="mensaje.icon" class="verde-fondo" size="lg"></mdb-icon>
+                {{mensaje.contenido}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6" *ngFor="let tipo of aBecas.tipos_beca">
+            <h4 class="becas-titles">{{tipo.tipo}}</h4>
+            <mdb-card class="thin scrollbar-gris">
+                <mdb-card-body>
+                   
+
+                    <mdb-accordion [multiple]="false"  aria-multiselectable="true">
+                        <mdb-accordion-item [collapsed]="true"   *ngFor="let beca of tipo.becas">
+                            <mdb-accordion-item-head>
+                                <div class="beca-titulo-container">
+                                    <div class="titulo-beca">
+                                        <mdb-icon fas [icon]="beca.bec_icon" [class]="'beca-icon '+beca.bec_color" size="2x"></mdb-icon>
+                                        <span #acc_becas [id]="beca._id">{{ beca.bec_titulo }}</span>
+                                    </div>
+                                    <div class="chip" *ngIf="beca.bec_descuento != ''">
+                                        {{beca.bec_descuento}}
+                                    </div>
+                                </div>
+
+                            </mdb-accordion-item-head>
+                            <mdb-accordion-item-body>
+                                {{ beca.bec_descripcion }}
+                                <ul class="lista-condiciones">
+                                    <li *ngFor="let condicion of beca.bec_condiciones">
+                                        {{condicion}}
+                                    </li>
+                                </ul>
+                                
+                                <div class="actions-cont">
+                                    <i title="Última Actualización: {{(beca.bec_ultima_actualizacion | fechaespanol)}}" placement="top" class="fas fa-sync-alt mr-1"></i>
+                                    <i class="fas fa-edit texto-gris ml-2 pr-2" (click)="fn_callModalBeca(false);fn_setDataBecaEdit(beca);"   title="Editar" mdbWavesEffect placement="left" ></i>
+                                    <i class="fas fa-trash-alt texto-gris float-right "   title="Eliminar" mdbWavesEffect placement="left" (click)="fn_AdvertenciaElimBeca(beca._id)" ></i>
+                                </div>
+                                <div class="d-flex w-100">
+                                    <div >
+                                        <i *ngIf="beca.bec_estado=='pendiente'" class="fas fa-circle pointer mr-1 " [ngClass]="oEstado_bolas[beca.bec_estado].color" [title]="oEstado_bolas[beca.bec_estado].texto" placement="top"></i>
+                                    </div>
+                                </div>     
+                                <div class="d-flex justify-content-center align-items-center w-100 line-height-1" *ngIf="beca.bec_admin_comentario">
+                                    <div >
+                                        <div class="circle pointer mr-2" [title]="beca.bec_admin_generacion" placement="top" >{{beca.bec_admin_generacion |  inicialesnombre}}</div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="card-meta m-0 texto-pequeno line-height-1 text-center">{{beca.bec_admin_comentario | ellipsis:102}}</span>
+                                    </div>
+                                </div>  
+
+                            </mdb-accordion-item-body>
+                            
+                        </mdb-accordion-item>
+                    </mdb-accordion>
+                </mdb-card-body>
+            </mdb-card>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-action-btn animated bounceIn add-btn-global">
+    <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalBeca(true)" title="Añadir"
+        placement="left" mdbWavesEffect>
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+
+
+
+<div mdbModal #modalBeca="mdbModal" class="modal fade" id="modalBeca" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid  modal-dialog-centered" role="document">
+    <div class="modal-content mascara">
+      <div class="modal-header text-center">
+        <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Registrar':'Editar'}} </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalBeca.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+          <p class="card-text">
+            Registra o Actualiza la información de la Beca ofrecida por la <strong>Universidad de Manizales</strong>!
+          </p>
+        <form [formGroup]="formBeca">
+          <div class="row">
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-book prefix " [ngClass]="{icon_valid:formBeca.controls['bec_titulo'].valid && formBeca.controls['bec_titulo'].touched,icon_invalid:formBeca.controls['bec_titulo'].invalid && formBeca.controls['bec_titulo'].touched }"></i>
+                    <input type="text" class="form-control" id="bec_titulo" mdbInput mdbValidate formControlName="bec_titulo">
+                    <label  for="bec_titulo" >Nombre</label>
+                    <mdb-error *ngIf="formBeca.controls['bec_titulo'].invalid && (formBeca.controls['bec_titulo'].dirty || formBeca.controls['bec_titulo'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="md-form mb-2">
+                  <i class="far fa-address-card  prefix " [ngClass]="{icon_valid:formBeca.controls['bec_descuento'].valid && formBeca.controls['bec_descuento'].touched,icon_invalid:formBeca.controls['bec_descuento'].invalid && formBeca.controls['bec_descuento'].touched }"></i>
+                  <input type="text" class="form-control" id="bec_descuento" mdbInput mdbValidate formControlName="bec_descuento">
+                  <label  for="bec_descuento" >Descuento</label>
+                  <mdb-error *ngIf="formBeca.controls['bec_descuento'].invalid && (formBeca.controls['bec_descuento'].dirty || formBeca.controls['bec_descuento'].touched)">Campo requerido</mdb-error>
+                </div>
+            </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="md-form mb-2">
+                  <i class="fas fa-align-justify  prefix " [ngClass]="{icon_valid:formBeca.controls['bec_descripcion'].valid && formBeca.controls['bec_descripcion'].touched,icon_invalid:formBeca.controls['bec_descripcion'].invalid && formBeca.controls['bec_descripcion'].touched }"></i>
+                  <input type="text" class="form-control" id="bec_descripcion" mdbInput mdbValidate formControlName="bec_descripcion">
+                  <label  for="bec_descripcion" >Descripcion</label>
+                  
+                </div>
+            </div>
+              <div class="col-sm-12 col-md-6">       
+                <div class="ml-3 mt-3">
+                    <span class="texto_filtro  mr-3 d-block">Tipo de Beca</span>
+                    <div class="form-check form-check-inline position-relative">
+                                    <input type="radio" class="form-check-input" id="bec_tipo" value="Becas de ingreso" mdbInput mdbValidate formControlName="bec_tipo">
+                                    <label class="form-check-label" for="bec_tipo">Becas de ingreso</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" id="bec_tipo2" value="Becas estudiantes antiguos" mdbInput mdbValidate formControlName="bec_tipo">
+                                    <label class="form-check-label" for="bec_tipo2">Becas estudiantes antiguos</label>
+                            </div>
+                            <mdb-error style="left:auto" *ngIf="formBeca.controls['bec_tipo'].invalid && (formBeca.controls['bec_tipo'].dirty || formBeca.controls['bec_tipo'].touched)">Campo requerido</mdb-error>
+                    </div>
+                    
+              </div>
+    </div>      
+        </form>
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12">
+              <div class="md-form mb-2 d-flex">
+                  <div class="flex-grow-1">
+                      <i class="far fa-comment-alt prefix"></i>
+                      <textarea class="md-textarea form-control" id="bec_condicion" mdbInput [(ngModel)]="condiciones"></textarea>
+                      <label  for="bec_condicion" >Condiciones</label>
+                  </div>
+                  <div class="inherit flex-center">
+                      <a class="degradado-um waves-light btn-sm" [ngClass]="!condiciones?'inactive':''" title="Añadir Condición" placement="left" (click)="onAdd()" rounded="true" mdbWavesEffect >
+                          <i class="fas fa-plus"></i>
+                      </a>
+                  </div>
+              </div>
+              <ul>
+
+                  <div *ngFor="let item of selectcondiciones;let idx_obs=index;" class="d-flex" >
+                        <div class="flex-grow-1">
+                            <li>
+                                {{item}}
+                            </li>
+                        </div>
+                        <div>
+                          <i class="fas fa-trash-alt" (click)="fn_borrar(item, 'condicion')"></i>
+                        </div>
+                  </div>
+                 </ul>
+            
+          </div>  
+          </div>
+      </div>
+
+      <a #scrollbeca mdbPageScroll   href="#{{index_beca}}" class="d-none">click</a>
+
+
+      <div class="text-center mb-4">
+          <hr>
+          <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormBeca(formBeca)">Guardar<i class="fas fa-save ml-2"></i></button>
+          <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormBeca(formBeca)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+-->
+

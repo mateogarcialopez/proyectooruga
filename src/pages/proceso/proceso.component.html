@@ -1,0 +1,216 @@
+<div class="containr-proceso">
+    <div class="row">
+            <div class="col-12 col-md-6 col-lg-12 col-sm-12 m-4 p-0">
+               <h4 class="titulo_card" style="text-align: center"><strong>Procesos</strong></h4>
+            </div>
+    </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-2" *ngFor="let proceso of aProcesos">
+                  <mdb-card class="thin scrollbar-gris">
+                    <mdb-card-body>   
+                            <mdb-accordion [multiple]="false" #acc_proceso [id]="proceso._id" aria-multiselectable="true" class="procesos-acortion">
+                                <mdb-accordion-item [collapsed]="index_proceso!=proceso._id" >
+                                <mdb-accordion-item-head>
+                                    <div class="proceso-titulo-container" style="height: 50px;">
+                                        <div class="titulo-proceso mr-2">             
+                                            <div class="flex-center">
+                                                    <a type="button" class="btn-floating btn-lg no_sombra  bordes-gris cursor" >
+                                                        <i class="animated bounceInRight cursor">  <mdb-icon fas [icon]="proceso.pro_icono"  [class]="'beca-icon '+proceso.pro_color" class="mr-2"></mdb-icon></i>
+                                                    </a>
+                                                </div>
+                                            <span style="font-size:15px ">{{ proceso.pro_nombre}} <i *ngIf="proceso.pro_estado=='pendiente'" class="fas fa-circle pointer mr-1 " style="font-size: 14px;" [ngClass]="oEstado_bolas[proceso.pro_estado].color" [title]="oEstado_bolas[proceso.pro_estado].texto" placement="left"></i></span>
+                                        </div>
+                                    </div>
+                                </mdb-accordion-item-head>
+                                <mdb-accordion-item-body>
+                                        <p class="mt-2 m-0 mr-2">
+                                                <i class="fas fa-trash-alt texto-gris float-right " (click)="fn_AdvertenciaElimProceso(proceso._id)"   title="Eliminar" mdbWavesEffect placement="left" ></i>
+                                                <i class="fas fa-edit texto-gris float-right  mr-1"  (click)="fn_callModalProceso(false);fn_setDataProcesoEdit(proceso);"   title="Editar" mdbWavesEffect placement="left" ></i>   
+                                                <i class="fas fa-sync-alt texto-gris float-right mr-1" title="Última Actualización: {{(proceso.pro_ultima_actualizacion | fechaespanol)}}" mdbWavesEffect placement="left"></i>                                                                              
+                                        </p>
+                                        <ul class="lista-condiciones"  *ngIf="proceso.pro_descripcion!=null">
+                                           <strong>Descripción</strong> 
+                                            <li *ngFor="let descripcion of proceso.pro_descripcion">
+                                                <div *ngIf="descripcion!=null" class="text-justify">
+                                                        
+                                                        {{descripcion}}
+                                                </div>
+                                             
+                                            </li>
+                                        </ul>
+                                    <ul class="lista-condiciones" *ngIf="proceso.pro_observacion!=null" >
+                                            <strong>Observaciones</strong>
+                                        <li *ngFor="let observacion of proceso.pro_observacion" class="text-justify">
+                                            {{observacion}}
+                                        </li>
+                                    </ul>
+                                
+
+                                </mdb-accordion-item-body>
+                            </mdb-accordion-item>
+                        </mdb-accordion>
+                    </mdb-card-body>
+                </mdb-card>
+            </div>     
+            <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 m-4 titulo_card">
+                    <h4 style="text-align: center"><strong>Cuentas Bancarias</strong></h4>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mb-4" *ngFor="let banco of aCuentas" [id]="banco.id"  >
+                
+                    <mdb-card >
+                    <!--Card content-->
+                        <mdb-card-body style="height: 230px;" [ngClass]="indexCuenta==banco.id?'element_selection':''">
+                        <!--Title-->                                          
+                            <div class="d-flex">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <img [src]="banco.icono" style="width: 94px;height:80px" class="img-fluid z-depth-1 rounded-circle " alt="Responsive image">  
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="p-2"> 
+                                        <mdb-card-title>                     
+                                            <div class="titulo-proceso">
+                                                <h4 class="titulo_card m-0 mb-2 p-2 text-black font-weight-500" style="text-align: center; padding: 14px; padding-right: 39px; "><i title="Valor" placement="top" class="text-black float-left font-size-2 "></i>{{banco.banco}} </h4>    
+                                            </div> 
+                                        </mdb-card-title>
+                                               
+                                        <div class="card-text  item_prog pt-2 pb-1 ml-3 d-flex flex-column justify-content-center" >      
+                                                <p class="card-text mb-0 w-100 atributos" ><b class="atributos">Tipo de Cuenta: </b>{{banco.tipocuenta}}</p>        
+                                            <div class="d-flex flex-column justify-content-center" style="height: 50px; text-align:justify" *ngFor="let item of banco.clasecuenta" >                                      
+                                                    
+                                                <p class="card-text mb-0 w-100 atributos" ><b class="atributos">Numero de la Cuenta: </b>{{item.numerocuenta}}</p> 
+                                                <p class="card-text mb-0 w-100 atributos" style="margin-top:-6px;line-height: 18px;" ><b class="atributos"></b><b class="atributos ">Clase de cuenta: </b>{{item.nombre}}</p>                                   
+                                            </div>                                                                                                                                     
+                                        </div>                                           
+                                    </div>
+                                </div>
+                            </div>           
+                        </mdb-card-body>      
+                    </mdb-card>   
+                </div>      
+        </div>
+
+    
+
+    </div>
+
+
+<div class="mb-5">&nbsp;</div>
+
+<div class="fixed-action-btn animated bounceIn add-btn-global">
+    <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalProceso(true)" title="Añadir"
+        placement="left" mdbWavesEffect>
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+
+<!--Modal modalProceso de Usuario-->
+<div mdbModal #modalProceso="mdbModal" class="modal fade" id="modalProceso" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid  modal-dialog-centered" role="document">
+    <div class="modal-content mascara">
+      <div class="modal-header text-center">
+        <!--<h4 class="modal-title w-100 font-weight-bold">modalProceso</h4>-->
+        <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Registrar':'Editar'}} </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalProceso.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+          <p class="card-text">
+            Registra o Actualiza la información del proceso o trámite organizado por la <strong>Universidad de Manizales</strong>!
+          </p>
+        <form [formGroup]="formProceso">
+          <div class="row">
+              <div class="col-sm-12 col-md-12">
+                  <div class="md-form mb-2">
+                    <i class="fas fa-book prefix " [ngClass]="{icon_valid:formProceso.controls['pro_nombre'].valid && formProceso.controls['pro_nombre'].touched,icon_invalid:formProceso.controls['pro_nombre'].invalid && formProceso.controls['pro_nombre'].touched }"></i>
+                    <input type="text" class="form-control" id="pro_nombre1" mdbInput mdbValidate formControlName="pro_nombre">
+                    <label  for="pro_nombre1" >Nombre</label>
+                    <mdb-error *ngIf="formProceso.controls['pro_nombre'].invalid && (formProceso.controls['pro_nombre'].dirty || formProceso.controls['pro_nombre'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>           
+           </div>      
+        </form>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="md-form mb-2 d-flex">
+                  <div class="flex-grow-1">
+                      <i class="far fa-comment-alt prefix"></i>
+                      <textarea class="md-textarea form-control" id="pro_observacion" mdbInput [(ngModel)]="observacion"></textarea>
+                      <label  for="pro_observacion" >Observaciones 
+    
+                      </label>
+                  </div>
+                  <div class="inherit flex-center">
+                      <a class="degradado-um waves-light btn-sm" [ngClass]="!observacion?'inactive':''" title="Añadir observación" placement="left" (click)="onAdd('observacion')" rounded="true" mdbWavesEffect >
+                          <i class="fas fa-plus"></i>
+                      </a>
+                  </div>
+              </div>
+              <ul>
+
+                  <div *ngFor="let item of selectobservacion;let idx_obs=index;" class="d-flex" >
+                        <div class="flex-grow-1">
+                            <li>
+                                {{item}}
+                            </li>
+                        </div>
+                        <div>
+                          <i class="fas fa-trash-alt" (click)="fn_borrar(item, 'observacion')"></i>
+                        </div>
+                  </div>
+                 </ul>
+            
+          </div>  
+          
+          <div class="col-sm-12 col-md-6">
+            <div class="md-form mb-2 d-flex">
+                <div class="flex-grow-1">
+                    <i class="far fa-comment-alt prefix"></i>
+                    <textarea class="md-textarea form-control" id="pro_descripcion" mdbInput [(ngModel)]="descripcion"></textarea>
+                    <label  for="pro_descripcion" >Descripción 
+  
+                    </label>
+                </div>
+                <div class="inherit flex-center">
+                    <a class="degradado-um waves-light btn-sm" title="Añadir descripcion" [ngClass]="!descripcion?'inactive':''" placement="left" (click)="onAdd('descripcion')" rounded="true" mdbWavesEffect >
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            <ul>
+
+              <div *ngFor="let item of selectdescripcion;let idx_obs=index;" class="d-flex">
+                    <div class="flex-grow-1">
+                        <li>
+                            {{item}}
+                        </li>
+                    </div>
+                    <div>
+                      <i class="fas fa-trash-alt"  (click)="fn_borrar(item, 'descripcion')"></i>
+                    </div>
+              </div>
+             </ul>
+
+          
+        </div>  
+
+          </div>
+
+      </div>
+
+      <a #scrollproceso mdbPageScroll   href="#{{index_proceso}}" class="d-none">click</a>
+
+
+      <div class="text-center mb-4">
+          <hr>
+          <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormProceso(formProceso)">Guardar<i class="fas fa-save ml-2"></i></button>          
+          <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormProceso(formProceso)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+      </div>
+    </div>
+  </div>
+</div>

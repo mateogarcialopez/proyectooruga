@@ -1,0 +1,30 @@
+export { NotFoundComponent } from './not-found/not-found.component';
+export { MenuComponent } from './menu/menu.component';
+export { DashboardComponent } from './dashboard/dashboard.component';
+export { LoginComponent } from './login/login.component';
+export { FooterComponent } from './footer/footer.component';
+export { RestorePasswordComponent } from './restore-password/restore-password.component';
+export { ModalgenericoComponent } from './modalgenerico/modalgenerico.component';
+export { EventoComponent } from './evento/evento.component';
+export { CalendarioComponent } from './calendario/calendario.component';
+export { BecasComponent } from './beca/becas.component';
+export { CursoComponent } from './curso/curso.component';
+export { SolicitudComponent } from './solicitud/solicitud.component';
+export { DetalleProgramaComponent } from './detalle-programa/detalle-programa.component';
+export { CursoDiplomadoComponent } from './curso-diplomado/curso-diplomado.component';
+export { DetCursoDiplomadoComponent } from './det-curso-diplomado/det-curso-diplo.component';
+export { ProcesoComponent } from './proceso/proceso.component';
+export { DetalleEventoComponent } from './detalle-evento/detalle-evento.component';
+export { DependenciaComponent } from './dependencias/dependencias.component';
+export { ServiciosComponent } from './servicios/servicios.component';
+export { InstitucionComponent } from './institucion/institucion.component';
+export { UsuarioComponent } from './usuario/usuario.component';
+export { EstadisticaComponent } from './estadisticas/estadistica.component';
+export { ComprasComponent } from './compras/compras.component';
+export { ForoComponent } from './foro/foro.component';
+export { DetalleCursoComponent } from './detalle-curso/detalle-curso.component';
+export { ChatComponent } from './chat/chat.component';
+export { TopicsComponent } from './topics/topics.component';
+export { TopicDetallesComponent } from './topic-detalles/topic-detalles.component';
+
+

@@ -1,0 +1,242 @@
+<div class="bgimg1"> <!--  class="bgimg"-->
+    <!-- Nav tabs -->
+    <div class="mt-3"></div>
+   
+        <!--Panel 1-->
+        <div class="flex-center white-text w-100 um">
+          <ul class="list-unstyled m-0">
+          <li>
+
+          <h1>
+          <strong><i class="fas fa-user-alt mr-2 white-text animated bounce" style="font-size: 30px;"></i></strong><span style="font-size: 29px;">Usuarios</span></h1>
+          </li>
+
+          </ul>
+
+      </div>
+          <div class="row" >
+            <div class="col-12 pl-5 pr-5">
+         
+              <br>
+              <div class="d-flex justify-content-between mr-2 mb-2">
+                  <div>
+                        <div class="md-form m-0 p-0 w-100">
+                            <select class="browser-default custom-select" id="registros" [(ngModel)]="registros" (change)="fn_setBolas(1)" >
+                          <option value="25" >25</option>
+                          <option value="50">50</option>
+                          <option value="75">75</option>
+                          <option value="100">100</option>
+                            </select>
+                        </div>
+    
+                  </div>
+                  <!--
+                  <div >
+                    <mdb-checkbox [default]="true" [inline]="true" [(ngModel)]="oCheckFilter.Administrador" (change)="fn_getUsuarios()">Administrador</mdb-checkbox>
+                    <mdb-checkbox [default]="true" [inline]="true" [(ngModel)]="oCheckFilter.Consulta" (change)="fn_getUsuarios()">Consulta</mdb-checkbox>
+                     
+                  </div>
+                  -->
+
+                </div>
+              <section class="contenedor_tabla" *ngIf="aUsuario?.length!=0">
+    
+                  <table class="table table-hover"  >
+                      <thead>
+                        <tr style="border:none;">
+                          <th  scope="col" style="width:20%;" >
+                            Nombres
+                          </th>             
+                          <th scope="col" style="width:20%;">
+                            Apellidos
+                          </th>
+                          <th  scope="col"  style="width:30%;">
+                            Correo    
+                          </th>
+                          <th  scope="col" style="width:30%;">
+                            Teléfono
+                          </th>
+                          <th  scope="col" style="width:30%;">
+                            Rol
+                          </th>
+                          <th>
+                            Gestionar
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="pointer" *ngFor="let item of  aUsuario; let idx=index;" [hidden]="!oCheckFilter[item.usu_rol] || item.usu_rol=='Administrador' && !oCheckFilter.Administrador || item.usu_rol=='Consulta' && !oCheckFilter.Consulta">
+                          <td >
+                          {{item.usu_nombres}}
+                          </td>
+                          <td>
+                              {{item.usu_apellidos}} 
+                          </td>
+                          <td>
+                            {{item.usu_correo}} 
+                        </td>
+                          <td>
+                              {{ item.usu_telefono }}
+                          </td>
+                          <td>
+                            {{ item.usu_rol }}
+                        </td>
+                        <td>
+                          <i class="fas fa-trash-alt texto-gris float-right " (click)="fn_AdvertenciaElimUsuario(item._id)"    title="Eliminar" mdbWavesEffect placement="left" ></i>
+                          <i class="fas fa-edit texto-gris float-right  mr-2" (click)="fn_callModalUsuario(false);fn_setDataUsuarioEdit(item);" (change)="fn_changeContrasena()"   title="Editar" mdbWavesEffect placement="left" ></i>   
+                        </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <nav *ngIf="aUsuario?.length!=0" aria-label="Page navigation example" class=" mx-3 white pt-1" style="height: 40px;border-radius: 0px 0px 5px 5px;">
+                        <ul class="pagination pagination-circle pg-blue justify-content-center" >
+                          <li class="page-item" [ngClass]="iIndexBolas==1?'disabled':''" (click)="fn_setBolas(1)"><a class="page-link" mdbWavesEffect>Primero</a></li>
+                          <li class="page-item" [ngClass]="iIndexBolas==1?'disabled':''">
+                            <a class="page-link" aria-label="Previous" (click)="fn_setBolas(iIndexBolas-1)" mdbWavesEffect>
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Anterior</span>
+                            </a>
+                          </li>
+                          <li class="page-item" *ngFor="let pag of aPaginacion?.bolas; let idx_paginacion=index;" [ngClass]="iIndexBolas==pag?'active':''"><a class="page-link" (click)="fn_setBolas(pag)" mdbWavesEffect>{{pag}}  </a>
+                          </li>
+      
+                          <li class="page-item">
+                            <a class="page-link" [ngClass]="iIndexBolas==aPaginacion?.paginasTotales?'disabled':''" (click)="fn_setBolas(iIndexBolas+1)" aria-label="Next" mdbWavesEffect>
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Siguiente</span>
+                            </a>
+                          </li>
+                          <li class="page-item" [ngClass]="iIndexBolas==aPaginacion?.paginasTotales?'disabled':''" (click)="fn_setBolas(aPaginacion?.paginasTotales)"><a class="page-link" mdbWavesEffect>Último</a></li>
+                        </ul>
+                      </nav>
+                </section>
+                <div class="row flex-center" *ngIf="aPaginacion?.length==0">
+                  <mdb-card class="mx-3 mt-2 mb-5" >
+                      <mdb-card-body>
+                        <mdb-card-title>
+                          <h4 style="font-size:8em;" class="font-weight-bold text-gray text-center">Oops! </h4>
+                        </mdb-card-title>
+                    
+                        <!--Text-->
+                        <mdb-card-text class="text-center" style="font-size: 3em;">No se han encontrado <strong>Usuarios</strong></mdb-card-text> 
+                                          </mdb-card-body>
+                    </mdb-card>
+              </div>
+
+            </div>
+          </div>
+  
+    </div>
+
+    <div class="mb-5" style="margin-bottom: 4rem !important;">&nbsp;</div>
+
+
+    <div class="fixed-action-btn animated bounceIn add-btn-global">
+        <a class="btn-floating btn-large degradado-um waves-light" (click)="fn_callModalUsuario(true)" (change)="fn_changeContrasena()" title="Añadir"
+            placement="left" mdbWavesEffect>
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+ 
+<!--Modal modalUsuario de Usuario-->
+<div mdbModal #modalUsuario="mdbModal" class="modal fade" id="modalUsuario" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog  modal-dialog-centered" role="document">
+  <div class="modal-content mascara">
+    <div class="modal-header text-center">
+      <!--<h4 class="modal-title w-100 font-weight-bold">modalUsuario</h4>-->
+      <i class="far fa-calendar-check ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+      <h4 class="text-center mb-3 color_verde2_um m-auto font-weight-bold">{{bSaveEdit?'Registrar':'Editar'}} </h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalUsuario.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body mx-3 thin scrollbar-gris" style="height: 397px;">
+        <p class="card-text">
+          Registra o Actualiza la información del Usuario organizado por la <strong>Universidad de Manizales</strong>!
+        </p>
+        <form [formGroup]="formUsuario">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-5">
+                    <i class="fas fa-user prefix " [ngClass]="{icon_valid:formUsuario.controls['usu_nombres'].valid && formUsuario.controls['usu_nombres'].touched,icon_invalid:formUsuario.controls['usu_nombres'].invalid && formUsuario.controls['usu_nombres'].touched }"></i>
+                    <input type="text" class="form-control" id="usu_nombres" mdbInput mdbValidate formControlName="usu_nombres">
+                    <label  for="usu_nombres" >Nombres</label>
+                    <mdb-error *ngIf="formUsuario.controls['usu_nombres'].invalid && (formUsuario.controls['usu_nombres'].dirty || formUsuario.controls['usu_nombres'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                  <div class="md-form mb-5">
+                    <input type="text" class="form-control" id="usu_apellidos" mdbInput mdbValidate formControlName="usu_apellidos">
+                    <label  for="usu_apellidos" >Apellidos</label>
+                    <mdb-error *ngIf="formUsuario.controls['usu_apellidos'].invalid && (formUsuario.controls['usu_apellidos'].dirty || formUsuario.controls['usu_apellidos'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-7">
+                    <div class="md-form mb-5">
+                      <i class="fas fa-envelope prefix" [ngClass]="{icon_valid:formUsuario.controls['usu_correo'].valid && formUsuario.controls['usu_correo'].touched,icon_invalid:formUsuario.controls['usu_correo'].invalid && formUsuario.controls['usu_correo'].touched }"></i>
+                      <input type="text" class="form-control" id="usu_correo" mdbInput mdbValidate formControlName="usu_correo">
+                      <label  for="usu_correo" >Correo</label>
+                      <mdb-error *ngIf="formUsuario.controls['usu_correo'].invalid && (formUsuario.controls['usu_correo'].dirty || formUsuario.controls['usu_correo'].touched)">Campo requerido</mdb-error>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-5">
+                    <div class="md-form">
+                        <i class="fas fa-phone prefix" [ngClass]="{icon_valid:formUsuario.controls['usu_telefono'].valid && formUsuario.controls['usu_telefono'].touched,icon_invalid:formUsuario.controls['usu_telefono'].invalid && formUsuario.controls['usu_telefono'].touched }"></i>
+                        <input type="number" class="form-control" id="usu_telefono" mdbInput mdbValidate formControlName="usu_telefono">
+                        <label  for="usu_telefono" >Teléfono</label>
+                        <mdb-error *ngIf="formUsuario.controls['usu_telefono'].invalid && (formUsuario.controls['usu_telefono'].dirty || formUsuario.controls['usu_telefono'].touched)">Campo requerido</mdb-error>
+                    </div>
+                </div>
+            </div>
+  
+            <div class="row">
+                <div class="col-sm-12 col-md-6" [ngClass]="!bSaveEdit?'d-none':''">
+                  <div class="md-form mb-0 p-0">
+                    <i class="fas fa-lock prefix " [ngClass]="{icon_valid:formUsuario.controls['usu_contrasena'].valid && formUsuario.controls['usu_contrasena'].touched,icon_invalid:formUsuario.controls['usu_contrasena'].invalid && formUsuario.controls['usu_contrasena'].touched }"></i>
+                    <input [type]="ver_pass?'text':'password'" class="form-control" id="usu_contrasena" mdbInput mdbValidate formControlName="usu_contrasena">
+                    <i class="fas  pointer input_icon_right" [ngClass]="ver_pass?'fa-eye':'fa-eye-slash'" (click)="fn_verPass()" ></i> 
+                    <label  for="usu_contrasena" >Contrasena</label>
+                    <mdb-error *ngIf="formUsuario.controls['usu_contrasena'].invalid && (formUsuario.controls['usu_contrasena'].dirty || formUsuario.controls['usu_contrasena'].touched)">Campo requerido</mdb-error>
+                    <!--<mdb-success *ngIf="formRestaurar.controls['confirmar_contrasena'].valid && (formRestaurar.controls['confirmar_contrasena'].dirty || formRestaurar.controls['confirmar_contrasena'].touched)">Contraseña válida</mdb-success>-->
+                  </div>
+                </div>
+              
+              <div class="col-sm-12 col-md-6">
+                    <label  class="col-form-label pl-0 card-text tex-mutted ">Seleccione Rol</label>
+  
+                    <div class="md-form mb-0 p-0">
+                        <mdb-error *ngIf="formUsuario.controls['usu_rol'].invalid && (formUsuario.controls['usu_rol'].dirty || formUsuario.controls['usu_rol'].touched)" style="top: 10px;">Campo requerido</mdb-error>
+  
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="usu_rol" value="Administrador" name="usu_rol" mdbInput mdbValidate formControlName="usu_rol">
+                            <label class="form-check-label" for="usu_rol">Administrador</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="usu_rol2" value="Consulta" name="usu_rol" mdbInput mdbValidate formControlName="usu_rol">
+                            <label class="form-check-label" for="usu_rol2">Consulta</label>
+                        </div>
+    
+                      </div>
+                </div>
+  
+                
+            </div>
+  
+  
+          </form>
+    </div>
+
+
+
+    <div class="text-center mb-4">
+        <hr>
+        <button *ngIf="bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormUsuario(formUsuario)">Guardar<i class="fas fa-save ml-2"></i></button>          
+        <button *ngIf="!bSaveEdit" class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormUsuario(formUsuario)">Editar<i class="fas fa-edit ml-2"></i></button>
+
+
+    </div>
+  </div>
+</div>
+</div>

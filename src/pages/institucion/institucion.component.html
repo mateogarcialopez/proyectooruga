@@ -1,0 +1,141 @@
+<!--<div class="row p-0 m-0">
+    <div class="col ">
+    </div>
+
+</div>-->
+<div class="mt-3">
+  <mdb-tabset [buttonClass]="'classic-tabs'" [contentClass]="'card'" class="classic-tabs">
+    <mdb-tab heading="Desarrolladores">
+      <!-- Section: Team v.1 -->
+      <section class="team-section text-center my-5">
+
+        <div class="row justify-content-center">
+
+          <!-- Grid column -->
+          <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-3 card mx-2">
+            <div class="avatar mx-auto">
+              <img src="../../assets/img/orugaIcons/mateo.jpeg" class="rounded-circle z-depth-1" alt="Sample avatar">
+            </div>
+            <h5 class="font-weight-bold mt-4 mb-3">Mateo García López</h5>
+            <p class="text-uppercase blue-text">
+              <strong>Desarrollador Backend</strong>
+            </p>
+            <p class="grey-text">Desarrollador en php, con experiencia en desarrollo de web services restful y manejo de
+              typescript. Estudiante de Ingenieria
+              de Sistemas y Telecomunicaciones de la Universidad de Manizales.
+            </p>
+            <ul class="list-unstyled mb-0">
+              <!-- Facebook -->
+              <a class="p-2 fa-lg fb-ic" href="https://www.facebook.com/mateo.garcialopez.1">
+                <mdb-icon fab icon="facebook-f" class="blue-text"> </mdb-icon>
+              </a>
+              <!-- Instagram -->
+
+              <a class="p-2 fa-lg ins-ic" href="https://www.instagram.com/mateo7622/?hl=es-la">
+                <mdb-icon fab icon="instagram" class="blue-text"> </mdb-icon>
+              </a>
+            </ul>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-lg-3 col-md-6 mb-md-0 mb-5 p-3 mx-2 card">
+            <div class="avatar mx-auto">
+              <img src="../../assets/img/orugaIcons/duvan.jpeg" class="rounded-circle z-depth-1" alt="Sample avatar">
+            </div>
+            <h5 class="font-weight-bold p-2 mt-4 mb-3">Duván Andrés Ospina</h5>
+            <p class="text-uppercase blue-text">
+              <strong>Desarrollador Backend</strong>
+            </p>
+            <p class="grey-text">Desarrollador en JavaScript lado servidor (NodeJs). Estudiante Ingenieria de sistemas
+              y Telecomunicaciones de la Universidad de Manizales.</p>
+            <ul class="list-unstyled mb-0">
+              <a class="p-2 fa-lg fb-ic" href="https://www.facebook.com/duvanandres.ospinalondono">
+                <mdb-icon fab icon="facebook-f" class="blue-text"> </mdb-icon>
+              </a>
+              <!-- Twitter -->
+              <a class="p-2 fa-lg ins-ic" href="https://twitter.com/dao0">
+                <mdb-icon fab icon="twitter" class="blue-text"> </mdb-icon>
+              </a>
+              <!-- Instagram -->
+              <a class="p-2 fa-lg ins-ic" href="https://www.instagram.com/duvanandreso/">
+                <mdb-icon fab icon="instagram" class="blue-text"> </mdb-icon>
+              </a>
+            </ul>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-lg-3 col-md-6 card p-3 mx-2">
+            <div class="avatar mx-auto">
+
+              <img src="../../assets/img/orugaIcons/sebas.jpg" class="rounded-circle z-depth-1" alt="Sample avatar">
+            </div>
+            <h5 class="font-weight-bold mt-4 mb-3">Juan Sebastían Vera Betancur</h5>
+            <p class="text-uppercase blue-text">
+              <strong>Desarrollador Frontend</strong>
+            </p>
+            <p class="grey-text">Manejo de Tecnologias responsive, experiencia en desarrollos de aplicaciones con
+              Angular. Estudiante de Sistemas
+              y Telecomunicaciones de la Universidad de Manizales.</p>
+            <ul class="list-unstyled mb-0">
+              <!-- Facebook -->
+              <a class="p-2 fa-lg fb-ic" href="https://www.facebook.com/sebastian.vera.90">
+                <mdb-icon fab icon="facebook-f" class="blue-text"> </mdb-icon>
+              </a>
+              <a class="p-2 fa-lg ins-ic" href="https://www.instagram.com/seb77s/?hl=es-la">
+                <mdb-icon fab icon="instagram" class="blue-text"> </mdb-icon>
+              </a>
+            </ul>
+          </div>
+          <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+      </section>
+      <!-- Section: Team v.1 -->
+
+
+
+
+    </mdb-tab>
+    <mdb-tab heading="Que hacemos">
+      <ng-container *ngIf="aInstituciones?.Ejes_tematicos">
+        <div class="row mt-2 p-0 m-0">
+          <div class="col-sm-6 col-md-4 col-lg-3 animated bounceInRight"
+            *ngFor="let item of aInstituciones?.Ejes_tematicos; let idx_ejes=index">
+            <mdb-card class="mx-2 my-2 borde_radius_18">
+
+
+              <mdb-card-body cascade="true"
+                class="text-center p-0 justify-content-center align-items-center flex-column borde_radius_18">
+                <div class="d-flex flex-center w-100 borde_gris_b py-4">
+                  <div class="w-100">
+                    <i class="fas mx-2 fa-4x cursor hover_icon" [ngClass]="aIconEjes[idx_ejes]"
+                      [ngStyle]="{color:aColores[0]}"></i>
+                  </div>
+
+                </div>
+                <div class="d-flex flex-center  w-100 py-3">
+                  <div class="w-100">
+                    <span class="font-weight-500">{{item}}</span>
+                  </div>
+                </div>
+              </mdb-card-body>
+            </mdb-card>
+          </div>
+        </div>
+      </ng-container>
+    </mdb-tab>
+    <mdb-tab heading="Historia">
+      <img src="./assets/img/institucion.jpg" class="img-fluid animated pulse">
+    </mdb-tab>
+
+  </mdb-tabset>
+</div>
+
+
+
+
+<div class="mb-5">&nbsp;</div>

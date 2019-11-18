@@ -1,0 +1,119 @@
+<div class="mt-3">
+    <div class="row mt-2 p-0 m-0">
+        <div class="col-md-12">
+            <div class="p-3  card">
+                <form [formGroup]="formEstadistica">
+                    <div class="row">
+                            <!--Titulo-->
+                            <div class="col-md-12 p-2 d-flex justify-content-center bg_conslta">
+                                <div class="flex-center white-text"><!--  pattern-1-->
+                                    <ul class="list-unstyled m-0">
+                                    <li>                    
+                                    <h1 class=" white-text">
+                                    <strong><i style="font-size: 30px;" class="fas fa-chart-line text-white cursor mr-3 animated bounce"></i></strong><span style="font-size: 29px;">Estadísticas generales de la plataforma</span></h1>
+                                    </li>
+                                    </ul>
+                          
+                                </div>
+                            </div>
+                            <!--Titulo-->
+
+                              <!--DropDown filtro-->
+                        <div class="col-md-12 mt-3 d-flex justify-content-around">
+                                <div class="md-form">
+                                    <label for="ano" class="col-form-label pl-2 ml-1">Mes / Año</label>
+                                    <select class="browser-default custom-select" mdbInput mdbValidate id="ano" formControlName="est_ano"  (change)="fn_resetDropDown();getEstadisticaTotal();getEstadistica()" > 
+                                    <option [ngValue]="null" *ngIf="formEstadistica.controls['est_ano'].value==null">Seleccione una opción</option>
+                                    <option *ngFor="let item of aAniosMes" [value]="item.id">{{item.nombre}}</option>   
+                                    </select>
+                                    <mdb-error *ngIf="formEstadistica.controls['est_ano'].invalid && (formEstadistica.controls['est_ano'].dirty || formEstadistica.controls['est_ano'].touched)">Campo requerido</mdb-error>
+                                </div>
+
+                                <div class="md-form">
+                                    <label for="seccion" class="col-form-label pl-2 ml-1">Sección</label>
+                                    <select class="browser-default custom-select" mdbInput mdbValidate id="seccion" formControlName="est_seccion"  (change)="getEstadisticaTotal()" > 
+                                    <option [ngValue]="null">Todos</option>
+                                    <option *ngFor="let item of aSecciones" [value]="item">{{item}}</option>   
+                                    </select>
+                                    <mdb-error *ngIf="formEstadistica.controls['est_seccion'].invalid && (formEstadistica.controls['est_seccion'].dirty || formEstadistica.controls['est_seccion'].touched)">Campo requerido</mdb-error>
+                                </div>
+                                <div class="d-flex">
+                                <div class="md-form mr-3">
+                                    <input  formControlName="filtrarUsuario" (keyup)="fn_filterUsers()" mdbInput type="text" id="filtro" class="form-control">
+                                    <label for="filtro" class="">Buscar usuario</label>
+                                </div>
+                                <div class="md-form">
+                                    <label for="mes" class="col-form-label pl-2 ml-1">Usuario</label>
+                                    <select class="browser-default custom-select" mdbInput mdbValidate #mestadistica id="mestadistica" formControlName="est_usuario" (click)="fnSeteaDropdown()"  (change)="getEstadisticaTotal()" style="width:auto"> 
+                                    <option [ngValue]="null">Todos</option>
+                                    <option *ngFor="let item of aUsuariosFilter" [value]="item">{{item}}</option>                   
+                                    </select>
+                                    <mdb-error *ngIf="formEstadistica.controls['est_usuario'].invalid && (formEstadistica.controls['est_usuario'].dirty || formEstadistica.controls['est_usuario'].touched)">Campo requerido</mdb-error>
+                                </div>    
+                            </div>
+
+                        </div>
+                        <!--DropDown filtro-->
+                      
+                        <div class="col-md-6 d-flex justify-content-center align-items-center h-100">                             
+                            <mdb-card class="w-100 h-100">
+                               
+                                 <h4 class="text-center m-2 text-white bg_conslta">Consultas Realizadas {{formEstadistica.controls['est_usuario'].value?' por ' + formEstadistica.controls['est_usuario'].value:' Todos los usuarios'}}</h4>
+                                  
+                                    <mdb-card-body>
+                                        <div class="d-flex flex-center mb-3">
+                                            <div>
+                                                <a type="button"
+                                                   class="animated pulse btn-floating btn-lg no_sombra estilos_circulo  bordes-gris cursor hover_icon d-flex flex-center m-0"
+                                                   [ngStyle]="{  'border': '11px solid ' + aColores[0], 'box-shadow':   '0 0 10px '+aColores[0] }">
+                                                    <span class="card-text"
+                                                          style="font-size: 40px;">
+                                                    <ng2-odometer 
+                                                    [number]="contador"
+                                                    [config]="{ }">
+                                                    </ng2-odometer>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            </div>   
+                                    </mdb-card-body>
+                                    </mdb-card>
+                    
+                   
+
+                </div>
+                <div class="col-md-6 inherit w-100 h-100">              
+                    <div class="card sombra position-relative h-100">
+                    <h4 class="text-center m-2 text-white bg_conslta">Consultas realizadas por sección ({{formEstadistica.controls['est_seccion'].value?formEstadistica.controls['est_seccion'].value:'Todas'}})</h4>
+                    <div id="chart" class="h-100 w-100" style="max-height: fit-content !important;" ></div>              
+                </div>
+                                                       
+                
+                </div>
+                <div class="col-md-6 align-items-center pt-4">
+                    <div class="card sombra position-relative" id="contenedor-usuario">
+                        <h4 class="text-center m-2 text-white bg_conslta" >Consultas realizadas por mes</h4>
+                        <div class="h-100 w-100" >
+                            <div id="line" class="h-100 w-100"></div>              
+
+                        </div>
+                    </div>
+                       
+                </div>
+                <div class="col-md-6 align-items-center pt-4">
+                    <div class="card sombra position-relative" id="contenedor-usuario">
+                        <h4 class="text-center m-2 text-white bg_conslta" >Consultas realizadas por usuario</h4>
+                        <div class="h-100 w-100" >
+                            <div style="overflow-x:auto; overflow-y:hidden" id="usuario" class="h-100 w-100"></div>              
+
+                        </div>
+                    </div>
+                       
+                </div>
+                        
+
+                    </div>
+        </form >
+    </div>
+</div>
+<div class="mb-5">&nbsp;</div>

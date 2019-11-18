@@ -1,0 +1,258 @@
+p.card-text:last-child {
+  margin-bottom: 0px !important;
+}
+
+p.card-text {
+   margin-bottom: 0px !important;
+}
+
+.modal-footer-n {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}  
+
+.grid {
+display: grid;
+grid-template-columns: 50px 300px;
+grid-template-rows: 200px 75px;
+}
+
+.titulo_card{
+  font-weight: bold; 
+  padding: 0px;
+  margin: 3px;
+  width: 100%;
+  font-size: 16px;
+  padding: 10px;
+  color:black;
+  text-align: center
+}
+
+
+.back.tp-box_side.tp-box_back {
+
+padding: 0px !important;
+}
+
+.subtitulo_prog{
+font-weight: 500;
+font-size: 18px;
+font-weight: bold;
+}
+
+.item_prog{
+text-align: left;
+__border-bottom: 1px solid #dcdcdc;
+}
+
+
+
+
+.ingenieria .form-check-input[type="checkbox"]:checked + label:before, .ingenieria label.btn input[type="checkbox"]:checked + label:before {
+border-right: 2px solid #2bbbad ;
+border-bottom: 2px solid #2bbbad ;
+}
+
+.badge-warning{
+background-color: #a6c !important;
+}
+
+.bgimg {
+/* The image used */
+background-image: url("../../assets/img/mascara_seccion.png");
+__height: 100%;
+width: 100%;
+/* background-position: center; */
+/* background-repeat: repeat-y; */
+background-size: cover;
+/* position: fixed; */
+overflow: auto;
+
+}
+.badge-warning{
+  background-color: rgb(221, 18, 18) !important;
+}
+.color_backgr{
+  background-color: rgba(226, 10, 10, 0.459);
+}
+
+.btn-outline-danger {
+  border: 2px solid #666061 !important;
+  background-color: transparent !important;
+  color: #343131 !important;
+}
+
+
+.atributos{
+  font-weight: 250;
+  font-size: 14px;
+  font-weight: bold;
+  }
+
+.size .card{
+  max-height: 182px;
+  height: 200px;
+}
+
+.box {
+  width: 200px; height: 300px;
+  position: relative;
+  border: 1px solid #BBB;
+  background: #EEE;
+}
+.ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #7d5b9c;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #9d6aa1;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  __border-left: 3px solid #136c66;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #0b4b36;
+}
+
+.texto_filtrar{
+  color:#666666;
+}
+
+.bg_diplomado {
+  background: #595c5a;
+  
+ 
+}
+.bg_curso {
+  background: #c7c7c9;
+  color: #595c5a !important;
+  
+}
+
+
+
+$gris : rgb(122, 122, 122);
+
+
+@mixin buttonBG($bg) {
+  border: 2px solid $bg;
+  color: $bg;
+  &:hover {
+    background-color: $bg;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+
+  .skewBtn{
+    width: 136px;
+    height: 45px;
+    outline: none;
+    cursor: pointer;
+    background: none;
+    transition: .5s;
+    font-size: 12px;
+    border-radius: 5px;
+    font-family: "Lato",sans-serif;
+    &:hover{
+      border: none;
+      color: white;
+      font-size: 12px;
+      transform:scale(1.1);
+    }
+  }
+
+
+/* Buttons */
+.gris{
+  @include buttonBG($gris);
+}
+
+.texto_filtro{
+  color: #666666;
+  font-size: 15px;
+}
+
+.caja_filtros{
+  border: 1px solid #dcdcdc;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.height-auto{
+  height: 30px !important;
+}
+
+.add-button{
+  width: -webkit-fill-available;
+  height:191px;
+}
+
+.button-size{
+  width: -webkit-fill-available;
+  height: 140px;
+}
+
+
+.image_preview{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+.modal {
+  position: fixed;
+  top: -23px;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+}
+img{
+  max-height: 130px !important;
+  max-width: 130px !important;
+}
+.positio-label{
+  position: absolute;
+  top: -45%;
+  left: -3%;
+  cursor: text;
+  color: #757575;
+}

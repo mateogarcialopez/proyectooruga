@@ -1,0 +1,284 @@
+<!--<div class="row ">
+    <div class=" col-md-6 centrado_absoluto">
+      <section class="form-elegant">
+        <mdb-card class="bg_opacity">
+          <mdb-card-body class="mx-4">
+            <div class="text-center">
+              <h3 class="dark-grey-text">
+                <img src="./assets/img/logo-con-acreditación1.png"  class="ml-2">
+              </h3>
+            </div>
+            <form [formGroup]="elegantForm">
+              <div class="md-form">
+                <input type="text" id="elegantFormEmailEx" class="form-control" formControlName="elegantFormEmailEx" mdbInput>
+                <label for="elegantFormEmailEx">Ingresa tu correo</label>
+              </div>
+  
+              <div class="md-form">
+                <input type="password" id="elegantFormPasswordEx" formControlName="elegantFormPasswordEx" class="form-control" mdbInput>
+                <label for="elegantFormPasswordEx">Ingresa tu contraseña</label>
+                <p class="font-small blue-text d-flex justify-content-end">Olvidé
+                  <a href="#" class="blue-text ml-1"> mi contraseña</a>
+                </p>
+              </div>
+            </form>
+  
+            <div class="text-center">
+              <button type="button" mdbBtn  block="true" rounded="true" class="z-depth-1a waves-light  degradado-um" mdbWavesEffect>Acceder</button>
+            </div>
+            <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> O ingresa con:     </p>
+  
+            <div class="row my-3 d-flex justify-content-center">
+              <button type="button" mdbBtn color="white" placement="top" title="Ingresa con gmail" rounded="true" class="z-depth-1a waves-light" mdbWavesEffect>
+                  <mdb-icon fab fab icon="google" class="fa-lg"></mdb-icon>
+              </button>
+            </div>
+          </mdb-card-body>
+          <div class="modal-footer mx-5 mb-1">
+            <p class="font-small grey-text d-flex justify-content-end">¿No eres miembro?
+              <a href="#" class="blue-text ml-1"> Regístrate</a>
+            </p>
+          </div>
+        </mdb-card>
+  
+      </section>
+    </div>
+  </div>-->
+
+
+
+  
+  
+    <!--Intro Section-->
+    <section class="view intro-2">
+      <div class="mask rgba-stylish-strong h-100 d-flex justify-content-center align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mx-auto ">
+
+              <!--Form with header-->
+              <div class="card wow fadeIn" data-wow-delay="0.3s" style="width: 153%;">
+                <div class="card-body">
+
+                  <!--Header-->
+                  <!--<div class="form-header degradado-um text-center" style="background: #d1d1d1 !important;">-->
+                      <img src="../../assets/img/orugaIcons/OLL.png" style="width: 200px;"  class="mx-auto" >
+                  <!--</div>-->
+                    <h2 class="OrugaText mb-0" style="text-align: center;">Oruga Learning</h2>
+                  <!--Body-->
+                  <form [formGroup]="formLogin">
+                  <div class="md-form">
+                    <i class="fas fa-envelope prefix" ></i>
+                    <input mdbInput type="text" id="form2" class="formlogin form-control" mdbValidate formControlName="email" (keydown)="onKeydown($event,formLogin)">
+                    <label for="form2">Correo</label>
+                    <mdb-error class="text-white" *ngIf="formLogin.controls['email'].invalid && (formLogin.controls['email'].dirty || formLogin.controls['email'].touched)">Email inválido</mdb-error>
+                  </div>
+
+                  <div class="md-form">
+                    <i class="fas fa-lock prefix"></i>
+                    <input [type]="ver_pass?'text':'password'" mdbInput type="password" id="form3" mdbValidate formControlName="pass" class="formlogin form-control" (keydown)="onKeydown($event,formLogin)">
+                    
+                    <i class="fas  pointer input_icon_right" [ngClass]="ver_pass?'fa-eye':'fa-eye-slash'" (click)="fn_verPass()" ></i> 
+                    <label for="form3">Contraseña</label>
+                    <mdb-error class="text-white" *ngIf="formLogin.controls['pass'].invalid && (formLogin.controls['pass'].dirty || formLogin.controls['pass'].touched)">Campo Requerido</mdb-error>
+                    <p class="font-small white-text d-flex justify-content-end">
+                      <a  data-toggle="modal" data-target="#basicExample" (click)="frame.show()" class="white-text ml-2 "><u>Olvidé mi contraseña</u></a>                                    
+                    </p>
+                  </div>
+                </form>
+
+                  <div class="text-center">
+                    <button class="btn btn_entrar btn-lg z-depth-1a waves-light"  (click)="fn_submitFormLogin(formLogin)" mdbWavesEffect>Entrar<i class="text-white fas fa-sign-in-alt ml-2"></i></button>
+                  </div>
+                  <!--Footer-->
+                  <!--<div class=" mx-5 mb-1">
+                    <p class="font-small white-text d-flex justify-content-end">¿No eres miembro?
+                      <a href="#" (click)="registro.show()" mdbWavesEffect class="white-text underline ml-1"> <u>Regístrate</u></a>
+                    </p>
+                  </div>-->
+
+                </div>
+              </div>
+              <!--/Form with header-->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+<!--Modal Olvide Mi contraseña--> 
+<div mdbModal #frame="mdbModal" class="modal fade top " id="frameModalTop" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header  degradado-um ">
+        <p class="heading lead ">
+           <i class="fa fa-user ml-1 mr-2 fa-lg text-white" aria-hidden="true"></i>
+          Recupera tu Contraseña</p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+   
+            <!--Body-->
+      <div class="color_stepper mascara  d-flex justify-content-center stepper_restaurar" style="height: auto;" >
+       
+            <!--Stepper -->
+            <mdb-stepper class="color_stepper" #stepper [linear]="true">
+              <mdb-step name="Paso 1"  [stepForm]="formRestorePass">
+                <form [formGroup]="formRestorePass">
+                  <p class="card-text text-card">Ingresa el correo vinculado a tu cuenta</p>
+
+                  <div class="md-form ">
+                    <i class="fas fa-envelope prefix "></i>
+                    <input type="text" class="form-control" id="mail" mdbInput mdbValidate formControlName="email">
+                    <label  for="mail" >Ingresa tu correo</label>
+                    <mdb-error *ngIf="email?.invalid && (email?.dirty || email?.touched)">Correo Inválido</mdb-error>
+                    <mdb-success *ngIf="email?.valid && (email?.dirty || email?.touched)">Correo Válido</mdb-success>
+                  </div>
+                </form>
+              <hr>
+              <div class="d-flex justify-content-center">
+                  <button mdbBtn size="m"  class="degradado-um" (click)="stepper.next()"  [attr.disabled]="!email?.valid?true:null">Siguiente <i class="fas fa-angle-right ml-2"></i></button>
+                <!--<button mdbBtn size="m"  class="degradado-um" (click)="stepper.next()">ENVIAR</button>
+                <button mdbBtn size="m"  class="degradado-um" (click)="basicModal.hide()">VOLVER</button>-->
+              
+              </div>
+              </mdb-step>
+              <!--
+              <mdb-step name="Paso 2" [stepForm]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                  <div class="md-form">
+                    <input type="password" class="form-control" mdbInput mdbValidate formControlName="password">
+                    <label for="">Contraseña</label>
+                    <mdb-error *ngIf="password.invalid && (password.dirty || password.touched)">Contraseña Invalida</mdb-error>
+                    <mdb-success *ngIf="password.valid && (password.dirty || password.touched)">Contraseña </mdb-success>
+                  </div>
+                </form>
+                <button mdbBtn size="sm" class="degradado-um" (click)="stepper.next()">CONTINUAR</button>
+                <button mdbBtn size="sm" class="degradado-um" (click)="stepper.previous()">VOLVER</button>
+              </mdb-step>
+              -->
+              <mdb-step name="Paso 2"  >
+                <p class="pl-2  card-text">Revisa tu correo electrónico para recuperar tu cuenta</p>
+                <hr>
+                <div class="d-flex justify-content-center">
+                    <button mdbBtn size="m"  class="degradado-um" (click)="fn_submitFormRestorePass(formRestorePass )" >Enviar <i class="fas fa-angle-right ml-2"></i>  </button>
+                  <!--<button mdbBtn size="m"  class="degradado-um" (click)="stepper.next()">ENVIAR</button>
+                  <button mdbBtn size="m"  class="degradado-um" (click)="basicModal.hide()">VOLVER</button>-->
+                </div>
+              </mdb-step>
+            </mdb-stepper>       
+      </div>
+    
+
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+
+<!--Modal Registro de Usuario-->
+<div mdbModal #registro="mdbModal" class="modal fade left" id="registro" tabindex="-1" role="dialog" [config]="{backdrop: true, ignoreBackdropClick: true}"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content mascara">
+      <div class="modal-header text-center">
+        <!--<h4 class="modal-title w-100 font-weight-bold">Registro</h4>-->
+        <i class="fa fa-user ml-1  fa-2x color_verde2_um wow rotateIn" aria-hidden="true"></i>
+        <h4 class="text-center mb-3 color_verde2_um m-auto ">Registro</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="registro.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+          <p class="card-text">
+            ¡Únete al lugar donde encontrarás centralizada la información de la <strong>Universidad de Manizales</strong>!
+          </p>
+        <form [formGroup]="formRegistro">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="md-form mb-5">
+                  <i class="fas fa-user prefix " [ngClass]="{icon_valid:formRegistro.controls['nombres'].valid && formRegistro.controls['nombres'].touched,icon_invalid:formRegistro.controls['nombres'].invalid && formRegistro.controls['nombres'].touched }"></i>
+                  <input type="text" class="form-control" id="nombres" mdbInput mdbValidate formControlName="nombres">
+                  <label  for="nombres" >Nombres</label>
+                  <mdb-error *ngIf="formRegistro.controls['nombres'].invalid && (formRegistro.controls['nombres'].dirty || formRegistro.controls['nombres'].touched)">Campo requerido</mdb-error>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="md-form mb-5">
+                  <input type="text" class="form-control" id="apellidos" mdbInput mdbValidate formControlName="apellidos">
+                  <label  for="apellidos" >Apellidos</label>
+                  <mdb-error *ngIf="formRegistro.controls['apellidos'].invalid && (formRegistro.controls['apellidos'].dirty || formRegistro.controls['apellidos'].touched)">Campo requerido</mdb-error>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12 col-md-7">
+                  <div class="md-form mb-5">
+                    <i class="fas fa-envelope prefix" [ngClass]="{icon_valid:formRegistro.controls['correo_registro'].valid && formRegistro.controls['correo_registro'].touched,icon_invalid:formRegistro.controls['correo_registro'].invalid && formRegistro.controls['correo_registro'].touched }"></i>
+                    <input type="text" class="form-control" id="correo_registro" mdbInput mdbValidate formControlName="correo_registro">
+                    <label  for="correo_registro" >Correo</label>
+                    <mdb-error *ngIf="formRegistro.controls['correo_registro'].invalid && (formRegistro.controls['correo_registro'].dirty || formRegistro.controls['correo_registro'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-5">
+                  <div class="md-form">
+                      <i class="fas fa-phone prefix" [ngClass]="{icon_valid:formRegistro.controls['telefono'].valid && formRegistro.controls['telefono'].touched,icon_invalid:formRegistro.controls['telefono'].invalid && formRegistro.controls['telefono'].touched }"></i>
+                      <input type="number" class="form-control" id="telefono" mdbInput mdbValidate formControlName="telefono">
+                      <label  for="telefono" >Teléfono</label>
+                      <mdb-error *ngIf="formRegistro.controls['telefono'].invalid && (formRegistro.controls['telefono'].dirty || formRegistro.controls['telefono'].touched)">Campo requerido</mdb-error>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="md-form mb-0 p-0">
+                  <i class="fas fa-lock prefix " [ngClass]="{icon_valid:formRegistro.controls['contrasena'].valid && formRegistro.controls['contrasena'].touched,icon_invalid:formRegistro.controls['contrasena'].invalid && formRegistro.controls['contrasena'].touched }"></i>
+                  <input [type]="ver_pass?'text':'password'" class="form-control" id="contrasena" mdbInput mdbValidate formControlName="contrasena">
+                  <i class="fas  pointer input_icon_right" [ngClass]="ver_pass?'fa-eye':'fa-eye-slash'" (click)="fn_verPass()" ></i> 
+                  <label  for="contrasena" >Contrasena</label>
+                  <mdb-error *ngIf="formRegistro.controls['contrasena'].invalid && (formRegistro.controls['contrasena'].dirty || formRegistro.controls['contrasena'].touched)">Campo requerido</mdb-error>
+                  <!--<mdb-success *ngIf="formRestaurar.controls['confirmar_contrasena'].valid && (formRestaurar.controls['confirmar_contrasena'].dirty || formRestaurar.controls['confirmar_contrasena'].touched)">Contraseña válida</mdb-success>-->
+                </div>
+              </div>
+            
+            <div class="col-sm-12 col-md-6">
+                  <label  class="col-form-label pl-0 card-text tex-mutted ">Seleccione Rol</label>
+
+                  <div class="md-form mb-0 p-0">
+                      <mdb-error *ngIf="formRegistro.controls['rol'].invalid && (formRegistro.controls['rol'].dirty || formRegistro.controls['rol'].touched)" style="top: 10px;">Campo requerido</mdb-error>
+
+                      <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="rol" value="Administrador" name="rol" mdbInput mdbValidate formControlName="rol">
+                          <label class="form-check-label" for="rol">Administrador</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="rol2" value="Consulta" name="rol" mdbInput mdbValidate formControlName="rol">
+                          <label class="form-check-label" for="rol2">Consulta</label>
+                      </div>
+  
+                    </div>
+              </div>
+
+              
+          </div>
+
+
+        </form>
+      </div>
+
+      <div class="text-center mb-4">
+          <hr>
+          <button class="btn degradado-um btn-lg z-depth-1a waves-light" mdbWavesEffect (click)="fn_submitFormRegister(formRegistro)">Ingresar<i class="fas fa-sign-in-alt ml-2"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,27 @@
+<div class="col-lg-10">
+
+    <h3>{{page_title}}</h3>
+    <hr />
+  
+    <form [formGroup]="formTopic" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="titulo">Titulo</label>            
+        <input type="text" name="titulo" id="titulo" class="form-control" required formControlName="titulo" [(ngModel)] = "titulo"/>
+      </div>
+  
+      <div class="form-group">
+        <label for="contenido">Pon tu pregunta o contenido</label>            
+        <textarea name="contenido" id="contenido" class="form-control" required formControlName="contenido" [(ngModel)] = "contenido"></textarea>
+      </div>
+  
+      <div class="form-group">
+        <label for="material">Material</label>            
+        <input type="text" name="material" id="material" class="form-control" required formControlName="material" [(ngModel)] = "material" />
+      </div>
+      <div>   
+          <input [disabled]="formTopic.invalid" type="submit" value="{{page_title}}"  class="btn btn-success"/>       
+        
+      </div>
+    </form>
+  </div>
+  
