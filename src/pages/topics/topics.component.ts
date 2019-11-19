@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SERVICES } from '../../config/webservices';
 //import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ServicesProvider } from '../../providers/services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-topics',
@@ -18,12 +18,15 @@ export class TopicsComponent implements OnInit {
   public prev_page: any;
   public numbre_pages: any;
   Topics: any = {};
+  public search: any;
 
   constructor(
     private ServicesProvider: ServicesProvider,
     public _route: ActivatedRoute,
+    public _router: Router,
   ) {
     this.page_title = 'Preguntas';
+    
   }
 
   ngOnInit() {
@@ -77,6 +80,11 @@ fn_getTopics(page = 1) {
     this.ServicesProvider.preloaderOff();
     this.ServicesProvider.generarPopupGenerico("Error", "Ha ocurrido un problema, por favor intentalo de nuevo", null);
   });
+}
+
+goSearch(){
+  this._router.navigate(['/buscar', this.search]);
+  //console.log(this.search);
 }
 
 }

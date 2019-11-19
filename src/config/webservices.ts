@@ -64,4 +64,6 @@ export const SERVICES = {
 	UPDATETOPIC: "/updateTopic/",
 	LISTTOPIC: "/listTopic/",
 	TOPICS: "/getTopic/",
+	ADDCOMENT: "/addComment/",
+	BUSCAR: "/buscar/",
 };

@@ -18,6 +18,7 @@ import { NotFoundComponent,
 		ChatComponent,
 		TopicsComponent,
 		TopicDetallesComponent,
+		SearchComponent,
 		/*
 		EventoComponent,
 		CalendarioComponent,
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
 	{path: 'temas', component: TopicsComponent},
 	{path: 'temas/:page', component: TopicsComponent},
 	{path: 'tema/:', component: TopicDetallesComponent},
+	{path: 'buscar/:search', component: SearchComponent},
 	{path: '**', component: NotFoundComponent},
 
 /*

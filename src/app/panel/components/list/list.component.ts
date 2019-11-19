@@ -43,10 +43,6 @@ export class ListComponent implements OnInit {
     this.ServicesProvider.get(SERVICES.GETTOPICS + localStorage.getItem("id"), {}).then(data => {
       console.log(data.topics);
       this.Topics = data.topics;
-
-
-      //this.fn_indexador();
-
       this.ServicesProvider.preloaderOff();
     }, _fail => {
       this.ServicesProvider.preloaderOff();

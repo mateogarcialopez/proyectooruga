@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  public search: any;
+
+  constructor(
+    public _router: Router,
+  ) { }
 
   ngOnInit() {
+  }
+
+
+  goSearch(){
+    this._router.navigate(['/buscar', this.search]);
+    //console.log(this.search);
   }
 
 }

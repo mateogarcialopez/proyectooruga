@@ -31,6 +31,7 @@ import { NotFoundComponent,
           ChatComponent,
           TopicsComponent,
           TopicDetallesComponent,
+          SearchComponent,
                     
           /*
           EventoComponent,
@@ -64,6 +65,7 @@ import { pipekeys } from '../pipes/pipe-keys';
 import { safepipe } from '../pipes/pipe-safe';
 import { inicialesnombre } from '../pipes/pipe-inicialesusuario';
 import { FilterPipe } from '../pipes/pipe-filtrarusuario';
+//import { SearchComponent } from '../pages/search/search.component';
 //import { TopicDetailComponent } from './components/topic-detail/topic-detail.component';
 //import { TopicDetallesComponent } from '../pages/topic-detalles/topic-detalles.component';
 //import { TopicsComponent } from '../pages/topics/topics.component';
@@ -103,6 +105,7 @@ import { FilterPipe } from '../pipes/pipe-filtrarusuario';
     ChatComponent,
     TopicsComponent,
     TopicDetallesComponent,
+    SearchComponent,
     //MainComponent,
     //AddComponent,
     //EditComponent,

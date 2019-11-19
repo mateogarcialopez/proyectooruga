@@ -26,5 +26,6 @@ export { DetalleCursoComponent } from './detalle-curso/detalle-curso.component';
 export { ChatComponent } from './chat/chat.component';
 export { TopicsComponent } from './topics/topics.component';
 export { TopicDetallesComponent } from './topic-detalles/topic-detalles.component';
+export { SearchComponent } from './search/search.component';
 
 
